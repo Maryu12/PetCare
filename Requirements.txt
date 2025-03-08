@@ -8,3 +8,8 @@ instalar (CMD ADMINISTRADOR)
 pip install fastapi 
 pip install uvicorn
 pip install jinja2
+
+
+Ejecutan con: python -m uvicorn src.APP.main:app --reload
+
+Y cierran en la terminal con: Ctrl + C
