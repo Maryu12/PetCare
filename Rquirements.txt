@@ -1,0 +1,10 @@
+Esto es lo minimo necesario
+**--Estare actualizando--**
+
+Tabajaremos en python 3.11.4
+
+instalar (CMD ADMINISTRADOR)
+
+pip install fastapi 
+pip install uvicorn
+pip install jinja2
