@@ -229,3 +229,23 @@ body{
 .container.active .toggle-right{
     transform: translateX(200%);
 }
+
+.back-button-container {
+    position: absolute;
+    top: 30px;
+    bottom: 20px; 
+    right: 0px;
+}
+.back-button {
+    background-color: #f5efef;
+    color: #6A9492;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+}
