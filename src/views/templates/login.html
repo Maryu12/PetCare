@@ -4,20 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/styles.css">
-    <title>Login - Milenzo</title>
+    <link rel="stylesheet" href="/static/login.css">
+    <title>Milenzo</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/login" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br><br>
-        <input type="submit" value="Login">
-    </form>
-    {% if username %}
-        <p>Bienvenido, {{ username }}!</p>
-    {% endif %}
-    <a href="/">Home</a>
+    <div class="logo-container">
+        <img src="/static/images/milen-2.png" alt="logo-container">
+    </div>
+    <div class="container" id="container">
+        <div class="form-container sign-up">
+            <form>
+                <h1>Crea tu Cuenta</h1>
+                <input type="text" placeholder="Name">
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <button>Ingresa</button>
+            </form>
+        </div>
+        <div class="form-container sign-in">
+            <form>
+                <h1>Ingresa</h1>
+                <input type="email" placeholder="Email">
+                <input type="password" placeholder="Password">
+                <a href="#">Olvidaste la Contrasena?</a>
+                <button>Ingresa</button>
+            </form>
+        </div>
+        <div class="toggle-container">
+            <div class="toggle">
+                <div class="toggle-panel toggle-left">
+                    <h1>Bienvenido</h1>
+                    <p>Ingresa tus Datos</p>
+                    <button class="hidden" id="login">Ingresa</button>
+                </div>
+                <div class="toggle-panel toggle-right">
+                    <h1>Bienvenido</h1>
+                    <p>Ingresa tus Datos</p>
+                    <button class="hidden" id="register">Ingresa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
 </body>
 </html>

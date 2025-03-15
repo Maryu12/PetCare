@@ -19,9 +19,14 @@ async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login")
-async def post_login(request: Request, username: str = Form(...), password: str = Form(...)):
+async def post_login(request: Request, email: str = Form(...), password: str = Form(...)):
     # Aquí puedes agregar la lógica de autenticación
-    return templates.TemplateResponse("login.html", {"request": request, "username": username, "password": password})
+    return templates.TemplateResponse("login.html", {"request": request, "email": email})
+
+@app.post("/register")
+async def post_register(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
+    
+    return templates.TemplateResponse("login.html", {"request": request, "name": name, "email": email})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
