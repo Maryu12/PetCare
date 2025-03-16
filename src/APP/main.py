@@ -14,13 +14,18 @@ templates = Jinja2Templates(directory="src/views/templates")
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+'''
+@app.post("/")
+async def read_root(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
+    return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
+'''
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/login")
 async def post_login(request: Request, email: str = Form(...), password: str = Form(...)):
-    # Aquí puedes agregar la lógica de autenticación
+   
     return templates.TemplateResponse("login.html", {"request": request, "email": email})
 
 @app.post("/register")

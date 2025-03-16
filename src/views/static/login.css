@@ -28,11 +28,16 @@ body{
     transform: translateX(-50%);
     width: 200px; /* Ajusta el tamaño del contenedor según sea necesario */
     height: auto;
+    z-index: 10;
 }
 
 .logo-container img {
     width: 100%;
     height: auto;
+    max-width: 100%; 
+    display: block;
+    object-fit: contain;
+    
 }
 
 
@@ -42,11 +47,13 @@ body{
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
     overflow: hidden;
-    width: 768px;
-    max-width: 100%;
+    Width: 90%; /* Ajusta el ancho para que sea responsive */
+    max-width: 768px;
     min-height: 480px;
     margin-top: 100px;
+    z-index: 1;
 }
+
 
 
 .container p{

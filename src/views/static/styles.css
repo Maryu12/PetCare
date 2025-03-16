@@ -5,15 +5,70 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
-    
 }
 
 body {
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     margin: 0;
+    padding-top: 60px; /* Ajusta el padding superior para que el contenido no quede cubierto por el header */
+}
+
+/* Estilos para el header y el menú de navegación */
+header.container {
+    background-color: #6A9492;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul.nav-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul.nav-list li {
+    margin: 0 15px;
+}
+
+nav ul.nav-list li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul.nav-list li a:hover {
+    text-decoration: underline;
+}
+
+.login-button {
+    position: absolute;
+    right: 20px;
+    top: 80px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #6A9492;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.login-button:hover {
+    background-color: #5c6bc0;
+}
+
+h1 {
+    margin-top: 80px; /* Ajusta el margen superior para evitar que el header lo cubra */
 }
