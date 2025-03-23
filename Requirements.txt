@@ -9,6 +9,7 @@ pip install fastapi
 pip install uvicorn
 pip install jinja2
 pip install python-multipart
+pip install sqlalchemy databases asyncpg psycopg2
 
 
 Ejecutan con: python -m uvicorn src.APP.main:app --reload
