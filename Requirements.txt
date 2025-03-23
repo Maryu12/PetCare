@@ -9,6 +9,8 @@ pip install fastapi
 pip install uvicorn
 pip install jinja2
 pip install python-multipart
+pip install alembic
+pip install python-dotenv
 pip install sqlalchemy databases asyncpg psycopg2
 
 
