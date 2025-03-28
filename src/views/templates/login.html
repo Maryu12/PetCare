@@ -7,6 +7,17 @@
     <title>Milenzo</title>
 </head>
 <body>
+    {% if register_error %}
+    <div class="alert error">
+        {{ register_error }}
+    </div>
+    {% endif %}
+
+    {% if request.query_params.get('register_success') %}
+    <div class="alert success">
+        ¡Registro exitoso! Por favor inicia sesión.
+    </div>
+    {% endif %}
     <div class="logo-container">
         <img src="/static/images/milen-2.png" alt="logo-container">
     </div>
@@ -15,30 +26,29 @@
     </div>
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form>
+            <form action="/register" method="post">
                 <h1>Crea tu Cuenta</h1>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <input type="Telephone" placeholder="Telephone">
-                <select>
-                    <option value="">rol</option>
-                    <option value="usuario">usuario</option>
-                    <option value="veterinario">veterinario</option>
-                    <option value="administrador">administrador</option>
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required minlength="8">
+                <input type="tel" name="telefono" placeholder="Telephone" required>
+                <select name="rol_id" required>
+                    <option value="">Selecciona un rol</option>
+                    <option value="1">Usuario</option>
+                    <option value="2">Veterinario</option>
+                    <option value="3">Administrador</option>
                 </select>
-                   
-                </select>
-                <button>Ingresa</button>
+                <button type="submit">Registrarse</button>
             </form>
         </div>
+
         <div class="form-container sign-in">
-            <form>
+            <form action="/login" method="post">
                 <h1>Ingresa</h1>
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
-                <a href="#">Olvidaste la Contrasena?</a>
-                <button>Ingresa</button>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <a href="#">¿Olvidaste la Contraseña?</a>
+                <button type="submit">Ingresa</button>
             </form>
         </div>
         <div class="toggle-container">

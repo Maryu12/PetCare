@@ -308,3 +308,71 @@ body{
     
 }
 /*Karen */
+
+/* Alertas */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    z-index: 10000;
+    animation: fadeIn 0.5s;
+}
+
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; top: 0; }
+    to { opacity: 1; top: 20px; }
+}
+
+/* Mostrar formulario de registro cuando hay error */
+.show-register .sign-up {
+    opacity: 1;
+    z-index: 5;
+}
+.show-register .sign-in {
+    opacity: 0;
+    z-index: 1;
+}
+
+/* Dashboard styles */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #6A9492;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+ul {
+    margin: 20px 0;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}

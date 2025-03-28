@@ -12,6 +12,7 @@ pip install python-multipart
 pip install alembic
 pip install python-dotenv
 pip install sqlalchemy databases asyncpg psycopg2
+pip install passlib==1.7.4 bcrypt==4.0.1
 
 
 Ejecutan con: python -m uvicorn src.APP.main:app --reload

@@ -27,6 +27,25 @@ class Rol(RolBase):
     class Config:
         orm_mode = True
 
+# ------------------------autenticación de usuarios-------------------
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str  
+
+class UserLoginResponse(User):  
+    rol_name: str  
+    access_token: str  
+    
+    class Config:
+        orm_mode = True
+
+class RolSimple(BaseModel):
+    id_rol: int
+    description: str
+
+#---------------------------------------------------------------------
+
 class PetBase(BaseModel):
     pet_name: str
     species: str
