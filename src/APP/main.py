@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
@@ -18,13 +19,10 @@ app.add_middleware(GZipMiddleware)
 app.mount("/static", StaticFiles(directory="src/views/static"), name="static")
 templates = Jinja2Templates(directory="src/views/templates")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-<<<<<<< HEAD
 
 @app.post("/")
 async def read_root(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
-=======
->>>>>>> 3183906 (Creación de usuarios y acceso basado en roles)
 
 @app.get("/")
 async def read_root(request: Request):
@@ -38,14 +36,11 @@ async def get_add_pet(request: Request):
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 # Por favor no tocar esto :)
->>>>>>> 9868447 (Corrección push de sara)
-=======
+
+
 # Por favor no tocar esto :)
->>>>>>> aef76d4c77d624bdbba5795cd5ad3d0d0c83115f
 
 ROLE_URLS = {
     "Cliente": "/cliente/dashboard",
@@ -54,13 +49,11 @@ ROLE_URLS = {
 }
 
 @app.post("/login")
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 async def post_login(request: Request, email: str = Form(...), password: str = Form(...)):
    
     return templates.TemplateResponse("login.html", {"request": request, "email": email})
-=======
+
 async def login(
     request: Request,
     email: str = Form(...),
@@ -211,33 +204,6 @@ async def register_user(
                 "show_register": True
             }
         )
-
-# Por favor no tocar esto :)
-
->>>>>>> 9868447 (Corrección push de sara)
-#Request del registro.html para generar las entradas de Mascota
-@app.get("/registro")
-async def get_registro(request: Request):
-    return templates.get_template("registro.html", {"request": request})
-
-@app.post("/registro")
-async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
-    # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
-    return templates.TemplateResponse("registro.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
-
-
-<<<<<<< HEAD
-@app.get("/register")
-async def get_register(request: Request):
-    return templates.get_template("login.html", {"request": request})
-
-@app.post("/register")
-async def post_register(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
-    
-    return templates.TemplateResponse("login.html", {"request": request, "name": name, "email": email})
-=======
-=======
->>>>>>> aef76d4c77d624bdbba5795cd5ad3d0d0c83115f
 async def login(
     request: Request,
     email: str = Form(...),
@@ -394,15 +360,12 @@ async def register_user(
 #Request del registro.html para generar las entradas de Mascota
 @app.get("/registro")
 async def get_registro(request: Request):
-    return templates.get_template("registro.html", {"request": request})
+    return templates.TemplateResponse("registro.html", {"request": request})
 
 @app.post("/registro")
 async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
     # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
     return templates.TemplateResponse("registro.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
 
-
-=======
->>>>>>> 9868447 (Corrección push de sara)
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
