@@ -38,6 +38,7 @@ async def get_add_pet(request: Request):
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+# Por favor no tocar esto :)
 
 ROLE_URLS = {
     "Cliente": "/cliente/dashboard",
@@ -46,30 +47,6 @@ ROLE_URLS = {
 }
 
 @app.post("/login")
-<<<<<<< HEAD
-async def post_login(request: Request, email: str = Form(...), password: str = Form(...)):
-   
-    return templates.TemplateResponse("login.html", {"request": request, "email": email})
-#Request del registro.html para generar las entradas de Mascota
-@app.get("/registro")
-async def get_registro(request: Request):
-    return templates.get_template("registro.html", {"request": request})
-
-@app.post("/registro")
-async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
-    # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
-    return templates.TemplateResponse("registro.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
-
-
-@app.get("/register")
-async def get_register(request: Request):
-    return templates.get_template("login.html", {"request": request})
-
-@app.post("/register")
-async def post_register(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
-    
-    return templates.TemplateResponse("login.html", {"request": request, "name": name, "email": email})
-=======
 async def login(
     request: Request,
     email: str = Form(...),
@@ -100,12 +77,12 @@ async def login(
     )
     response.set_cookie(key="user_role", value=rol.description)
     
-    # 3. Crear sesión (usamos cookies simples para este ejemplo)
+    # 3. Crear sesión 
     response.set_cookie(
         key="user_role",
         value=rol.description,
         httponly=True,
-        secure=True,  # Solo HTTPS en producción
+        secure=True,  
         samesite="lax"
     )
     return response
@@ -220,7 +197,19 @@ async def register_user(
                 "show_register": True
             }
         )
->>>>>>> 3183906 (Creación de usuarios y acceso basado en roles)
+
+# Por favor no tocar esto :)
+
+#Request del registro.html para generar las entradas de Mascota
+@app.get("/registro")
+async def get_registro(request: Request):
+    return templates.get_template("registro.html", {"request": request})
+
+@app.post("/registro")
+async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
+    # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
+    return templates.TemplateResponse("registro.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
