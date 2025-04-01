@@ -6,14 +6,43 @@
     <link rel="stylesheet" href="/static/styles.css">
     <title>Milenzo</title>
 </head>
-<body>
+<body>  
+    <div class="logoC">
+    <img src="/static/images/milen-2.png" alt=" logo" class="logoM"> 
+    </div>
     <header class="container">
-        <nav>
+        <nav> 
+            <h1 class="brand-title">Bienvenido a Milenzo</h1>
             <ul class="nav-list">
-                <li><h1>Bienvenido a Milenzo</h1></li>
+                <li class="dropdown">
+                    <a href="#">Servicios ▼</a> 
+                    <ul class="dropdown-menu">
+                        <li><a href="/addpet">Agregar Mascota</a></li>
+                        <li><a href="/registro">Registro</a></li>
+                        <li><a href="#">Baño</a></li>
+                        <li><a href="#">Corte</a></li>
+                        <li><a href="#">Tienda</a></li>
+                        <li><a href="#">Consulta</a></li>
+                        <li><a href="#">Control</a></li>
+                        <li><a href="#">Historial</a></li>
+                        <li><a href="#">Veterinarios</a></li>
+                        <li><a href="#">Transporte</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Sobre nosotros ▼</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Misión</a></li>
+                        <li><a href="#">Visión</a></li>
+                        <li><a href="#">Políticas</a></li>
+                        <li><a href="#">Objetivos</a></li>
+                        <li><a href="#">Impacto</a></li>
+                    </ul>
+                </li>
             </ul>
             <a href="/login" class="login-button">Login</a>
         </nav>
-    </header>
-</body>
+    </header> 
+    
+  </body>
 </html>

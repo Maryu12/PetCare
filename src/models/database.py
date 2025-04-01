@@ -6,7 +6,9 @@ import os
 
 load_dotenv()
 
-DB_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:Milenzo@localhost:5432/Milenzo")
+if not DB_URL:
+    raise ValueError("Database_URL environment variable not set.")
 
 engine = create_engine(DB_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
