@@ -17,38 +17,32 @@ app = FastAPI()
 app.add_middleware(GZipMiddleware)
 
 #Configuracion de Directorios para cada vista 
-app.mount("/Principal/static", StaticFiles(directory="src/views/Principal"), name="Principal_static")
-app.mount("/login/static", StaticFiles(directory="src/views/login"), name="login_static")
-app.mount("/Addpet/static", StaticFiles(directory="src/views/AddPet"), name="addpet_static")
-app.mount("/Reg_Mascota/static", StaticFiles(directory="src/views/Reg_Mascota"), name="reg_Mascotas_static")
-app.mount("/images", StaticFiles(directory="src/views/images"), name="images")
 
+app.mount("/static", StaticFiles(directory="src/views/static"))
 
 #Configuracion de plantillas
-templates_Principal = Jinja2Templates(directory="src/views/Principal")
-templates_login = Jinja2Templates(directory="src/views/login")
-templates_addpet = Jinja2Templates(directory="src/views/AddPet")
-templates_reg_mascotas = Jinja2Templates(directory="src/views/Reg_mascota")
+
+templates = Jinja2Templates(directory="src/views/HTML")
 
 #Schema 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 @app.post("/")
 async def read_root(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
-    return templates_Principal.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
+    return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
 
 @app.get("/")
 async def read_root(request: Request):
-    return templates_Principal.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
-@app.get("/addpet")
+@app.get("/addPet")
 async def get_add_pet(request: Request):
-    return templates_addpet.TemplateResponse("addPet.html", {"request": request})
+    return templates.TemplateResponse("addPet.html", {"request": request})
 
 @app.get("/login")
 async def get_login(request: Request):
-    return templates_login.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse("login.html", {"request": request})
 
 
 # Por favor no tocar esto :)
@@ -68,8 +62,8 @@ async def login(
 ):
     # 1. Autenticar usuario
     user = db.query(User).filter(User.email == email).first()
-    if not user or not pwd_context.verify(password, user.password_hash):
-        return templates_login.TemplateResponse(
+    if not user or not pwd_context.verify(password, user.password_hashed):
+        return templates.TemplateResponse(
             "login.html",
             {"request": request, "error": "Credenciales inválidas"},
             status_code=401
@@ -167,13 +161,13 @@ async def register_user(
     email: str = Form(...),
     password: str = Form(...),
     telefono: str = Form(...),
-    rol_id: int = Form(...),
+    rol_id: int = Form(1),
     db: Session = Depends(get_db)
 ):
     try:
         existing_user = db.query(User).filter(User.email == email).first()
         if existing_user:
-            return templates_login.TemplateResponse(
+            return templates.TemplateResponse(
                 "login.html",
                 {
                     "request": request,
@@ -189,7 +183,7 @@ async def register_user(
         new_user = User(
             u_name=name,
             email=email,
-            password_hash=hashed_password,
+            password_hashed=hashed_password,
             telefono = telefono.encode('ascii', 'ignore').decode('ascii'),
             id_rol=rol_id
         )
@@ -205,7 +199,7 @@ async def register_user(
     except Exception as e:
         logging.error(f"Error en registro: {str(e)}")
         db.rollback()
-        return templates_login.TemplateResponse(
+        return templates.TemplateResponse(
             "login.html",
             {
                 "request": request,
@@ -219,12 +213,12 @@ async def register_user(
 #Request del registro.html para generar las entradas de Mascota
 @app.get("/registro")
 async def get_registro(request: Request):
-    return templates_reg_mascotas.TemplateResponse("registro.html", {"request": request})
+    return templates.TemplateResponse("Reg.html", {"request": request})
 
 @app.post("/registro")
 async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
     # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
-    return templates_reg_mascotas.TemplateResponse("registro.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
+    return templates.TemplateResponse("Reg.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)

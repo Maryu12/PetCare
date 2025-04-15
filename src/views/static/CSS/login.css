@@ -12,7 +12,7 @@ h1 {
 }
 
 body{
-    background: url('images/Back.jpg');
+    background-image: url('../images/Back.jpg');
     background-size: cover;
     display: flex;
     align-items: center;
