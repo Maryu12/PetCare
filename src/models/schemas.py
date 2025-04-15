@@ -9,7 +9,7 @@ class UserBase(BaseModel):
     telefono: str
 
 class UserCreate(UserBase):
-    password_hash: str
+    password_hashed: str
 
 class User(UserBase):
     id_user: int

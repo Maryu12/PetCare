@@ -62,7 +62,7 @@ async def login(
 ):
     # 1. Autenticar usuario
     user = db.query(User).filter(User.email == email).first()
-    if not user or not pwd_context.verify(password, user.password_hash):
+    if not user or not pwd_context.verify(password, user.password_hashed):
         return templates.TemplateResponse(
             "login.html",
             {"request": request, "error": "Credenciales inválidas"},
@@ -161,7 +161,7 @@ async def register_user(
     email: str = Form(...),
     password: str = Form(...),
     telefono: str = Form(...),
-    rol_id: int = Form(...),
+    rol_id: int = Form(1),
     db: Session = Depends(get_db)
 ):
     try:
@@ -183,7 +183,7 @@ async def register_user(
         new_user = User(
             u_name=name,
             email=email,
-            password_hash=hashed_password,
+            password_hashed=hashed_password,
             telefono = telefono.encode('ascii', 'ignore').decode('ascii'),
             id_rol=rol_id
         )
