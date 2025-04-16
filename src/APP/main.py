@@ -44,6 +44,12 @@ async def get_add_pet(request: Request):
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+@app.get("/serv")
+async def get_serv(request: Request):
+    return templates.TemplateResponse("serv.html", {"request": request})
+@app.get("/about")
+async def get_about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
 
 # Por favor no tocar esto :)
 

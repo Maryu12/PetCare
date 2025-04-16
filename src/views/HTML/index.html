@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,42 +7,65 @@
     <title>Milenzo</title>
 </head>
 <body>  
-    <div class="logoC">
-    <img src="../static/images/milen-2.png" alt=" logo" class="logoM"> 
-    </div>
     <header class="container">
         <nav> 
-            <h1></h1> </h1>
-            <ul class="nav-list">
-                <li class="dropdown">
-                    <a href="#">Servicios ▼</a> 
-                    <ul class="dropdown-menu">
-                        <li><a href="/addPet">Agregar Mascota</a></li>
-                        <li><a href="/registro">Registro</a></li>
-                        <li><a href="#">Baño</a></li>
-                        <li><a href="#">Corte</a></li>
-                        <li><a href="#">Tienda</a></li>
-                        <li><a href="#">Consulta</a></li>
-                        <li><a href="#">Control</a></li>
-                        <li><a href="#">Historial</a></li>
-                        <li><a href="#">Veterinarios</a></li>
-                        <li><a href="#">Transporte</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="#">Sobre nosotros ▼</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Misión</a></li>
-                        <li><a href="#">Visión</a></li>
-                        <li><a href="#">Políticas</a></li>
-                        <li><a href="#">Objetivos</a></li>
-                        <li><a href="#">Impacto</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+            </a>
+            <!-- Botones principales -->
+            <div class="nav-buttons">
+                <a href="/addPet" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            <!-- Botón Login -->
             <a href="/login" class="login-button">Login</a>
         </nav>
     </header> 
-    
-  </body>
+
+    <main>
+        <h2>Nuestros Servicios</h2>
+
+        <div class="servicios-container">
+            <div class="servicio-box">
+                <img src="../static/images/Baño.png" alt="Baño" class="servicio-icon">
+                Baño
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/Corte.png" alt="Corte" class="servicio-icon">
+                Corte
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/Consulta.png" alt="Consulta" class="servicio-icon">
+                Consulta
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/Control.png" alt="Control" class="servicio-icon">
+                Control
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/Historial.png" alt="Historial" class="servicio-icon">
+                Historial
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/veterinarios.png" alt="Veterinarios" class="servicio-icon">
+                Veterinarios
+            </div>
+            <div class="servicio-box">
+                <img src="../static/images/transporte.png" alt="Transporte" class="servicio-icon">
+                Transporte
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#">Política de Privacidad</a>
+            <a href="#">Términos y Condiciones</a>
+            <a href="#">Contacto</a>
+        </div>
+    </footer>
+</body>
 </html>
