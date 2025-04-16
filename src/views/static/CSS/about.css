@@ -14,14 +14,10 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
-
-   
     padding-top: 100px;
-
     padding-bottom: 120px;
     color: #333;
 }
-
 
 header.container {
     background-color: #166E6E;
@@ -147,18 +143,101 @@ nav {
     width: 100px;
     height: auto;
 }
+
 h1 {
     font-size: 40px;
     font-weight: 700;
     margin-top: 80px;
-    color: #000;
+    color: #000000;
     text-align: center;
 }
 
 h2 {
     font-size: 30px;
     font-weight: 700;
-    color: #000;
+    color: #000000;
     text-align: center;
     margin: 40px 0 20px;
 }
+
+.nosotros-section {
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 320px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+}
+
+.icon-circle {
+    background-color: #f0f0f0;
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle img {
+    width: 150px;
+    height: 130px;
+}
+
+.card-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-title.mision {
+    color: #6A7FDB;
+}
+
+.card-title.vision {
+    color: #19C7A2;
+}
+
+.card-title.valores {
+    color: #A9A9A9;
+}
+
+.card p {
+    font-size: 15px;
+    color: #515151;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+/*para tener en cuenta la paleta de colores 
+
+    color-principal: #6A9492;
+    color-secundario: #87C7C4;
+    color-detalles: #A2E0DD;
+    color-subtitulos: #166E6E;
+    color-titulos: #000000;
+    color-textos: #515151;
+    color-base: #ffffff;
+*/
