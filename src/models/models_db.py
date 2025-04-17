@@ -9,7 +9,7 @@ class User(Base):
     id_user = Column(Integer, primary_key=True, index=True)
     id_rol = Column(Integer, ForeignKey('rol.id_rol'))
     email = Column(String(100), unique=True, index=True)
-    password_hash = Column(String(60))
+    password_hashed = Column(String, nullable=False)
     u_name = Column(String(100))
     telefono = Column(String(20))
 
