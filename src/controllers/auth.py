@@ -6,6 +6,9 @@ def role_required(allowed_roles):
     """
     Decorador para verificar el rol del usuario.
     :param allowed_roles: Lista de roles permitidos.
+
+    forma de representar decorador:
+    @role_required(["Administrador de la tienda", "Veterinario"])
     """
     def decorator(func):
         @wraps(func)

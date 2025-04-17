@@ -6,6 +6,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
 from ..models.models_db import User, Rol
@@ -32,8 +33,21 @@ async def read_root(request: Request, name: str = Form(...), email: str = Form(.
     return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
 
 @app.get("/")
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def read_root(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None 
+
+    # Obtener el nombre del usuario si está logueado
+    user_name = None
+    if is_logged_in:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if user:
+            user_name = user.u_name
+
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name})
 
 @app.get("/login")
 async def get_login(request: Request):
@@ -55,14 +69,24 @@ async def get_my_pets(request: Request):
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
 
-# Por favor no tocar esto :)
+@app.get("/manageUsers")
+@role_required(["Administrador de la tienda", "Cliente"]) #Aqui protegemos en base al rol
+async def get_manage_users(request: Request):
+    return templates.TemplateResponse("manage_users.html", {"request": request})
 
+# Por favor no tocar esto :)
+"""
 ROLE_URLS = {
     "Cliente": "/cliente/dashboard",
     "Veterinario": "/vet/dashboard",
     "Administrador de la tienda": "/admin/dashboard"
 }
+"""
+@app.on_event("shutdown")
+async def shutdown_event():
+    logging.info("Apagando la aplicación...")
 
+    
 @app.post("/login")
 async def login(
     request: Request,
@@ -82,17 +106,27 @@ async def login(
     # 2. Obtener rol
     rol = db.query(Rol).filter(Rol.id_rol == user.id_rol).first()
     
-    if not rol or rol.description not in ROLE_URLS:
+    if not rol:
         raise HTTPException(
             status_code=403,
             detail="Rol no tiene dashboard asignado"
         )
     
+
     response = RedirectResponse(
-        url=ROLE_URLS[rol.description],
+        url="/",
         status_code=303
     )
-    response.set_cookie(key="user_role", value=rol.description)
+   # response.set_cookie(key="user_role", value=rol.description)
+
+    response.set_cookie(
+        key="user_id",
+        value=user.id_user,
+        httponly=True,
+        secure=True,  
+        samesite="lax"
+    )
+    
     
     # 3. Crear sesión 
     response.set_cookie(

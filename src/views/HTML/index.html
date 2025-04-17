@@ -20,7 +20,14 @@
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
             <!-- Botón Login -->
-            <a href="/login" class="login-button">Login</a>
+             {% if is_logged_in %}
+                <div class="user-info">
+                    <p class="welcome-message">¡Hola, {{ user_name }}!</p>
+                    <a href="/logout" class="logout-button" >Cerrar Sesion</a>
+                </div>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
         </nav>
     </header> 
     <div class="full-width-image">
