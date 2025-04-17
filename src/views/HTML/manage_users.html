@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/manage_users.css">
+    <title>Gestión de Usuarios</title>
+</head>
+<body>
+    <h1>Gestión de Usuarios</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Rol Actual</th>
+                <th>Nuevo Rol</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id_user }}</td>
+                <td>{{ user.u_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.telefono }}</td>
+                <td>{{ user.rol.description }}</td>
+                <td>
+                    <form action="/admin/users/assign-role" method="post">
+                        <input type="hidden" name="user_id" value="{{ user.id_user }}">
+                        <select name="new_role" required>
+                            <option value="1">Cliente</option>
+                            <option value="2">Veterinario</option>
+                            <option value="3">Administrador de la tienda</option>
+                        </select>
+                        <button type="submit">Asignar Rol</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
