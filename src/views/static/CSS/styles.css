@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15+Charted&family=Special+Gothic+Expanded+One&display=swap');
 * {
     margin: 0;
     padding: 0;
@@ -100,6 +100,32 @@ nav {
 .login-button:hover {
     background-color: #ffffff;
     color: #6A9492;
+}
+.full-width-image {
+    width: 100%;
+    margin-top: 0px; 
+}
+
+.full-width-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 60px;
+    color: #fff;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding: 10px 20px;
+    background: rgba(22, 110, 110, 0.5); /* semitransparente para destacar */
+    border-radius: 20px;
 }
 
 .footer {
@@ -209,4 +235,50 @@ h2 {
     font-weight: bold;
     color: #000;
 }
+.servicios-card {
+    background: rgba(91, 154, 154, 0.5); /* semitransparente para destacar */
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 20px auto;
+    width: 95%;
+    max-width: 1500px;
+}
+.frase-carrusel {
+    width: 100vw; /* ancho de toda la ventana */
+    background: rgba(22, 110, 110, 0.5); /* semitransparente para destacar */
+    padding: 30px 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 0; /* eliminamos el borde redondeado para que cubra bien */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-left: calc(-50vw + 50%); /* este truco lo centra de forma absoluta */
+}
+
+
+.frase-slide {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+}
+
+.frase-slide p {
+    font-size: 24px;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 

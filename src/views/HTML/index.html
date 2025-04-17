@@ -15,7 +15,7 @@
             </a>
             <!-- Botones principales -->
             <div class="nav-buttons">
-                <a href="/addPet" class="nav-button">Mis Mascotas</a>
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
@@ -23,38 +23,52 @@
             <a href="/login" class="login-button">Login</a>
         </nav>
     </header> 
-
+    <div class="full-width-image">
+        <img src="../static/images/jiji.png" alt="portada">
+        <div class="overlay-text">¡Bienvenido!</div>
+    </div>
     <main>
+        <section class="frase-carrusel">
+            <div class="frase-slide" id="frase-slide">
+              <p>“Bienvenido a Milenzo: Cuiado profesional.”</p>
+              <p>“Porque tu peludo merece lo mejor.”</p>
+              <p>“Tu mascota feliz, tú feliz.”</p>
+              <p>“Amor, cuidado y ternura en cada visita.”</p>
+              <p>“Cada patita cuenta.”</p>
+            </div>
+        </section>
+          
         <h2>Nuestros Servicios</h2>
-
-        <div class="servicios-container">
-            <div class="servicio-box">
-                <img src="../static/images/Baño.png" alt="Baño" class="servicio-icon">
-                Baño
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/Corte.png" alt="Corte" class="servicio-icon">
-                Corte
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/Consulta.png" alt="Consulta" class="servicio-icon">
-                Consulta
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/Control.png" alt="Control" class="servicio-icon">
-                Control
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/Historial.png" alt="Historial" class="servicio-icon">
-                Historial
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/veterinarios.png" alt="Veterinarios" class="servicio-icon">
-                Veterinarios
-            </div>
-            <div class="servicio-box">
-                <img src="../static/images/transporte.png" alt="Transporte" class="servicio-icon">
-                Transporte
+        <div class="servicios-card">
+            <div class="servicios-container">
+                <div class="servicio-box">
+                    <img src="../static/images/Baño.png" alt="Baño" class="servicio-icon">
+                    Baño
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/Corte.png" alt="Corte" class="servicio-icon">
+                    Corte
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/Consulta.png" alt="Consulta" class="servicio-icon">
+                    Consulta
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/Control.png" alt="Control" class="servicio-icon">
+                    Control
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/Historial.png" alt="Historial" class="servicio-icon">
+                    Historial
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/veterinarios.png" alt="Veterinarios" class="servicio-icon">
+                    Veterinarios
+                </div>
+                <div class="servicio-box">
+                    <img src="../static/images/transporte.png" alt="Transporte" class="servicio-icon">
+                    Transporte
+                </div>
             </div>
         </div>
     </main>
@@ -67,5 +81,19 @@
             <a href="#">Contacto</a>
         </div>
     </footer>
+    <script>
+        const frases = document.querySelectorAll("#frase-slide p");
+        let index = 0;
+      
+        function mostrarFrase() {
+          frases.forEach((frase, i) => {
+            frase.style.opacity = i === index ? "1" : "0";
+          });
+          index = (index + 1) % frases.length;
+        }
+        mostrarFrase();
+        setInterval(mostrarFrase, 4000);
+      </script>
+      
 </body>
 </html>

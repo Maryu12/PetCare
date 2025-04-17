@@ -35,11 +35,6 @@ async def read_root(request: Request, name: str = Form(...), email: str = Form(.
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
-
-@app.get("/addPet")
-async def get_add_pet(request: Request):
-    return templates.TemplateResponse("addPet.html", {"request": request})
-
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
@@ -47,9 +42,18 @@ async def get_login(request: Request):
 @app.get("/serv")
 async def get_serv(request: Request):
     return templates.TemplateResponse("serv.html", {"request": request})
+
 @app.get("/about")
 async def get_about(request: Request):
     return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get("/myPets")
+async def get_my_pets(request: Request):
+    return templates.TemplateResponse("myPets.html", {"request": request})
+
+@app.get("/addPet")
+async def get_add_pet(request: Request):
+    return templates.TemplateResponse("addPet.html", {"request": request})
 
 # Por favor no tocar esto :)
 
