@@ -160,104 +160,84 @@ h2 {
     margin: 40px 0 20px;
 }
 
-.button-container {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    display: flex;
-    gap: 5px;
+.nosotros-section {
+    padding: 50px 20px;
+    text-align: center;
+    margin-top: 50px;
 }
 
-.button-container button {
-    background: none;
-    border: none;
-    font-size: 1rem;
-    cursor: pointer;
-    padding: 0.5rem 2rem;
-    transition: background-color 0.3s;
-}
-
-.button-container button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
-
-.button-container button.active {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-}
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 700px;
-}
-
-.form-group-container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 10px;
-}
-
-.form-group-container .form-group {
-    flex: 1;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group input, .form-group textarea {
-    width: 100%;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-size: 1rem;
-}
-
-.form-group textarea {
-    height: 100px;
-}
-
-.form-actions {
+.cards-container {
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
 }
 
-button.submit-btn {
-    background-color: #6a9492;
-    color: white;
-    border: none;
-    padding: 0.5rem 5rem;
+.card {
+    background-color: #ffffff;
     border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button.submit-btn:hover {
-    background-color: #90a4a3;
-}
-
-.form-container form {
-    display: none;
-}
-
-.form-container form.active {
-    display: block;
-}
-
-.form-header {
+    padding: 30px 20px;
+    width: 320px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    position: relative;
     text-align: center;
-    margin-bottom: 20px;
+    transition: transform 0.3s ease;
 }
 
-.form-header img {
-    max-width: 450px;
-    display: block;
-    margin: 0 auto 10px;
+.card:hover {
+    transform: translateY(-8px);
 }
+
+.icon-circle {
+    background-color: #f0f0f0;
+    border-radius: 100%;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-circle img {
+    width: 150px;
+    height: 130px;
+}
+
+.card-title {
+    font-size: 22px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.card-title.mision {
+    color: #6A7FDB;
+}
+
+.card-title.vision {
+    color: #19C7A2;
+}
+
+.card-title.valores {
+    color: #A9A9A9;
+}
+
+.card p {
+    font-size: 15px;
+    color: #515151;
+    text-align: justify;
+    line-height: 1.6;
+}
+
+/*para tener en cuenta la paleta de colores 
+
+    color-principal: #6A9492;
+    color-secundario: #87C7C4;
+    color-detalles: #A2E0DD;
+    color-subtitulos: #166E6E;
+    color-titulos: #000000;
+    color-textos: #515151;
+    color-base: #ffffff;
+*/

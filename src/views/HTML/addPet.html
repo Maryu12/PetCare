@@ -6,6 +6,22 @@
     <title>Agregar mascota</title>
     <link rel="stylesheet" href="../static/CSS/addPet.css">
 </head>
+<header class="container">
+    <nav> 
+        <!-- Logo -->
+        <a href="/" class="nav-logo">
+            <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+        </a>
+        <!-- Botones principales -->
+        <div class="nav-buttons">
+            <a href="/addPet" class="nav-button">Mis Mascotas</a>
+            <a href="/serv" class="nav-button">Servicios</a>
+            <a href="/about" class="nav-button">Nosotros</a>
+        </div>
+        <!-- Botón Login -->
+        <a href="/login" class="login-button">Login</a>
+    </nav>
+</header> 
 <body>
     <div class="button-container">
         <button id="btnOwner_details" class="active" onclick="cambiarFormulario('formOwner')">Datos del propietario</button>
@@ -38,7 +54,7 @@
                 </div>
             </div>
             <div class="form-actions">
-                <button type="submit" class="submit-btn">Enviar</button>
+                <button type="submit" class="submit-btn">Enviar</button> <!--Por organizar, no funciona el link simbolico, revisar el js, los href no se tramitan-->
             </div>
         </form>
 
@@ -99,11 +115,23 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="submit-btn">Enviar</button>
+                <button type="submit" class="submit-btn">Enviar</button> <!--Organizar el href, posiblemente por el js, tampoco tramita este (no va ninguna parte)-->
             </div>
         </form>
     </div>
 
+    
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#">Política de Privacidad</a>
+            <a href="#">Términos y Condiciones</a>
+            <a href="#">Contacto</a>
+        </div>
+    </footer>
+
     <script src="../static/JS/addPet.js"></script>
+
 </body>
 </html>
