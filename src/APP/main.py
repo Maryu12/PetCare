@@ -81,10 +81,11 @@ async def get_my_pets(request: Request):
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
 
-@app.get("/manageUsers")
-@role_required(["Administrador de la tienda", "Cliente"]) #Aqui protegemos en base al rol
-async def get_manage_users(request: Request):
-    return templates.TemplateResponse("manage_users.html", {"request": request})
+@app.get("/manage_users")
+@role_required(["Administrador de la tienda", "Cliente"])
+async def get_manage_users(request: Request, db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return templates.TemplateResponse("manage_users.html", {"request": request, "users": users})
 
 # Por favor no tocar esto :)
 """
@@ -94,11 +95,32 @@ ROLE_URLS = {
     "Administrador de la tienda": "/admin/dashboard"
 }
 """
-@app.on_event("shutdown")
-async def shutdown_event():
-    logging.info("Apagando la aplicación...")
+@app.post("/admin/users/assign-role")
+@role_required(["Administrador de la tienda", "Cliente"])
+async def assign_role(
+    request: Request,
+    user_id: int = Form(...),
+    new_role: int = Form(...),
+    db: Session = Depends(get_db)
+):
+    try:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        
+        # Asignar nuevo rol al usuario
+        user.id_rol = new_role
+        db.commit()
+        db.refresh(user)
+        
+        return {"message": "Rol asignado correctamente"}
+    except Exception as e:
+        logging.error(f"Error al asignar rol: {str(e)}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Error al asignar rol")
 
-    
+
+
 @app.post("/login")
 async def login(
     request: Request,
