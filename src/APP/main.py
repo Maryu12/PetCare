@@ -4,6 +4,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.middleware import Middleware
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
@@ -13,9 +14,20 @@ from ..models.models_db import User, Rol
 from passlib.context import CryptContext
 import logging
 
+async def server_status_middleware(request: Request, call_next):
+    if getattr(app, 'just_restarted', True):
+        response = RedirectResponse(url="/login")
+        response.delete_cookie("user_id")
+        response.delete_cookie("user_role")
+        app.just_restarted = False
+        return response
+    return await call_next(request)
+
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware)
+app.just_restarted = True 
+app.middleware("http")(server_status_middleware)
 
 #Configuracion de Directorios para cada vista 
 
