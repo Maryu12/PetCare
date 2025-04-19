@@ -9,18 +9,18 @@
 <body>  
     <header class="container">
         <nav> 
-            <!-- Logo -->
+            
             <a href="/" class="nav-logo">
                 <img src="../static/images/milen-2.png" alt="Logo Milenzo">
             </a>
-            <!-- Botones principales -->
+           
             <div class="nav-buttons">
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
                 <a href="/manage_users" class="nav-button">Ch Rol</a>
             </div>
-            <!-- Botón Login -->
+            
              {% if is_logged_in %}
                 <div class="user-info">
                     <p class="welcome-message">¡Hola, {{ user_name }}!</p>
@@ -74,8 +74,8 @@
                     Veterinarios
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/transporte.png" alt="Transporte" class="servicio-icon">
-                    Transporte
+                    <img src="../static/images/Guarderia.png" alt="Guarderia" class="servicio-icon">
+                    Guarderia
                 </div>
             </div>
         </div>

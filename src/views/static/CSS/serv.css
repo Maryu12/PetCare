@@ -163,6 +163,7 @@ h2 {
     transition: transform 0.3s ease, background-color 0.3s ease;
     text-align: left;
     gap: 30px;
+    border: none;
 }
 
 .elemento:hover {
@@ -183,4 +184,115 @@ h2 {
     font-size: 24px;
     font-weight: bold;
     color: #000;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.modal-form label {
+    font-weight: bold;
+    text-align: left;
+}
+
+.modal-form select,
+.modal-form textarea {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.btn-enviar,
+.btn-aceptar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-enviar {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.btn-aceptar {
+    background-color: #2196F3;
+    color: white;
+}
+
+.btn-enviar:hover {
+    background-color: #45a049;
+}
+
+.btn-aceptar:hover {
+    background-color: #1e87d6;
+}
+
+.footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-links {
+    margin-top: 10px;
+}
+
+.footer-links a {
+    color: #bbb;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: #fff;
 }
