@@ -88,20 +88,21 @@ nav {
 
 /* Estilo para el contenedor del mensaje y botón de cerrar sesión */
 .user-info {
-    position: relative;
-    top: 10px;
-    right: 20px;
     display: flex;
+    justify-content: center; /* mueve los hijos (texto y botón) a la derecha */
     align-items: center;
     gap: 10px;
+    width: 100%; /* necesario para que ocupe todo el ancho */
+    padding-right: 40px; /* ajusta este valor para moverlo más a la derecha */
 }
 
 /* Estilo para el mensaje de bienvenida */
 .welcome-message {
-    margin: 0;
     font-size: 14px;
     color: #333;
+    text-align: center; /* Asegura que el texto esté centrado */
 }
+
 
 /* Estilo para el botón de cerrar sesión */
 .logout-button {
