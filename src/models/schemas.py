@@ -50,7 +50,9 @@ class PetBase(BaseModel):
     pet_name: str
     species: str
     birthdate: str
-    photo: Optional[str] = None
+    detalle: Optional[str] = None
+    sexo: str
+    edad: int
 
 class PetCreate(PetBase):
     id_owner: int
@@ -86,7 +88,8 @@ class VeterinarianBase(BaseModel):
     last_name: str
     telefono: str
     email: EmailStr
-    direction: str
+    state: str
+    description: str
 
 class Veterinarian(VeterinarianBase):
     id_veterinarian: int

@@ -78,6 +78,7 @@ async def get_my_pets(request: Request):
     return templates.TemplateResponse("myPets.html", {"request": request})
 
 @app.get("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
 
@@ -88,13 +89,7 @@ async def get_manage_users(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("manage_users.html", {"request": request, "users": users})
 
 # Por favor no tocar esto :)
-"""
-ROLE_URLS = {
-    "Cliente": "/cliente/dashboard",
-    "Veterinario": "/vet/dashboard",
-    "Administrador de la tienda": "/admin/dashboard"
-}
-"""
+
 @app.post("/admin/users/assign-role")
 @role_required(["Administrador de la tienda", "Cliente"])
 async def assign_role(
@@ -177,52 +172,6 @@ def get_current_role(request: Request, user_role: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="No autenticado")
     return user_role
 
-"""
-@app.get("/admin/dashboard")
-async def admin_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Administrador de la tienda":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para administradores"
-        )
-    return templates.TemplateResponse(
-        "admin_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/vet/dashboard")
-async def vet_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Veterinario":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para veterinarios"
-        )
-    return templates.TemplateResponse(
-        "vet_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/cliente/dashboard")
-async def client_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Cliente":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para clientes"
-        )
-    return templates.TemplateResponse(
-        "client_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-"""
 
 
 @app.get("/logout")
@@ -301,4 +250,6 @@ async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: s
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
-#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan
+#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
+#Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
+#Ya la mujer que quiero no me quiere, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
