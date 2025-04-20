@@ -50,8 +50,6 @@ class MedicHistory(Base):
     id_veterinarian = Column(Integer, ForeignKey('veterinarian.id_veterinarian'))
     vaccines = Column(String(255))
     observations = Column(String(255))
-    documents = Column(String(255))
-    url = Column(String(255))
     first_cons_date = Column(String(100))
 
     pet = relationship("Pet", back_populates="medical_history")

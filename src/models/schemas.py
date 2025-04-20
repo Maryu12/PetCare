@@ -67,8 +67,6 @@ class Pet(PetBase):
 class MedicHistoryBase(BaseModel):
     vaccines: str
     observations: str
-    documents: str
-    url: str
     first_cons_date: str
 
 class MedicHistoryCreate(MedicHistoryBase):
