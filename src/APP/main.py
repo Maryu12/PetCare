@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol
+from ..models.models_db import User, Rol, Pet
 from passlib.context import CryptContext
 import logging
 
@@ -81,6 +81,47 @@ async def get_my_pets(request: Request):
 @role_required(["Cliente", "Administrador de la tienda"])
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
+
+@app.post("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def add_pet(
+    request: Request,
+    pet_name: str = Form(...),
+    sexo: str = Form(...),
+    especie: str = Form(...),
+    edad: int = Form(...),
+    descripcion: str = Form(None),
+    birthdate: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+    
+    try:
+        new_pet = Pet(
+            id_owner=user_id,
+            pet_name=pet_name,
+            species=especie,
+            birthdate=birthdate,
+            detalle=descripcion,
+            sexo=sexo,
+            edad=edad
+        )
+        db.add(new_pet)
+        db.commit()
+        db.refresh(new_pet)
+        return RedirectResponse(url="/myPets", status_code=303)
+    except Exception as e:
+        logging.error(f"Error al registrar mascota: {str(e)}")
+        db.rollback()
+        return templates.TemplateResponse(
+            "addPet.html",
+            {
+                "request": request,
+                "error": "Error al registrar la mascota. Intente nuevamente."
+            }
+        )
 
 @app.get("/manage_users")
 @role_required(["Administrador de la tienda", "Cliente"])
@@ -253,3 +294,5 @@ if __name__ == "__main__":
 #Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
 #Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
 #Ya la mujer que quiero no me quiere, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
+#Maldita sea, tras de que no he terminado esto, la mujer que quiero no me quiere, lo lakers pierden el primer partido
+#Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
