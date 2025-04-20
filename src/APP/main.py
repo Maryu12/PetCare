@@ -122,6 +122,17 @@ async def add_pet(
                 "error": "Error al registrar la mascota. Intente nuevamente."
             }
         )
+    
+#Post para obtener los datos de las mascotas del usuario
+@app.get("/myPetsData")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def get_my_pets_data(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
+    return [{"pet_name": pet.pet_name, "species": pet.species, "edad": pet.edad} for pet in pets]
 
 @app.get("/manage_users")
 @role_required(["Administrador de la tienda", "Cliente"])

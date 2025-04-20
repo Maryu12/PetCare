@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>mis mascotas</title>
+    <title>Mis Mascotas</title>
     <link rel="stylesheet" href="../static/CSS/myPets.css">
 </head>
 <body>
@@ -28,14 +28,23 @@
             <img src="../static/images/myPets.png" alt="Imagen myPets">
             <h3>Mis mascotas</h3>
             <div class="form-actions">
-                <a href="/addPet" class="action-button">Registrar nueva mascota</a> <!-- Me direcciona a la vista addPet -->
-                <a href="/history" class="action-button">Ver historial</a><!-- Me direcciona a la vista Reg -->
+                <a href="/addPet" class="action-button">Registrar nueva mascota</a>
+                <button type="button" class="action-button" id="viewPetsBtn">Ver Mis Mascotas</button>
             </div>
-            
-
         </div>
-        
     </div>
+
+    <!-- Modal -->
+    <div id="petsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Mis Mascotas</h3>
+            <ul id="petsList">
+                <!-- Aquí se llenarán las mascotas dinámicamente -->
+            </ul>
+        </div>
+    </div>
+
     <footer class="footer">
         <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
         <div class="footer-links">
@@ -44,5 +53,7 @@
             <a href="#">Contacto</a>
         </div>
     </footer>
+
+    <script src="../static/JS/myPets.js"></script>
 </body>
 </html>
