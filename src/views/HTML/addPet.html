@@ -25,65 +25,31 @@
 </header> 
 <div class="form-card">
     <div class="form-container">
-        <form id="formPatient" class="active">
+        <form id="formPatient" method="POST" action="/addPet">
             <div class="form-header">
                 <img src="../static/images/AgregarMascota-1.png" alt="Imagen AgregarMascota">
                 <h3>Datos del Paciente:</h3>
             </div>
-            <div class="form-group-container">
-                <div class="form-group">
-                    <input type="text" id="nombreMascota" name="nombreMascota" placeholder="Nombre:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="sexo" name="sexo" placeholder="Sexo:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="peso" name="peso" placeholder="Peso:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="especie" name="especie" placeholder="Especie:" required>
-                </div>
-            </div>
-            <div class="form-group-container">
-                <div class="form-group">
-                    <input type="text" id="edad" name="edad" placeholder="Edad:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="esterilizado" name="esterilizado" placeholder="Esterilizado:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="raza" name="raza" placeholder="Raza:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="color" name="color" placeholder="Color:" required>
-                </div>
+            <div class="form-group">
+                <input type="text" id="pet_name" name="pet_name" placeholder="Nombre de la mascota" required>
             </div>
             <div class="form-group">
-                <textarea id="descripcion" name="descripcion" placeholder="Descripción:"></textarea>
-            </div>
-
-            <h4>Datos Médicos:</h4>
-            <div class="form-group-container">
-                <div class="form-group">
-                    <input type="text" id="desparasitacion" name="desparasitacion" placeholder="Última Desparasitación:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="vacunas" name="vacunas" placeholder="Vacunas:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="alimentacion" name="alimentacion" placeholder="Alimentación:" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="tratamientos" name="tratamientos" placeholder="Tratamientos:" required>
-                </div>
+                <input type="text" id="sexo" name="sexo" placeholder="Sexo" required>
             </div>
             <div class="form-group">
-                <textarea id="tratamientosAnteriores" name="tratamientosAnteriores" placeholder="Tratamientos Anteriores:"></textarea>
+                <input type="text" id="especie" name="especie" placeholder="Especie" required>
             </div>
-
+            <div class="form-group">
+                <input type="number" id="edad" name="edad" placeholder="Edad" required>
+            </div>
+            <div class="form-group">
+                <input type="date" id="birthdate" name="birthdate" placeholder="Fecha de nacimiento" required>
+            </div>
+            <div class="form-group">
+                <textarea id="descripcion" name="descripcion" placeholder="Descripción"></textarea>
+            </div>
             <div class="form-actions">
-                <a href="/myPets" class="action-button" id="guardarBtn">Guardar</a>
-
+                <button type="submit" class="action-button">Guardar</button>
             </div>
         </form>
     </div>

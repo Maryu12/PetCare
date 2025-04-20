@@ -33,7 +33,10 @@ class Pet(Base):
     pet_name = Column(String(50))
     species = Column(String(50))
     birthdate = Column(String(50))
-    photo = Column(String(255))
+    detalle = Column(String, nullable=True)
+    sexo = Column(String(10), nullable=False)
+    edad = Column(Integer, nullable=False)
+
 
     owner = relationship("User", back_populates="pets")
     medical_history = relationship("MedicHistory", back_populates="pet")
@@ -47,8 +50,6 @@ class MedicHistory(Base):
     id_veterinarian = Column(Integer, ForeignKey('veterinarian.id_veterinarian'))
     vaccines = Column(String(255))
     observations = Column(String(255))
-    documents = Column(String(255))
-    url = Column(String(255))
     first_cons_date = Column(String(100))
 
     pet = relationship("Pet", back_populates="medical_history")
@@ -62,7 +63,8 @@ class Veterinarian(Base):
     last_name = Column(String(100))
     telefono = Column(String(20))
     email = Column(String(100))
-    direction = Column(String(100))
+    state = Column(String(20))
+    description = Column(String(500))
 
     medical_history = relationship("MedicHistory", back_populates="veterinarian")
     appointments = relationship("Appointment", back_populates="veterinarian")

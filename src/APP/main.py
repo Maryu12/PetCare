@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol
+from ..models.models_db import User, Rol, Pet
 from passlib.context import CryptContext
 import logging
 
@@ -78,8 +78,61 @@ async def get_my_pets(request: Request):
     return templates.TemplateResponse("myPets.html", {"request": request})
 
 @app.get("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
+
+@app.post("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def add_pet(
+    request: Request,
+    pet_name: str = Form(...),
+    sexo: str = Form(...),
+    especie: str = Form(...),
+    edad: int = Form(...),
+    descripcion: str = Form(None),
+    birthdate: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+    
+    try:
+        new_pet = Pet(
+            id_owner=user_id,
+            pet_name=pet_name,
+            species=especie,
+            birthdate=birthdate,
+            detalle=descripcion,
+            sexo=sexo,
+            edad=edad
+        )
+        db.add(new_pet)
+        db.commit()
+        db.refresh(new_pet)
+        return RedirectResponse(url="/myPets", status_code=303)
+    except Exception as e:
+        logging.error(f"Error al registrar mascota: {str(e)}")
+        db.rollback()
+        return templates.TemplateResponse(
+            "addPet.html",
+            {
+                "request": request,
+                "error": "Error al registrar la mascota. Intente nuevamente."
+            }
+        )
+    
+#Post para obtener los datos de las mascotas del usuario
+@app.get("/myPetsData")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def get_my_pets_data(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
+    return [{"pet_name": pet.pet_name, "species": pet.species, "edad": pet.edad} for pet in pets]
 
 @app.get("/manage_users")
 @role_required(["Administrador de la tienda", "Cliente"])
@@ -88,13 +141,7 @@ async def get_manage_users(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse("manage_users.html", {"request": request, "users": users})
 
 # Por favor no tocar esto :)
-"""
-ROLE_URLS = {
-    "Cliente": "/cliente/dashboard",
-    "Veterinario": "/vet/dashboard",
-    "Administrador de la tienda": "/admin/dashboard"
-}
-"""
+
 @app.post("/admin/users/assign-role")
 @role_required(["Administrador de la tienda", "Cliente"])
 async def assign_role(
@@ -177,52 +224,6 @@ def get_current_role(request: Request, user_role: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="No autenticado")
     return user_role
 
-"""
-@app.get("/admin/dashboard")
-async def admin_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Administrador de la tienda":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para administradores"
-        )
-    return templates.TemplateResponse(
-        "admin_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/vet/dashboard")
-async def vet_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Veterinario":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para veterinarios"
-        )
-    return templates.TemplateResponse(
-        "vet_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/cliente/dashboard")
-async def client_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Cliente":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para clientes"
-        )
-    return templates.TemplateResponse(
-        "client_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-"""
 
 
 @app.get("/logout")
@@ -301,4 +302,8 @@ async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: s
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
-#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan
+#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
+#Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
+#Ya la mujer que quiero no me quiere, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
+#Maldita sea, tras de que no he terminado esto, la mujer que quiero no me quiere, lo lakers pierden el primer partido
+#Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025

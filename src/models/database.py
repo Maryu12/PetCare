@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-DB_URL = os.getenv("DATABASE_URL")
+DB_URL = os.getenv("DATABASE_URL", "postgresql://postgres:thHgDneqArOtvtUOXsadEMHdUSWGbUMV@shortline.proxy.rlwy.net:10038/railway")
 if not DB_URL:
     raise ValueError("Database_URL environment variable not set.")
 

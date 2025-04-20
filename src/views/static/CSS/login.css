@@ -377,3 +377,39 @@ li {
     margin-bottom: 10px;
 }
 
+
+/*Maryu*/ 
+/*media queris*/ 
+
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+        flex-direction: column;
+    }
+
+    .form-container {
+        width: 100%;
+    }
+
+    .toggle-container {
+        display: none; /* Oculta el panel lateral en móviles */
+    }
+
+    .sign-in, .sign-up {
+        width: 100%;
+    }
+
+    .logo-container {
+        top: 30px;
+        transform: translateX(-50%);
+        width: 150px;
+    }
+
+    .back-button-container {
+        top: 10px;
+        right: 10px;
+    }
+}
+
