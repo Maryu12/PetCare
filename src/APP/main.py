@@ -10,9 +10,10 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol, Pet
+from ..models.models_db import User, Rol, Pet, Veterinarian
 from passlib.context import CryptContext
 import logging
+from fastapi.responses import JSONResponse
 
 async def server_status_middleware(request: Request, call_next):
     if getattr(app, 'just_restarted', True):
@@ -64,6 +65,62 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+@app.get("/perf_vet")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_perf_vet(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Obtener el perfil del veterinario si existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    return templates.TemplateResponse(
+        "perf_vet.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role,
+            "vet_profile": vet_profile
+        }
+    )
+
+@app.get("/serv_vet")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    return templates.TemplateResponse(
+        "serv_vet.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role
+        }
+    )
+
+@app.get("/getVetProfile")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Buscar el perfil del veterinario en la base de datos
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+    if not vet_profile:
+        return JSONResponse(content={}, status_code=200)  # Retorna un objeto vacío si no existe el perfil
+
+    return vet_profile
 
 @app.get("/serv")
 async def get_serv(request: Request):
@@ -286,6 +343,53 @@ async def register_user(
                 "show_register": True
             }
         )
+    
+from fastapi import Form
+
+@app.post("/createOrUpdateVetProfile")
+@role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder
+async def create_or_update_vet_profile(
+    request: Request,
+    name_vet: str = Form(...),
+    last_name: str = Form(...),
+    telefono: str = Form(...),
+    email: str = Form(...),
+    state: str = Form(...),
+    description: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Verificar si el perfil ya existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    if vet_profile:
+        # Actualizar perfil existente
+        vet_profile.name_vet = name_vet
+        vet_profile.last_name = last_name
+        vet_profile.telefono = telefono
+        vet_profile.email = email
+        vet_profile.state = state
+        vet_profile.description = description
+    else:
+        # Crear nuevo perfil
+        vet_profile = Veterinarian(
+            id_user=user_id,
+            name_vet=name_vet,
+            last_name=last_name,
+            telefono=telefono,
+            email=email,
+            state=state,
+            description=description
+        )
+        db.add(vet_profile)
+
+    db.commit()
+    db.refresh(vet_profile)
+
+    return {"message": "Perfil guardado exitosamente"}
 
 # Por favor no tocar esto :)
 
