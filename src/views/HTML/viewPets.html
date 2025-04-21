@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Mascotas</title>
+    <link rel="stylesheet" href="../static/CSS/viewPets.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Mis Mascotas</h1>
+    </header>
+    <main class="main-container">
+        <section class="pets-container">
+            <h2>Selecciona una mascota para ver o modificar su historial</h2>
+            <div class="form-group">
+                <label for="petSelect">Mascotas:</label>
+                <select id="petSelect" name="id_pet">
+                    <!-- Opciones llenadas dinámicamente -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="action-button" id="viewHistory">Ver Historial Médico</button>
+            </div>
+        </section>
+        <section class="history-container" id="historyContainer" style="display: none;">
+            <h2>Historial Médico</h2>
+            <ul id="historyList">
+                <!-- Aquí se llenará el historial médico dinámicamente -->
+            </ul>
+            <form id="modifyHistoryForm" style="display: none;">
+                <h3>Modificar Historial Médico</h3>
+                <label for="vaccines">Vacunas:</label>
+                <input type="text" id="vaccines" name="vaccines">
+                <label for="observations">Observaciones:</label>
+                <textarea id="observations" name="observations"></textarea>
+                <label for="first_cons_date">Fecha de la primera consulta:</label>
+                <input type="date" id="first_cons_date" name="first_cons_date">
+                <button type="submit" class="action-button">Guardar Cambios</button>
+            </form>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+    </footer>
+    <script src="../static/JS/viewPets.js"></script>
+</body>
+</html>

@@ -14,6 +14,7 @@ from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory
 from passlib.context import CryptContext
 import logging
 from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 async def server_status_middleware(request: Request, call_next):
     if getattr(app, 'just_restarted', True):
@@ -145,11 +146,60 @@ async def get_modify_history(request: Request, db: Session = Depends(get_db)):
         }
     )
 
+#Obtener viewPests
+@app.get("/viewPets")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_view_pets(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        return RedirectResponse(url="/login", status_code=303)
+
+    return templates.TemplateResponse(
+        "viewPets.html",
+        {"request": request}
+    )
+
 @app.get("/getMyPets")
-@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])  # Permitir acceso a roles relevantes
-async def get_all_pets(request: Request, db: Session = Depends(get_db)):
-    # Obtener todas las mascotas de la tabla Pet
-    pets = db.query(Pet).all()
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_my_pets(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    print("USER ID:", user_id)  
+
+    pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
+    print("MASCOTAS:", pets)  
+
+    return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+@app.get("/viewHistory/{id_pet}")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def view_pet_history(id_pet: int, request: Request, db: Session = Depends(get_db)):
+    print(f"Consultando historial médico para mascota con id {id_pet}")
+    history = db.query(MedicHistory).filter(MedicHistory.id_pet == id_pet).all()
+    
+    return jsonable_encoder([
+        {
+            "date": record.first_cons_date,
+            "description": record.observations
+        } for record in history
+    ])
+
+@app.get("/getMyPets")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_my_pets(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    print("USER ID:", user_id)
+    print("USER ROLE:", user_role)
+
+    # Si el usuario es Veterinario o Administrador, devolver todas las mascotas
+    if user_role in ["Veterinario", "Administrador de la tienda"]:
+        pets = db.query(Pet).all()
+    else:
+        # Si el usuario es Cliente, devolver solo sus mascotas
+        pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
+
+    print("MASCOTAS:", pets)
+
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
 @app.get("/serv")

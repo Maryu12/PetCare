@@ -2,18 +2,6 @@ from functools import wraps
 from fastapi import Request, HTTPException
 import logging
 
-"""
-    Decorador para verificar el rol del usuario.
-    :param allowed_roles: Lista de roles permitidos.
-
-    forma de representar decorador:
-    @role_required(["Administrador de la tienda", "Veterinario"])
-    """
-
-from functools import wraps
-from fastapi import Request, HTTPException
-import logging
-
 def role_required(allowed_roles):
     def decorator(func):
         @wraps(func)
@@ -39,6 +27,7 @@ def role_required(allowed_roles):
                     status_code=403,
                     detail="No tienes permiso para realizar esta acción"
                 )
+            # Llamar a la función decorada sin pasar `request` explícitamente
             return await func(*args, **kwargs)
         return wrapper
     return decorator
