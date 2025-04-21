@@ -16,6 +16,7 @@ class User(Base):
     rol = relationship("Rol", back_populates="users")
     pets = relationship("Pet", back_populates="owner")
     orders = relationship("Order", back_populates="user")
+    veterinarian = relationship("Veterinarian", back_populates="user")
 
 class Rol(Base):
     __tablename__ = 'rol'
@@ -65,7 +66,9 @@ class Veterinarian(Base):
     email = Column(String(100))
     state = Column(String(20))
     description = Column(String(500))
+    id_user = Column(Integer, ForeignKey('users.id_user'))
 
+    user = relationship("User", back_populates="veterinarian")
     medical_history = relationship("MedicHistory", back_populates="veterinarian")
     appointments = relationship("Appointment", back_populates="veterinarian")
 

@@ -89,8 +89,11 @@ class VeterinarianBase(BaseModel):
     state: str
     description: str
 
+class VeterinarianCreate(VeterinarianBase):
+    id_user: int
 class Veterinarian(VeterinarianBase):
     id_veterinarian: int
+    id_user: int
 
     class Config:
         orm_mode = True
