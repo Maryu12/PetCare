@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol, Pet, Veterinarian
+from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory
 from passlib.context import CryptContext
 import logging
 from fastapi.responses import JSONResponse
@@ -121,6 +121,36 @@ async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
         return JSONResponse(content={}, status_code=200)  # Retorna un objeto vacío si no existe el perfil
 
     return vet_profile
+
+@app.get("/modifyHistory")
+@role_required(["Veterinario", "Administrador de la tienda"])  
+async def get_modify_history(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Obtener el perfil del veterinario si existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    return templates.TemplateResponse(
+        "modifyHistory.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role,
+            "vet_profile": vet_profile
+        }
+    )
+
+@app.get("/getMyPets")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])  # Permitir acceso a roles relevantes
+async def get_all_pets(request: Request, db: Session = Depends(get_db)):
+    # Obtener todas las mascotas de la tabla Pet
+    pets = db.query(Pet).all()
+    return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
 @app.get("/serv")
 async def get_serv(request: Request):
@@ -391,6 +421,49 @@ async def create_or_update_vet_profile(
 
     return {"message": "Perfil guardado exitosamente"}
 
+@app.post("/modifyPetHistory")
+@role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder
+async def modify_pet_history(
+    request: Request,
+    id_pet: int = Form(...),
+    vaccines: str = Form(...),
+    observations: str = Form(...),
+    first_cons_date: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Obtener el veterinario asociado al usuario
+    veterinarian = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+    if not veterinarian:
+        raise HTTPException(status_code=403, detail="No autorizado")
+
+    # Crear o actualizar el historial médico
+    medic_history = db.query(MedicHistory).filter(MedicHistory.id_pet == id_pet).first()
+    if medic_history:
+        # Actualizar historial existente
+        medic_history.vaccines = vaccines
+        medic_history.observations = observations
+        medic_history.first_cons_date = first_cons_date
+        medic_history.id_veterinarian = veterinarian.id_veterinarian
+    else:
+        # Crear nuevo historial
+        medic_history = MedicHistory(
+            id_pet=id_pet,
+            id_veterinarian=veterinarian.id_veterinarian,
+            vaccines=vaccines,
+            observations=observations,
+            first_cons_date=first_cons_date
+        )
+        db.add(medic_history)
+
+    db.commit()
+    db.refresh(medic_history)
+
+    return {"message": "Historial médico guardado exitosamente"}
+
 # Por favor no tocar esto :)
 
 #Request del registro.html para generar las entradas de Mascota
@@ -408,6 +481,7 @@ if __name__ == "__main__":
 
 #Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
 #Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
-#Ya la mujer que quiero no me quiere, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
-#Maldita sea, tras de que no he terminado esto, la mujer que quiero no me quiere, lo lakers pierden el primer partido
+#Ya tengo demasiadas decepciones, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
+#Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
+#Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025

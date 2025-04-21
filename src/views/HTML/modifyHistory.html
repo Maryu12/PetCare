@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Historial Médico</title>
+    <link rel="stylesheet" href="../static/CSS/modifyHistory.css"> <!-- Enlace al archivo CSS -->
+</head>
+<body>
+    <header class="header">
+        <h1>Modificar Historial Médico</h1>
+    </header>
+    <main class="main-container">
+        <form id="modifyHistoryForm" method="POST" action="/modifyPetHistory">
+            <div class="form-group">
+                <label for="petSelect">Selecciona una mascota:</label>
+                <select id="petSelect" name="id_pet" required>
+                    <!-- Las opciones se llenarán dinámicamente -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="vaccines">Vacunas:</label>
+                <input type="text" id="vaccines" name="vaccines" placeholder="Vacunas aplicadas" required>
+            </div>
+            <div class="form-group">
+                <label for="observations">Observaciones:</label>
+                <textarea id="observations" name="observations" placeholder="Observaciones" rows="4" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="first_cons_date">Fecha de la primera consulta:</label>
+                <input type="date" id="first_cons_date" name="first_cons_date" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="action-button">Guardar Historial</button>
+            </div>
+        </form>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+    </footer>
+    <script src="../static/JS/modifyHistory.js"></script> <!-- Enlace al archivo JS -->
+</body>
+</html>
