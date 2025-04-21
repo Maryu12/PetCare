@@ -377,8 +377,10 @@ li {
     margin-bottom: 10px;
 }
 
+
 /*Maryu*/ 
 /*media queris*/ 
+
 
 @media (max-width: 768px) {
     .container {
@@ -410,3 +412,4 @@ li {
         right: 10px;
     }
 }
+

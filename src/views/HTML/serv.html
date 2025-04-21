@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/serv.css">
+    <title>Milenzo Servicios</title>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+            </a>
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            <a href="/login" class="login-button">Login</a>
+        </nav>
+    </header>
+
+    <div class="cascada">
+        <h2>Elige uno de nuestros Servicios:</h2>
+
+        <button class="elemento" data-modal="modal-bano">
+            <img src="../static/images/Baño1.png" alt="Baño" class="elemento-icon">
+            <span>Baño</span>
+        </button>
+        <div class="modal" id="modal-bano">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Servicio de Baño</h3>
+                <p>Descripción del servicio de baño.</p>
+                <form class="modal-form">
+                    <label for="opcion-bano">Selecciona una opción:</label>
+                    <select id="opcion-bano" name="opcion-bano">
+                        <option value="">-- Selecciona una opción --</option>
+                        <option value="espuma">Baño con espuma</option>
+                        <option value="medicado">Baño medicado</option>
+                        <option value="antipulgas">Baño antipulgas</option>
+                    </select>
+                    <label for="comentarios-bano">Comentarios o recomendaciones:</label>
+                    <textarea id="comentarios-bano" name="comentarios-bano" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-enviar">Enviar</button>
+                        <button type="button" class="btn-aceptar">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button class="elemento" data-modal="modal-peluqueria">
+            <img src="../static/images/Peluqueria1.png" alt="Peluquería" class="elemento-icon">
+            <span>Corte</span>
+        </button>
+        <div class="modal" id="modal-peluqueria">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Servicio de Peluquería</h3>
+                <p>Descripción del servicio de peluquería.</p>
+                <form class="modal-form">
+                    <label for="opcion-peluqueria">Selecciona una opción:</label>
+                    <select id="opcion-peluqueria" name="opcion-peluqueria">
+                        <option value="">-- Selecciona una opción --</option>
+                        <option value="corte-completo">Corte completo</option>
+                        <option value="higienico">Corte higiénico</option>
+                        <option value="estilizado">Corte estilizado</option>
+                    </select>
+                    <label for="comentarios-peluqueria">Comentarios o recomendaciones:</label>
+                    <textarea id="comentarios-peluqueria" name="comentarios-peluqueria" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-enviar">Enviar</button>
+                        <button type="button" class="btn-aceptar">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button class="elemento" data-modal="modal-consulta">
+            <img src="../static/images/Consulta1.png" alt="Consulta" class="elemento-icon">
+            <span>Consulta</span>
+        </button>
+        <div class="modal" id="modal-consulta">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Consulta Veterinaria</h3>
+                <p>Descripción del servicio de consulta.</p>
+                <form class="modal-form">
+                    <label for="opcion-consulta">Tipo de consulta:</label>
+                    <select id="opcion-consulta" name="opcion-consulta">
+                        <option value="">-- Selecciona una opción --</option>
+                        <option value="general">Consulta general</option>
+                        <option value="especialista">Consulta con especialista</option>
+                        <option value="emergencia">Emergencia</option>
+                    </select>
+                    <label for="comentarios-consulta">Comentarios o recomendaciones:</label>
+                    <textarea id="comentarios-consulta" name="comentarios-consulta" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
+                    <div class="modal-buttons">
+                        <button type="submit" class="btn-enviar">Enviar</button>
+                        <button type="button" class="btn-aceptar">Aceptar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <button class="elemento" data-modal="modal-control">
+            <img src="../static/images/Control1.png" alt="Control" class="elemento-icon">
+            <span>Control</span>
+        </button>
+        <div id="modal-control" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('control')">&times;</span>
+                <h2>Control Veterinario</h2>
+                <p>Realiza un control veterinario para tu mascota y lleva un registro de las evaluaciones realizadas.</p>
+                <div class="modal-form">
+                    <label for="control-mascota">Seleccionar mascota</label>
+                    <select id="control-mascota">
+                        <option value="mascota1">Mascota 1</option>
+                        <option value="mascota2">Mascota 2</option>
+                        <option value="mascota3">Mascota 3</option>
+                    </select>
+                    <label for="control-tipo">Tipo de control</label>
+                    <select id="control-tipo">
+                        <option value="vacuna">Vacuna</option>
+                        <option value="revision">Revisión</option>
+                        <option value="evaluacion">Evaluación general</option>
+                    </select>
+                    <label for="control-fecha">Fecha del control</label>
+                    <input type="date" id="control-fecha">
+                    <label for="control-comentarios">Comentarios adicionales</label>
+                    <textarea id="control-comentarios" rows="3" placeholder="Escribe detalles sobre el control aquí..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="closeModal('control')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendData('control')">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="elemento" data-modal="modal-historial">
+            <img src="../static/images/Historial1.png" alt="Historial" class="elemento-icon">
+            <span>Historial</span>
+        </button>
+        <div id="modal-historial" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('historial')">&times;</span>
+                <h2>Historial Médico</h2>
+                <p>Consulta el historial médico de tu mascota y agrega detalles adicionales si es necesario.</p>
+                <div class="modal-form">
+                    <label for="historial-mascota">Seleccionar mascota</label>
+                    <select id="historial-mascota">
+                        <option value="mascota1">Mascota 1</option>
+                        <option value="mascota2">Mascota 2</option>
+                        <option value="mascota3">Mascota 3</option>
+                    </select>
+                    <label for="historial-comentarios">Comentarios adicionales</label>
+                    <textarea id="historial-comentarios" rows="3" placeholder="Escribe detalles sobre el historial aquí..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="closeModal('historial')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendData('historial')">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="elemento" data-modal="modal-veterinarios">
+            <img src="../static/images/Veterinarios1.png" alt="veterinarios" class="elemento-icon">
+            <span>veterinarios</span>
+        </button>
+        <div id="modal-veterinarios" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('veterinarios')">&times;</span>
+                <h2>Veterinarios</h2>
+                <p>Selecciona un veterinario y agrega tus preguntas o notas.</p>
+                <div class="modal-form">
+                    <label for="veterinarios-preferido">Seleccionar veterinario</label>
+                    <select id="veterinarios-preferido">
+                        <option value="veterinario1">Veterinario 1</option>
+                        <option value="veterinario2">Veterinario 2</option>
+                        <option value="veterinario3">Veterinario 3</option>
+                    </select>
+                    <label for="veterinarios-notas">Notas o preguntas</label>
+                    <textarea id="veterinarios-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="closeModal('veterinarios')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendData('veterinarios')">Enviar</button>
+                </div>
+            </div>
+        </div>
+
+
+        <button class="elemento" data-modal="modal-guarderia">
+            <img src="../static/images/Guarderia.png" alt="Guarderia" class="elemento-icon">
+            <span>Guarderia</span>
+        </button>
+        <div id="modal-guarderia" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('guarderia')">&times;</span>
+                <h2>Guardería</h2>
+                <p>Descripción del servicio de guardería.</p>
+                <div class="modal-form">
+                    <label for="guarderia-hora">Seleccionar hora</label>
+                    <select id="guarderia-hora">
+                        <option value="9am">9:00 AM</option>
+                        <option value="10am">10:00 AM</option>
+                        <option value="11am">11:00 AM</option>
+                    </select>
+                    <label for="guarderia-notas">Notas adicionales</label>
+                    <textarea id="guarderia-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="closeModal('guarderia')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendData('guarderia')">Enviar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
+            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>   
+        </div>
+    </footer>
+    <div id="modal-privacidad" class="modal-serv">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
+          <h2>Política de Privacidad</h2>
+          <p>🛡️ Última actualización: abril de 2025
+
+            <p> En MilenzoPet, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
+               
+                <p> ¿Qué información recopilamos?
+                    <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
+                    <p>*Información sobre tus mascotas (nombre, especie, edad).
+                    <p>*Historial de citas y servicios utilizados.
+                    <p>*Datos de navegación y uso de la plataforma (cookies y análisis estadístico).
+               
+                 <p>¿Cómo usamos tus datos?
+                    <p>*Para agendar y gestionar citas veterinarias y servicios relacionados.
+                    <p>*Para personalizar tu experiencia en la plataforma.
+                    <p>*Para contactar contigo en relación con tus solicitudes o servicios.
+                    <p>*Para fines estadísticos y de mejora continua del servicio.
+               
+                <p>¿Con quién compartimos tus datos?
+                    <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
+            Tus derechos
+                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@milenzopet.com.</p>
+        </div>
+      </div>
+      
+      <div id="modal-terminos" class="modal-serv">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
+          <h2>Términos y Condiciones</h2>
+          <p>📜Bienvenido a MilenzoPet
+          <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
+           
+          <p> Uso de la plataforma:
+
+            <p> *El usuario se compromete a brindar información veraz y actualizada.
+            
+            <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
+            
+            <p></p>*MilenzoPet se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
+            
+            <p> Servicios:
+            
+                <p></p>*MilenzoPet facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
+            
+                <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
+            
+            <p>Propiedad intelectual: 
+            
+                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de MilenzoPet y no pueden ser utilizados sin autorización previa.
+           
+            <p> Modificaciones:
+            
+                <p>* MilenzoPet puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
+        </div>
+      </div>
+      
+      <div id="modal-contacto" class="modal-serv">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
+          <h2>Contacto</h2>
+          <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
+
+            <p> *Email: contacto@milenzopet.com
+            <p> *Teléfono: +52 305 4846421
+            <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
+            <p> *Redes sociales:
+            <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
+        </div>
+      </div>
+      
+
+    <script src="../static/JS/serv.js"></script>
+</body>
+</html>

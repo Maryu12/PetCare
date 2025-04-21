@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Veterinario</title>
+    <link rel="stylesheet" href="../static/CSS/perf_vet.css"> <!-- Enlace al archivo CSS -->
+</head>
+<body>
+    <header class="header">
+        <h1>Perfil Veterinario</h1>
+    </header>
+    <main class="main-container">
+        <form id="vetProfileForm" method="POST" action="/createOrUpdateVetProfile">
+            <div class="form-group">
+                <label for="name_vet">Nombre:</label>
+                <input type="text" id="name_vet" name="name_vet" placeholder="Nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Apellido:</label>
+                <input type="text" id="last_name" name="last_name" placeholder="Apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
+            </div>
+            <div class="form-group">
+                <label for="state">¿Realiza Domicilios?</label>
+                <select id="state" name="state" required>
+                    <option value="Sí">Sí</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción Profesional:</label>
+                <textarea id="description" name="description" placeholder="Detalles profesionales" rows="4" required></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="action-button">Guardar Perfil</button>
+            </div>
+        </form>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+    </footer>
+    <script src="../static/JS/perf_vet.js"></script>
+</body>
+</html>

@@ -4,17 +4,31 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.middleware import Middleware
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol
+from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory
 from passlib.context import CryptContext
 import logging
+from fastapi.responses import JSONResponse
+
+async def server_status_middleware(request: Request, call_next):
+    if getattr(app, 'just_restarted', True):
+        response = RedirectResponse(url="/login")
+        response.delete_cookie("user_id")
+        response.delete_cookie("user_role")
+        app.just_restarted = False
+        return response
+    return await call_next(request)
 
 
 app = FastAPI()
 app.add_middleware(GZipMiddleware)
+app.just_restarted = True 
+app.middleware("http")(server_status_middleware)
 
 #Configuracion de Directorios para cada vista 
 
@@ -32,26 +46,214 @@ async def read_root(request: Request, name: str = Form(...), email: str = Form(.
     return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
 
 @app.get("/")
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+async def read_root(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None 
 
+    # Obtener el nombre del usuario si está logueado
+    user_name = None
+    if is_logged_in:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if user:
+            user_name = user.u_name
 
-@app.get("/addPet")
-async def get_add_pet(request: Request):
-    return templates.TemplateResponse("addPet.html", {"request": request})
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name})
 
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+@app.get("/perf_vet")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_perf_vet(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Obtener el perfil del veterinario si existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    return templates.TemplateResponse(
+        "perf_vet.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role,
+            "vet_profile": vet_profile
+        }
+    )
+
+@app.get("/serv_vet")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    return templates.TemplateResponse(
+        "serv_vet.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role
+        }
+    )
+
+@app.get("/getVetProfile")
+@role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
+async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Buscar el perfil del veterinario en la base de datos
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+    if not vet_profile:
+        return JSONResponse(content={}, status_code=200)  # Retorna un objeto vacío si no existe el perfil
+
+    return vet_profile
+
+@app.get("/modifyHistory")
+@role_required(["Veterinario", "Administrador de la tienda"])  
+async def get_modify_history(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+
+    if not is_logged_in:
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Obtener el perfil del veterinario si existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    return templates.TemplateResponse(
+        "modifyHistory.html",
+        {
+            "request": request,
+            "is_logged_in": is_logged_in,
+            "user_role": user_role,
+            "vet_profile": vet_profile
+        }
+    )
+
+@app.get("/getMyPets")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])  # Permitir acceso a roles relevantes
+async def get_all_pets(request: Request, db: Session = Depends(get_db)):
+    # Obtener todas las mascotas de la tabla Pet
+    pets = db.query(Pet).all()
+    return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+@app.get("/serv")
+async def get_serv(request: Request):
+    return templates.TemplateResponse("serv.html", {"request": request})
+
+@app.get("/about")
+async def get_about(request: Request):
+    return templates.TemplateResponse("about.html", {"request": request})
+
+@app.get("/myPets")
+async def get_my_pets(request: Request):
+    return templates.TemplateResponse("myPets.html", {"request": request})
+
+@app.get("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def get_add_pet(request: Request):
+    return templates.TemplateResponse("addPet.html", {"request": request})
+
+@app.post("/addPet")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def add_pet(
+    request: Request,
+    pet_name: str = Form(...),
+    sexo: str = Form(...),
+    especie: str = Form(...),
+    edad: int = Form(...),
+    descripcion: str = Form(None),
+    birthdate: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+    
+    try:
+        new_pet = Pet(
+            id_owner=user_id,
+            pet_name=pet_name,
+            species=especie,
+            birthdate=birthdate,
+            detalle=descripcion,
+            sexo=sexo,
+            edad=edad
+        )
+        db.add(new_pet)
+        db.commit()
+        db.refresh(new_pet)
+        return RedirectResponse(url="/myPets", status_code=303)
+    except Exception as e:
+        logging.error(f"Error al registrar mascota: {str(e)}")
+        db.rollback()
+        return templates.TemplateResponse(
+            "addPet.html",
+            {
+                "request": request,
+                "error": "Error al registrar la mascota. Intente nuevamente."
+            }
+        )
+    
+#Post para obtener los datos de las mascotas del usuario
+@app.get("/myPetsData")
+@role_required(["Cliente", "Administrador de la tienda"])
+async def get_my_pets_data(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
+    return [{"pet_name": pet.pet_name, "species": pet.species, "edad": pet.edad} for pet in pets]
+
+@app.get("/manage_users")
+@role_required(["Administrador de la tienda", "Cliente"])
+async def get_manage_users(request: Request, db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return templates.TemplateResponse("manage_users.html", {"request": request, "users": users})
 
 # Por favor no tocar esto :)
 
-ROLE_URLS = {
-    "Cliente": "/cliente/dashboard",
-    "Veterinario": "/vet/dashboard",
-    "Administrador de la tienda": "/admin/dashboard"
-}
+@app.post("/admin/users/assign-role")
+@role_required(["Administrador de la tienda", "Cliente"])
+async def assign_role(
+    request: Request,
+    user_id: int = Form(...),
+    new_role: int = Form(...),
+    db: Session = Depends(get_db)
+):
+    try:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="Usuario no encontrado")
+        
+        # Asignar nuevo rol al usuario
+        user.id_rol = new_role
+        db.commit()
+        db.refresh(user)
+        
+        return {"message": "Rol asignado correctamente"}
+    except Exception as e:
+        logging.error(f"Error al asignar rol: {str(e)}")
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Error al asignar rol")
+
+
 
 @app.post("/login")
 async def login(
@@ -72,17 +274,27 @@ async def login(
     # 2. Obtener rol
     rol = db.query(Rol).filter(Rol.id_rol == user.id_rol).first()
     
-    if not rol or rol.description not in ROLE_URLS:
+    if not rol:
         raise HTTPException(
             status_code=403,
             detail="Rol no tiene dashboard asignado"
         )
     
+
     response = RedirectResponse(
-        url=ROLE_URLS[rol.description],
+        url="/",
         status_code=303
     )
-    response.set_cookie(key="user_role", value=rol.description)
+   # response.set_cookie(key="user_role", value=rol.description)
+
+    response.set_cookie(
+        key="user_id",
+        value=user.id_user,
+        httponly=True,
+        secure=True,  
+        samesite="lax"
+    )
+    
     
     # 3. Crear sesión 
     response.set_cookie(
@@ -99,52 +311,6 @@ def get_current_role(request: Request, user_role: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="No autenticado")
     return user_role
 
-"""
-@app.get("/admin/dashboard")
-async def admin_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Administrador de la tienda":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para administradores"
-        )
-    return templates.TemplateResponse(
-        "admin_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/vet/dashboard")
-async def vet_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Veterinario":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para veterinarios"
-        )
-    return templates.TemplateResponse(
-        "vet_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-
-@app.get("/cliente/dashboard")
-async def client_dashboard(
-    request: Request,
-    user_role: str = Cookie(None)
-):
-    if user_role != "Cliente":
-        raise HTTPException(
-            status_code=403,
-            detail="Solo para clientes"
-        )
-    return templates.TemplateResponse(
-        "client_dashboard.html",
-        {"request": request, "user_role": user_role}
-    )
-"""
 
 
 @app.get("/logout")
@@ -207,6 +373,96 @@ async def register_user(
                 "show_register": True
             }
         )
+    
+from fastapi import Form
+
+@app.post("/createOrUpdateVetProfile")
+@role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder
+async def create_or_update_vet_profile(
+    request: Request,
+    name_vet: str = Form(...),
+    last_name: str = Form(...),
+    telefono: str = Form(...),
+    email: str = Form(...),
+    state: str = Form(...),
+    description: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Verificar si el perfil ya existe
+    vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+
+    if vet_profile:
+        # Actualizar perfil existente
+        vet_profile.name_vet = name_vet
+        vet_profile.last_name = last_name
+        vet_profile.telefono = telefono
+        vet_profile.email = email
+        vet_profile.state = state
+        vet_profile.description = description
+    else:
+        # Crear nuevo perfil
+        vet_profile = Veterinarian(
+            id_user=user_id,
+            name_vet=name_vet,
+            last_name=last_name,
+            telefono=telefono,
+            email=email,
+            state=state,
+            description=description
+        )
+        db.add(vet_profile)
+
+    db.commit()
+    db.refresh(vet_profile)
+
+    return {"message": "Perfil guardado exitosamente"}
+
+@app.post("/modifyPetHistory")
+@role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder
+async def modify_pet_history(
+    request: Request,
+    id_pet: int = Form(...),
+    vaccines: str = Form(...),
+    observations: str = Form(...),
+    first_cons_date: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # Obtener el veterinario asociado al usuario
+    veterinarian = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+    if not veterinarian:
+        raise HTTPException(status_code=403, detail="No autorizado")
+
+    # Crear o actualizar el historial médico
+    medic_history = db.query(MedicHistory).filter(MedicHistory.id_pet == id_pet).first()
+    if medic_history:
+        # Actualizar historial existente
+        medic_history.vaccines = vaccines
+        medic_history.observations = observations
+        medic_history.first_cons_date = first_cons_date
+        medic_history.id_veterinarian = veterinarian.id_veterinarian
+    else:
+        # Crear nuevo historial
+        medic_history = MedicHistory(
+            id_pet=id_pet,
+            id_veterinarian=veterinarian.id_veterinarian,
+            vaccines=vaccines,
+            observations=observations,
+            first_cons_date=first_cons_date
+        )
+        db.add(medic_history)
+
+    db.commit()
+    db.refresh(medic_history)
+
+    return {"message": "Historial médico guardado exitosamente"}
 
 # Por favor no tocar esto :)
 
@@ -223,4 +479,9 @@ async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: s
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
-#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan
+#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
+#Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
+#Ya tengo demasiadas decepciones, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
+#Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
+#Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
+#Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
