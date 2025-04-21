@@ -30,6 +30,7 @@
             <div class="form-actions">
                 <a href="/addPet" class="action-button">Registrar nueva mascota</a>
                 <button type="button" class="action-button" id="viewPetsBtn">Ver Mis Mascotas</button>
+                <a href="/viewPets" class="action-button" id="viewHistoryBtn">Ver Historial Médico</a>
             </div>
         </div>
     </div>
@@ -42,6 +43,23 @@
             <ul id="petsList">
                 <!-- Aquí se llenarán las mascotas dinámicamente -->
             </ul>
+        </div>
+    </div>
+
+    <!-- Modal para seleccionar mascota y ver historial -->
+    <div id="historyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('historyModal')">&times;</span>
+            <h3>Selecciona una mascota</h3>
+            <div class="form-group">
+                <label for="petSelect">Mascotas:</label>
+                <select id="petSelect" name="id_pet">
+                    <!-- Opciones llenadas dinámicamente -->
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="action-button" id="viewHistory">Ver Historial</button>
+            </div>
         </div>
     </div>
 

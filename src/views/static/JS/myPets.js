@@ -34,4 +34,50 @@ document.addEventListener("DOMContentLoaded", () => {
             modal.style.display = "none";
         }
     };
+
+    const historyModal = document.getElementById("historyModal");
+    const viewHistoryBtn = document.getElementById("viewHistoryBtn");
+    const petSelect = document.getElementById("petSelect");
+    const viewHistory = document.getElementById("viewHistory");
+
+    // Abrir el modal al hacer clic en el botón
+    viewHistoryBtn.addEventListener("click", async () => {
+        historyModal.style.display = "block";
+
+        // Llamar al backend para obtener las mascotas
+        try {
+            const response = await fetch("/getMyPets");
+            if (response.ok) {
+                const pets = await response.json();
+                petSelect.innerHTML = ""; // Limpiar opciones previas
+
+                // Agregar opciones al desplegable
+                pets.forEach(pet => {
+                    const option = document.createElement("option");
+                    option.value = pet.id_pet;
+                    option.textContent = `${pet.pet_name} - ${pet.species}`;
+                    petSelect.appendChild(option);
+                });
+            } else {
+                console.error("No se pudieron cargar las mascotas.");
+            }
+        } catch (error) {
+            console.error("Error al cargar las mascotas:", error);
+        }
+    });
+
+    // Cerrar el modal
+    window.closeModal = function (modalId) {
+        document.getElementById(modalId).style.display = "none";
+    };
+
+    // Ver historial de la mascota seleccionada
+    viewHistory.addEventListener("click", () => {
+        const selectedPetId = petSelect.value;
+        if (selectedPetId) {
+            window.location.href = `/viewHistory/${selectedPetId}`;
+        } else {
+            alert("Por favor, selecciona una mascota.");
+        }
+    });
 });
