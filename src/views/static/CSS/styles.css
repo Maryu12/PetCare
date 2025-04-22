@@ -15,7 +15,7 @@ body {
     align-items: center;
     min-height: 100vh;
 
-    /* ✅ Ajustado para dejar espacio al header fijo */
+    
     padding-top: 100px;
 
     padding-bottom: 120px;
@@ -62,6 +62,21 @@ nav {
 .nav-logo img:hover {
     transform: scale(1.1);
 }
+/* Estilo para el mensaje de bienvenida */
+.nav-message {
+    font-size: 30px;
+    font-weight: bold;
+    color: #333;
+    text-align: center; 
+    background-color: #bbc2c2;
+    padding: 8px 100px;
+    border-radius:15px;
+    margin: 0 auto; /* centra en el contenedor flex si se permite */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
 
 .nav-buttons {
     display: flex;
@@ -84,42 +99,6 @@ nav {
 .nav-button:hover {
     background-color: #ffffff;
     color: #6A9492;
-}
-
-/* Estilo para el contenedor del mensaje y botón de cerrar sesión */
-.user-info {
-    display: flex;
-    justify-content: center; /* mueve los hijos (texto y botón) a la derecha */
-    align-items: center;
-    gap: 10px;
-    width: 100%; /* necesario para que ocupe todo el ancho */
-    padding-right: 40px; /* ajusta este valor para moverlo más a la derecha */
-}
-
-/* Estilo para el mensaje de bienvenida */
-.welcome-message {
-    font-size: 14px;
-    color: #333;
-    text-align: center; /* Asegura que el texto esté centrado */
-}
-
-
-/* Estilo para el botón de cerrar sesión */
-.logout-button {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    padding: 5px 10px;
-    background-color: whitesmoke;
-    color: rgb(26, 24, 24);
-    text-decoration: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.logout-button:hover {
-    background-color: #cc0000;
 }
 
 .login-button {
@@ -161,7 +140,7 @@ nav {
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
     text-align: center;
     padding: 10px 20px;
-    background: rgba(22, 110, 110, 0.5); /* semitransparente para destacar */
+    background: rgba(22, 110, 110, 0.5); 
     border-radius: 20px;
 }
 
@@ -292,9 +271,9 @@ h2 {
     height: 100px;
     position: relative;
     margin-bottom: 30px;
-    border-radius: 0; /* eliminamos el borde redondeado para que cubra bien */
+    border-radius: 0; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-left: calc(-50vw + 50%); /* este truco lo centra de forma absoluta */
+    margin-left: calc(-50vw + 50%); 
 }
 
 

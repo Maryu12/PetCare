@@ -10,9 +10,7 @@
     <header class="container">
         <nav> 
             
-            <a href="/" class="nav-logo">
-                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
-            </a>
+            <a href="/" class="nav-logo"> <img src="../static/images/milen-2.png" alt="Logo Milenzo"></a>
            
             <div class="nav-buttons">
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
@@ -20,16 +18,14 @@
                 <a href="/about" class="nav-button">Nosotros</a>
                 <a href="/manage_users" class="nav-button">Ch Rol</a>
                 <a href="/serv_vet" class="nav-button">Vet</a>
+
+                {% if is_logged_in %}
+                        <p class="nav-message">¡Hola, {{ user_name }}!</p>
+                        <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+                {% else %}
+                    <a href="/login" class="login-button">Login</a>
+                {% endif %}
             </div>
-            
-             {% if is_logged_in %}
-                <div class="user-info">
-                    <p class="welcome-message">¡Hola, {{ user_name }}!</p>
-                    <a href="/logout" class="logout-button" >Cerrar Sesion</a>
-                </div>
-            {% else %}
-                <a href="/login" class="login-button">Login</a>
-            {% endif %}
         </nav>
     </header> 
     <div class="full-width-image">
