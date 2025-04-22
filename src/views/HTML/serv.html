@@ -176,9 +176,10 @@
                 <div class="modal-form">
                     <label for="veterinarios-preferido">Seleccionar veterinario</label>
                     <select id="veterinarios-preferido">
-                        <option value="veterinario1">Veterinario 1</option>
-                        <option value="veterinario2">Veterinario 2</option>
-                        <option value="veterinario3">Veterinario 3</option>
+                        <option value="" hidden selected>Seleccionar una opcion</option>                       
+                         <option value="1">Veterinario 1</option>
+                        <option value="2">Veterinario 2</option>
+                        <option value="3">Veterinario 3</option>
                     </select>
                     <label for="veterinarios-notas">Notas o preguntas</label>
                     <textarea id="veterinarios-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
@@ -188,9 +189,24 @@
                     <button class="btn-aceptar" onclick="cerrarModal('modal-veterinarios')">Aceptar</button>
                     <button class="btn-enviar" onclick="sendVeterinariosData()">Enviar</button>
                 </div>
-            </div>
-        </div>
+                
+        
+                                    <!-- MODAL DETALLE DEL VETERINARIO -->
+                                    <div id="modal-detalle-veterinario" class="modal" style="display: none;">
+                                        <div class="modal-content">
+                                        <h2>Información del Veterinario</h2>
+                                        <!-- Aquí tú agregas los datos dinámicamente -->
+                                        <div id="detalle-vet">
+                                            <!-- Vacío por ahora -->
+                                        </div>
+                                        <div class="modal-buttons">
+                                            <button onclick="document.getElementById('modal-detalle-veterinario').style.display = 'none';">Cerrar</button>
+                                        </div>
+                                        </div>
+                                    </div>
 
+            </div>               
+        </div>
         <button class="elemento" data-modal="modal-guarderia">
             <img src="../static/images/Guarderia.png" alt="Guarderia" class="elemento-icon">
             <span>Guarderia</span>

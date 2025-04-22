@@ -90,3 +90,18 @@ function sendVeterinariosData() {
     document.getElementById("veterinarios-notas").value = "";
 }
 
+// Codigo para la bd (no tocar perras)ni puta mierda
+//Falta implementar la obtencion de datos y el get para el main para obtener los datos desde la base de datos
+document.addEventListener("DOMContentLoaded", function () {
+  const selectVet = document.getElementById("veterinarios-preferido");
+
+  selectVet.addEventListener("change", function () {
+    const seleccion = selectVet.value;
+
+    if (seleccion !== "") {
+      document.getElementById("modal-detalle-veterinario").style.display = "block";
+    }
+  });
+});
+
+

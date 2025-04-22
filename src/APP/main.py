@@ -426,6 +426,7 @@ async def register_user(
     
 from fastapi import Form
 
+
 @app.post("/createOrUpdateVetProfile")
 @role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder
 async def create_or_update_vet_profile(
@@ -523,9 +524,14 @@ async def get_registro(request: Request):
 
 @app.post("/registro")
 async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: str = Form(...), Mascota3: str = Form(...)):
-    # Aquí puedes hacer lo que necesites con los datos, como guardarlos en una base de datos
-    return templates.TemplateResponse("Reg.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
+        return templates.TemplateResponse("Reg.html", {"request": request, "Mascota1": Mascota1, "Mascota2": Mascota2, "Mascota3": Mascota3})
 
+##codigo para conectar la bd con los vet list de serv.html
+
+
+
+
+##
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
@@ -535,3 +541,4 @@ if __name__ == "__main__":
 #Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
 #Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
+#Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
