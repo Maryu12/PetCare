@@ -171,7 +171,6 @@
         </button>
         <div id="modal-veterinarios" class="modal">
             <div class="modal-content">
-                <span class="close" onclick="closeModal('veterinarios')">&times;</span>
                 <h2>Veterinarios</h2>
                 <p>Selecciona un veterinario y agrega tus preguntas o notas.</p>
                 <div class="modal-form">
@@ -184,13 +183,13 @@
                     <label for="veterinarios-notas">Notas o preguntas</label>
                     <textarea id="veterinarios-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
                 </div>
+                <div id="veterinarios-confirmacion"></div>
                 <div class="modal-buttons">
-                    <button class="btn-aceptar" onclick="closeModal('veterinarios')">Aceptar</button>
-                    <button class="btn-enviar" onclick="sendData('veterinarios')">Enviar</button>
+                    <button class="btn-aceptar" onclick="cerrarModal('modal-veterinarios')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendVeterinariosData()">Enviar</button>
                 </div>
             </div>
         </div>
-
 
         <button class="elemento" data-modal="modal-guarderia">
             <img src="../static/images/Guarderia.png" alt="Guarderia" class="elemento-icon">
