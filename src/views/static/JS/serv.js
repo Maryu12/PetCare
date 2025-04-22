@@ -34,15 +34,24 @@ function abrirModal(id) {
 }
 
 function cerrarModal(id) {
-const modal = document.getElementById(id);
+    const modal = document.getElementById(id);
     if (modal) {
         modal.style.display = 'none';
 
         // Limpia los campos del formulario si el modal es "modal-veterinarios"
-        if (id === 'modal-veterinarios') {
+        /*if (id === 'modal-veterinarios') {
             document.getElementById("veterinarios-preferido").value = "";
             document.getElementById("veterinarios-notas").value = "";
             const confirmacion = document.getElementById("veterinarios-confirmacion");
+            confirmacion.style.display = "none";
+            confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
+        }*/
+
+        // Limpia los campos del formulario si el modal es "modal-consulta"
+        if (id === 'modal-consulta') {
+            document.getElementById("opcion-consulta").value = "";
+            document.getElementById("comentarios-consulta").value = "";
+            const confirmacion = document.getElementById("consulta-confirmacion");
             confirmacion.style.display = "none";
             confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
         }
@@ -64,35 +73,43 @@ for (let i = 0; i < modales.length; i++) {
         confirmacion.style.display = "none";
         confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
     }
+    
+    if (id === 'modal-consulta') {
+        document.getElementById("opcion-consulta").value = "";
+        document.getElementById("comentarios-consulta").value = "";
+        const confirmacion = document.getElementById("consulta-confirmacion");
+        confirmacion.style.display = "none";
+        confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
+    }
     }
 }
 };
 
-function sendVeterinariosData() {
-    const veterinario = document.getElementById("veterinarios-preferido").value;
-    const notas = document.getElementById("veterinarios-notas").value;
+function sendConsultaData() {
+    const tipoConsulta = document.getElementById("opcion-consulta").value;
+    const comentarios = document.getElementById("comentarios-consulta").value;
 
-    if (!veterinario || !notas) {
+    if (!tipoConsulta || !comentarios) {
         alert("Por favor, completa todos los campos antes de enviar.");
         return;
     }
 
-    const confirmacion = document.getElementById("veterinarios-confirmacion");
+    const confirmacion = document.getElementById("consulta-confirmacion");
     confirmacion.innerHTML = `
         <p>¡Se logró reservar el servicio correctamente!</p>
-        <p><strong>Veterinario:</strong> ${veterinario}</p>
-        <p><strong>Descripción:</strong> ${notas}</p>
+        <p><strong>Tipo de consulta:</strong> ${tipoConsulta}</p>
+        <p><strong>Comentarios:</strong> ${comentarios}</p>
     `;
     confirmacion.style.display = "block";
 
-    // Opcional: Limpiar los campos después de enviar
-    document.getElementById("veterinarios-preferido").value = "";
-    document.getElementById("veterinarios-notas").value = "";
+    // Limpiar los campos después de enviar
+    document.getElementById("opcion-consulta").value = "";
+    document.getElementById("comentarios-consulta").value = "";
 }
 
 // Codigo para la bd (no tocar perras)ni puta mierda
 //Falta implementar la obtencion de datos y el get para el main para obtener los datos desde la base de datos
-document.addEventListener("DOMContentLoaded", function () {
+/*document.addEventListener("DOMContentLoaded", function () {
   const selectVet = document.getElementById("veterinarios-preferido");
 
   selectVet.addEventListener("change", function () {
@@ -102,7 +119,49 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("modal-detalle-veterinario").style.display = "block";
     }
   });
-});
+});*/
+
+function mostrarDetalleVeterinario(veterinarioId) {
+    const detalleVet = document.getElementById("detalle-vet");
+
+    // Información de ejemplo para los veterinarios
+    const veterinariosInfo = {
+        "1": {
+            nombre: "Dr. Juan Pérez",
+            especialidad: "Especialista en pequeños animales",
+            experiencia: "10 años de experiencia en medicina veterinaria",
+            contacto: "juan.perez@milenzopet.com | +57 305 1234567"
+        },
+        "2": {
+            nombre: "Dra. María López",
+            especialidad: "Cirugía y emergencias",
+            experiencia: "8 años de experiencia en cirugía veterinaria",
+            contacto: "maria.lopez@milenzopet.com | +57 305 7654321"
+        },
+        "3": {
+            nombre: "Dr. Carlos Gómez",
+            especialidad: "Dermatología y cuidado de la piel",
+            experiencia: "5 años de experiencia en dermatología veterinaria",
+            contacto: "carlos.gomez@milenzopet.com | +57 305 9876543"
+        }
+    };
+
+    // Obtén los datos del veterinario seleccionado
+    const veterinario = veterinariosInfo[veterinarioId];
+
+    if (veterinario) {
+        // Llena el modal con la información del veterinario
+        detalleVet.innerHTML = `
+            <p><strong>Nombre:</strong> ${veterinario.nombre}</p>
+            <p><strong>Especialidad:</strong> ${veterinario.especialidad}</p>
+            <p><strong>Experiencia:</strong> ${veterinario.experiencia}</p>
+            <p><strong>Contacto:</strong> ${veterinario.contacto}</p>
+        `;
+        document.getElementById("modal-detalle-veterinario").style.display = "block";
+    } else {
+        detalleVet.innerHTML = "<p>No se encontró información para este veterinario.</p>";
+    }
+}
 
 function guarderia(){
     

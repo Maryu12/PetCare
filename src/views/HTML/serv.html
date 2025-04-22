@@ -86,9 +86,9 @@
             <img src="../static/images/Consulta1.png" alt="Consulta" class="elemento-icon">
             <span>Consulta</span>
         </button>
-        <div class="modal" id="modal-consulta">
+        <div id="modal-consulta" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
+                <span class="close" onclick="cerrarModal('modal-consulta')">&times;</span>
                 <h3>Consulta Veterinaria</h3>
                 <p>Descripción del servicio de consulta.</p>
                 <form class="modal-form">
@@ -101,11 +101,12 @@
                     </select>
                     <label for="comentarios-consulta">Comentarios o recomendaciones:</label>
                     <textarea id="comentarios-consulta" name="comentarios-consulta" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
-                    <div class="modal-buttons">
-                        <button type="submit" class="btn-enviar">Enviar</button>
-                        <button type="button" class="btn-aceptar">Aceptar</button>
-                    </div>
                 </form>
+                <div id="consulta-confirmacion"></div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="cerrarModal('modal-consulta')">Aceptar</button>
+                    <button class="btn-enviar" onclick="sendConsultaData()">Enviar</button>
+                </div>
             </div>
         </div>
 
@@ -191,23 +192,22 @@
                 <div id="veterinarios-confirmacion"></div>
                 <div class="modal-buttons">
                     <button class="btn-aceptar" onclick="cerrarModal('modal-veterinarios')">Aceptar</button>
-                    <button class="btn-enviar" onclick="sendVeterinariosData()">Enviar</button>
+                    <button class="btn-enviar" onclick="mostrarDetalleVeterinario(document.getElementById('veterinarios-preferido').value)">Ver Detalle</button>
                 </div>
                 
-        
-                                    <!-- MODAL DETALLE DEL VETERINARIO -->
-                                    <div id="modal-detalle-veterinario" class="modal" style="display: none;">
-                                        <div class="modal-content">
-                                        <h2>Información del Veterinario</h2>
-                                        <!-- Aquí tú agregas los datos dinámicamente -->
-                                        <div id="detalle-vet">
-                                            <!-- Vacío por ahora -->
-                                        </div>
-                                        <div class="modal-buttons">
-                                            <button onclick="document.getElementById('modal-detalle-veterinario').style.display = 'none';">Cerrar</button>
-                                        </div>
-                                        </div>
-                                    </div>
+                <!-- MODAL DETALLE DEL VETERINARIO -->
+                <div id="modal-detalle-veterinario" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <h2>Información del Veterinario</h2>
+                        <!-- Aquí tú agregas los datos dinámicamente -->
+                        <div id="detalle-vet">
+                        <!-- Vacío por ahora -->
+                        </div>
+                        <div class="modal-buttons">
+                            <button class="btn-aceptar" onclick="document.getElementById('modal-detalle-veterinario').style.display = 'none';">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
 
             </div>               
         </div>
