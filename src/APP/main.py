@@ -219,6 +219,14 @@ async def get_my_pets(request: Request):
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
 
+@app.post("/guardar")
+async def guardar_datos(nombre: str = Form(...)):
+    
+    print("Guardando:", nombre)
+    
+    
+    return RedirectResponse(url="/mascotas", status_code=303)
+
 @app.post("/addPet")
 @role_required(["Cliente", "Administrador de la tienda"])
 async def add_pet(

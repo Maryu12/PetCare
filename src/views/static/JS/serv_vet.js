@@ -1,5 +1,3 @@
-/* filepath: c:\Users\trivi\Desktop\Programacion\Code\Milenzo\Milenzo_dev\Milenzo\src\static\js\addPet.js */
-
 function abrirModal(id) {
     document.getElementById(id).style.display = 'block';
   }

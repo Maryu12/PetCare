@@ -10,3 +10,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("description").value = profile.description || "";
     }
 });
+
+function abrirModal(id) {
+    document.getElementById(id).style.display = 'block';
+  }
+
+function cerrarModal(id) {
+document.getElementById(id).style.display = 'none';
+}
+
+// Cierra el modal si se hace clic fuera de él
+window.onclick = function(event) {
+const modales = document.getElementsByClassName('modal');
+    for (let i = 0; i < modales.length; i++) {
+        if (event.target === modales[i]) {
+        modales[i].style.display = 'none';
+        }
+    }
+};

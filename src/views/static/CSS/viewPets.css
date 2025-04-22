@@ -137,9 +137,9 @@ nav {
 }
 .form-group {
     display: flex;
-    align-items: center; /* Alinea verticalmente */
-    gap: 10px; /* Espacio entre label y select */
-    justify-content: center; /* Centra horizontalmente */
+    align-items: center; 
+    gap: 10px; 
+    justify-content: center; 
 }
 .form-group label {
     font-family: 'Poppins', sans-serif;
@@ -217,6 +217,8 @@ nav {
 .action-button:hover {
     background-color: #4d6f6d;
 }
+
+/*--------------------------------------------------------------- pie de pagina------------------------------------------------------------------- */
 
 .footer {
     background-color: #166E6E;

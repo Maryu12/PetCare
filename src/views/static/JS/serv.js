@@ -90,3 +90,7 @@ function sendVeterinariosData() {
     document.getElementById("veterinarios-notas").value = "";
 }
 
+function guarderia(){
+    
+}
+
