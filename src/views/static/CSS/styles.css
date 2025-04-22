@@ -67,15 +67,11 @@ nav {
     font-size: 30px;
     font-weight: bold;
     color: #333;
-    text-align: center; 
+    text-align: center;
     background-color: #bbc2c2;
     padding: 8px 100px;
     border-radius:15px;
-    margin: 0 auto; /* centra en el contenedor flex si se permite */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+    align-items: center; 
 }
 
 .nav-buttons {
@@ -114,6 +110,22 @@ nav {
 }
 
 .login-button:hover {
+    background-color: #ffffff;
+    color: #6A9492;
+}
+.logout-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #6A9492;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.logout-button:hover {
     background-color: #ffffff;
     color: #6A9492;
 }
@@ -308,9 +320,9 @@ h2 {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
-  }
-  
-  .modal-contenido {
+    }
+
+.modal-contenido {
     background-color: #fff;
     margin: auto;
     padding: 20px;
@@ -324,22 +336,22 @@ h2 {
     margin-bottom: 15px;   
     text-align: justify; 
     padding: 30px; 
-  }
-  
-  .cerrar {
+}
+
+.cerrar {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
-  }
-  
-  .cerrar:hover {
+}
+
+.cerrar:hover {
     color: black;
-  }
-  
-  @keyframes fadeIn {
+}
+
+@keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}
-  }
+}
 

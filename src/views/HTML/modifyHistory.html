@@ -7,8 +7,25 @@
     <link rel="stylesheet" href="../static/CSS/modifyHistory.css"> <!-- Enlace al archivo CSS -->
 </head>
 <body>
-    <header class="header">
-        <h1>Modificar Historial Médico</h1>
+    <header class="container">
+        <nav> 
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+            </a>
+            <!-- Botones principales -->
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            {% if is_logged_in %}
+                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+            </div>
+        </nav>
     </header>
     <main class="main-container">
         <form id="modifyHistoryForm" method="POST" action="/modifyPetHistory">

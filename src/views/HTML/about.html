@@ -20,8 +20,12 @@
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
-            <!-- Botón Login -->
-            <a href="/login" class="login-button">Login</a>
+            {% if is_logged_in %}
+                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+            </div>
         </nav>
     </header> 
 
@@ -137,6 +141,6 @@
             <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
         </div>
       </div>
-     <script src="../static/JS/serv.js"></script>
+     <script src="../static/JS/about.js"></script>
 </body>
 </html>

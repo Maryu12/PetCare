@@ -535,3 +535,4 @@ if __name__ == "__main__":
 #Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
 #Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
+#estar triste es malo, no estes triste
