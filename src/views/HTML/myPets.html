@@ -19,8 +19,11 @@
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
-            <!-- Botón Login -->
-            <a href="/login" class="login-button">Login</a>
+            {% if is_logged_in %}
+                <a href="/logout" class="logout-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
         </nav>
     </header> 
     <div class="form-card">
@@ -43,23 +46,6 @@
             <ul id="petsList">
                 <!-- Aquí se llenarán las mascotas dinámicamente -->
             </ul>
-        </div>
-    </div>
-
-    <!-- Modal para seleccionar mascota y ver historial -->
-    <div id="historyModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('historyModal')">&times;</span>
-            <h3>Selecciona una mascota</h3>
-            <div class="form-group">
-                <label for="petSelect">Mascotas:</label>
-                <select id="petSelect" name="id_pet">
-                    <!-- Opciones llenadas dinámicamente -->
-                </select>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="action-button" id="viewHistory">Ver Historial</button>
-            </div>
         </div>
     </div>
 
@@ -142,9 +128,7 @@
             <p> *Redes sociales:
             <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
         </div>
-      </div>
-     <script src="../static/JS/serv.js"></script>
-       
-    <script src="../static/JS/myPets.js"></script>
+      </div>      
+<script src="../static/JS/myPets.js"></script>
 </body>
 </html>

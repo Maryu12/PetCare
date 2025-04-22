@@ -219,6 +219,14 @@ async def get_my_pets(request: Request):
 async def get_add_pet(request: Request):
     return templates.TemplateResponse("addPet.html", {"request": request})
 
+@app.post("/guardar")
+async def guardar_datos(nombre: str = Form(...)):
+    
+    print("Guardando:", nombre)
+    
+    
+    return RedirectResponse(url="/mascotas", status_code=303)
+
 @app.post("/addPet")
 @role_required(["Cliente", "Administrador de la tienda"])
 async def add_pet(
@@ -542,3 +550,4 @@ if __name__ == "__main__":
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
 #Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
 #Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
+#estar triste es malo, no estes triste

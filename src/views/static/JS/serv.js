@@ -31,10 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function abrirModal(id) {
     document.getElementById(id).style.display = 'block';
-  }
+}
 
-  function cerrarModal(id) {
-    const modal = document.getElementById(id);
+function cerrarModal(id) {
+const modal = document.getElementById(id);
     if (modal) {
         modal.style.display = 'none';
 
@@ -47,26 +47,26 @@ function abrirModal(id) {
             confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
         }
     }
-  }
+}
 
   // Cierra el modal si se hace clic fuera de él
-  window.onclick = function(event) {
-    const modales = document.getElementsByClassName('modal');
-    for (let i = 0; i < modales.length; i++) {
-      if (event.target === modales[i]) {
-        modales[i].style.display = 'none';
+window.onclick = function(event) {
+const modales = document.getElementsByClassName('modal');
+for (let i = 0; i < modales.length; i++) {
+    if (event.target === modales[i]) {
+    modales[i].style.display = 'none';
 
-        // Limpia los campos del formulario si el modal es "modal-veterinarios"
-        if (modales[i].id === 'modal-veterinarios') {
-            document.getElementById("veterinarios-preferido").value = "";
-            document.getElementById("veterinarios-notas").value = "";
-            const confirmacion = document.getElementById("veterinarios-confirmacion");
-            confirmacion.style.display = "none";
-            confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
-        }
-      }
+    // Limpia los campos del formulario si el modal es "modal-veterinarios"
+    if (modales[i].id === 'modal-veterinarios') {
+        document.getElementById("veterinarios-preferido").value = "";
+        document.getElementById("veterinarios-notas").value = "";
+        const confirmacion = document.getElementById("veterinarios-confirmacion");
+        confirmacion.style.display = "none";
+        confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
     }
-  };
+    }
+}
+};
 
 function sendVeterinariosData() {
     const veterinario = document.getElementById("veterinarios-preferido").value;
@@ -104,4 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+function guarderia(){
+    
+}
 
