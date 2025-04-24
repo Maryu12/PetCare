@@ -551,3 +551,5 @@ if __name__ == "__main__":
 #Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
 #Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
 #estar triste es malo, no estes triste
+#Malditas esto es solo pa mi, no toque mi leyenda att: el programador/TRIVI 21/4/2025 🔫🔫🔫
+
