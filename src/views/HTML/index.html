@@ -26,6 +26,14 @@
                     <a href="/login" class="login-button">Login</a>
                 {% endif %}
             </div>
+
+            {% if is_logged_in %}
+                        <p class="nav-message">¡Hola, {{ user_name }}!</p>
+                        <a href="/logout" class="logout-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+
         </nav>
     </header> 
     <div class="full-width-image">
@@ -169,7 +177,7 @@
             <p> *Teléfono: +52 305 4846421
             <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
             <p> *Redes sociales:
-            <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
+            <p> *Instagram / Facebook / Twitter: @MilenzoPetShop</p>
         </div>
       </div>
       <script src="../static/JS/index.js"></script>
