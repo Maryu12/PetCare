@@ -50,19 +50,21 @@ La plataforma permite administrar eficientemente registros de mascotas, historia
 
 ## 📁 Estructura del Proyecto
 
+```plaintext
+Milenzo/
 ├── src/
-│ ├── APP/
-│ │ └── main.py # Punto de entrada de la aplicación
-│ ├── controllers/
-│ │ ├── auth.py # Control de autenticación y roles
-│ │ └── ... # Otros controladores
-│ ├── models/
-│ │ └── models_db.py # Modelos de base de datos
-│ └── views/
-│ ├── HTML/ # Plantillas HTML
-│ └── static/
-│ ├── CSS/ # Estilos CSS
-│ ├── JS/ # Scripts JavaScript
-│ └── images/ # Imágenes y recursos
-├── requirements.txt # Dependencias del proyecto
-└── README.md # Documentación
+│   ├── APP/
+│   │   └── main.py           # Punto de entrada de la aplicación
+│   ├── controllers/
+│   │   ├── auth.py           # Control de autenticación y roles
+│   │   └── ...               # Otros controladores
+│   ├── models/
+│   │   └── models_db.py      # Modelos de base de datos
+│   └── views/
+│       ├── HTML/             # Plantillas HTML
+│       └── static/
+│           ├── CSS/          # Estilos CSS
+│           ├── JS/           # Scripts JavaScript
+│           └── images/       # Imágenes y recursos
+├── requirements.txt          # Dependencias del proyecto
+└── README.md                 # Documentación
