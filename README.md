@@ -1,53 +1,68 @@
-Milenzo - Sistema de Gestión Veterinaria
-Descripción General
-Milenzo es una aplicación web integral diseñada para la gestión de clínicas veterinarias y tiendas de mascotas. La plataforma permite administrar eficientemente registros de mascotas, historiales médicos, clientes y servicios veterinarios con una interfaz intuitiva y funcional.
+# Milenzo - Sistema de Gestión Veterinaria
 
-Tecnologías Utilizadas
+## 📄 Descripción General
 
-Backend: FastAPI, SQLAlchemy
-Frontend: HTML, CSS, JavaScript
-Base de Datos: SQLite/PostgreSQL
-Autenticación: Sistema de cookies con manejo de roles
-Deployment: Docker (opcional)
+**Milenzo** es una aplicación web integral diseñada para la gestión de clínicas veterinarias y tiendas de mascotas.  
+La plataforma permite administrar eficientemente registros de mascotas, historiales médicos, clientes y servicios veterinarios con una interfaz intuitiva y funcional.
 
+---
 
-Características Principales
+## 🛠️ Tecnologías Utilizadas
 
-Gestión de Mascotas
-Registro de nuevas mascotas
-Visualización de mascotas por propietario
-Historial médico completo por mascota
-Filtrado de mascotas según diversos criterios
-Historiales Médicos
-Creación y edición de historiales médicos
-Registro de vacunas, tratamientos y observaciones
-Fechas de consultas y seguimiento
-Acceso diferenciado según rol de usuario
+- **Backend:** FastAPI, SQLAlchemy  
+- **Frontend:** HTML, CSS, JavaScript  
+- **Base de Datos:** SQLite / PostgreSQL  
+- **Autenticación:** Sistema de cookies con manejo de roles  
+- **Deployment:** Docker  
 
+---
 
-Sistema de Usuarios y Roles
+## 🚀 Características Principales
 
-Cliente: Acceso a sus propias mascotas e historiales
-Veterinario: Acceso a todas las mascotas para gestionar historiales médicos
-Administrador: Control total del sistema
-Servicios
-Catálogo de servicios disponibles
-Programación de citas
+### 🐾 Gestión de Mascotas
+- Registro de nuevas mascotas  
+- Visualización de mascotas por propietario  
+- Historial médico completo por mascota  
+- Filtrado de mascotas según diversos criterios  
 
-Milenzo/
+### 🩺 Historiales Médicos
+- Creación y edición de historiales médicos  
+- Registro de vacunas, tratamientos y observaciones  
+- Fechas de consultas y seguimiento  
+- Acceso diferenciado según rol de usuario  
+
+---
+
+## 👥 Sistema de Usuarios y Roles
+
+- **Cliente:** Acceso a sus propias mascotas e historiales  
+- **Veterinario:** Acceso a todas las mascotas para gestionar historiales médicos  
+- **Administrador:** Control total del sistema  
+
+---
+
+## 🧾 Servicios
+
+- Catálogo de servicios disponibles  
+- Programación de citas  
+
+---
+
+## 📁 Estructura del Proyecto
+
 ├── src/
-│   ├── APP/
-│   │   └── main.py           # Punto de entrada de la aplicación
-│   ├── controllers/
-│   │   ├── auth.py           # Control de autenticación y roles
-│   │   └── ...               # Otros controladores
-│   ├── models/
-│   │   └── models_db.py      # Modelos de base de datos
-│   └── views/
-│       ├── HTML/             # Plantillas HTML
-│       └── static/
-│           ├── CSS/          # Estilos CSS
-│           ├── JS/           # Scripts JavaScript
-│           └── images/       # Imágenes y recursos
-├── requirements.txt          # Dependencias del proyecto
-└── README.md                 # Documentación
+│ ├── APP/
+│ │ └── main.py # Punto de entrada de la aplicación
+│ ├── controllers/
+│ │ ├── auth.py # Control de autenticación y roles
+│ │ └── ... # Otros controladores
+│ ├── models/
+│ │ └── models_db.py # Modelos de base de datos
+│ └── views/
+│ ├── HTML/ # Plantillas HTML
+│ └── static/
+│ ├── CSS/ # Estilos CSS
+│ ├── JS/ # Scripts JavaScript
+│ └── images/ # Imágenes y recursos
+├── requirements.txt # Dependencias del proyecto
+└── README.md # Documentación
