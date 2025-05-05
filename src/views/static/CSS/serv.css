@@ -358,7 +358,7 @@ to {opacity: 1;}
     line-height: 1.5;
 }
 
-#consulta-confirmacion {
+.modal-confirmacion {
     display: none;
     margin-top: 20px;
     padding: 15px;

@@ -38,20 +38,19 @@ function cerrarModal(id) {
     if (modal) {
         modal.style.display = 'none';
 
-        // Limpia los campos del formulario si el modal es "modal-veterinarios"
-        /*if (id === 'modal-veterinarios') {
-            document.getElementById("veterinarios-preferido").value = "";
-            document.getElementById("veterinarios-notas").value = "";
-            const confirmacion = document.getElementById("veterinarios-confirmacion");
-            confirmacion.style.display = "none";
-            confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
-        }*/
+        // Limpia los campos del formulario dentro del modal
+        const inputs = modal.querySelectorAll("input, textarea, select");
+        inputs.forEach(input => {
+            if (input.tagName === "SELECT") {
+                input.selectedIndex = 0; // Reinicia los selects
+            } else {
+                input.value = ""; // Limpia los inputs y textareas
+            }
+        });
 
-        // Limpia los campos del formulario si el modal es "modal-consulta"
-        if (id === 'modal-consulta') {
-            document.getElementById("opcion-consulta").value = "";
-            document.getElementById("comentarios-consulta").value = "";
-            const confirmacion = document.getElementById("consulta-confirmacion");
+        // Oculta el mensaje de confirmación si existe
+        const confirmacion = modal.querySelector(".modal-confirmacion");
+        if (confirmacion) {
             confirmacion.style.display = "none";
             confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
         }
@@ -84,28 +83,6 @@ for (let i = 0; i < modales.length; i++) {
     }
 }
 };
-
-function sendConsultaData() {
-    const tipoConsulta = document.getElementById("opcion-consulta").value;
-    const comentarios = document.getElementById("comentarios-consulta").value;
-
-    if (!tipoConsulta || !comentarios) {
-        alert("Por favor, completa todos los campos antes de enviar.");
-        return;
-    }
-
-    const confirmacion = document.getElementById("consulta-confirmacion");
-    confirmacion.innerHTML = `
-        <p>¡Se logró reservar el servicio correctamente!</p>
-        <p><strong>Tipo de consulta:</strong> ${tipoConsulta}</p>
-        <p><strong>Comentarios:</strong> ${comentarios}</p>
-    `;
-    confirmacion.style.display = "block";
-
-    // Limpiar los campos después de enviar
-    document.getElementById("opcion-consulta").value = "";
-    document.getElementById("comentarios-consulta").value = "";
-}
 
 // Codigo para la bd (no tocar perras)ni puta mierda
 //Falta implementar la obtencion de datos y el get para el main para obtener los datos desde la base de datos
@@ -162,8 +139,41 @@ function mostrarDetalleVeterinario(veterinarioId) {
         detalleVet.innerHTML = "<p>No se encontró información para este veterinario.</p>";
     }
 }
+ 
+function mostrarMensajeExito(modalId, detalles) {
+    const confirmacion = document.querySelector(`#${modalId} .modal-confirmacion`);
+    confirmacion.innerHTML = `
+        <p>¡Agendamiento exitoso! Servicio enviado correctamente.</p>
+        <p><strong>Detalles del servicio:</strong></p>
+        ${detalles}
+    `;
+    confirmacion.style.display = "block";
+}
 
-function guarderia(){
-    
+function limpiarCampos(modalId) {
+    const modal = document.getElementById(modalId);
+    const inputs = modal.querySelectorAll("input, textarea, select");
+    inputs.forEach(input => {
+        if (input.tagName === "SELECT") {
+            input.selectedIndex = 0;
+        } else {
+            input.value = "";
+        }
+    });
+}
+
+function manejarBotonEnviar(modalId) {
+    const modal = document.getElementById(modalId);
+    const detalles = Array.from(modal.querySelectorAll("input, textarea, select"))
+        .filter(input => input.value)
+        .map(input => `<p><strong>${input.previousElementSibling?.textContent || input.name}: </strong> ${input.value}</p>`)
+        .join("");
+
+    if (detalles) {
+        mostrarMensajeExito(modalId, detalles);
+        limpiarCampos(modalId);
+    } else {
+        alert("Por favor, completa todos los campos antes de enviar.");
+    }
 }
 
