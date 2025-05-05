@@ -195,11 +195,11 @@
                     <button class="btn-enviar" onclick="mostrarDetalleVeterinario(document.getElementById('veterinarios-preferido').value)">Ver Detalle</button>
                 </div>
                 
-                <!-- MODAL DETALLE DEL VETERINARIO -->
+               
                 <div id="modal-detalle-veterinario" class="modal" style="display: none;">
                     <div class="modal-content">
                         <h2>Información del Veterinario</h2>
-                        <!-- Aquí tú agregas los datos dinámicamente -->
+                       
                         <div id="detalle-vet">
                         <!-- Vacío por ahora -->
                         </div>
@@ -234,6 +234,35 @@
                     <button class="btn-aceptar" onclick="closeModal('guarderia')">Aceptar</button>
                     <button class="btn-enviar" onclick="sendData('guarderia')">Enviar</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="elemento" data-modal="modal-transporte">
+        <img src="../static/images/Transporte1.png" alt="Transporte" class="elemento-icon">
+        <span>Transporte</span>
+    </button>
+    <div id="modal-transporte" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('transporte')">&times;</span>
+            <h2>Servicio de Transporte</h2>
+            <p>Organiza el transporte para tu mascota de forma segura y cómoda.</p>
+            <div class="modal-form">
+                <label for="transporte-tipo">Tipo de transporte</label>
+                <select id="transporte-tipo">
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="ida">Solo ida</option>
+                    <option value="ida-vuelta">Ida y vuelta</option>
+                    <option value="urgente">Servicio urgente</option>
+                </select>
+                <label for="transporte-direccion">Dirección de recogida</label>
+                <input type="text" id="transporte-direccion" placeholder="Escribe la dirección...">
+                <label for="transporte-comentarios">Comentarios adicionales</label>
+                <textarea id="transporte-comentarios" rows="3" placeholder="Escribe detalles importantes..."></textarea>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn-aceptar" onclick="closeModal('transporte')">Aceptar</button>
+                <button class="btn-enviar" onclick="sendData('transporte')">Enviar</button>
             </div>
         </div>
     </div>
