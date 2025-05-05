@@ -552,4 +552,4 @@ if __name__ == "__main__":
 #Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
 #estar triste es malo, no estes triste
 #Malditas esto es solo pa mi, no toque mi leyenda att: el programador/TRIVI 21/4/2025 🔫🔫🔫
-#Entonces socio, parece duro pues, de aqui sale solo uno vivo att: Yo 4/05/2025🔫🔫🔫🔫🔫🔫🔫🔫
+
