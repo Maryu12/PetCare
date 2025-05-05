@@ -11,7 +11,7 @@ La plataforma permite administrar eficientemente registros de mascotas, historia
 
 - **Backend:** FastAPI, SQLAlchemy  
 - **Frontend:** HTML, CSS, JavaScript  
-- **Base de Datos:** SQLite / PostgreSQL  
+- **Base de Datos:** PostgreSQL  
 - **Autenticación:** Sistema de cookies con manejo de roles  
 - **Deployment:** Docker  
 
