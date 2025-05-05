@@ -249,26 +249,47 @@
     </button>
     <div id="modal-transporte" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('modal-transporte')">&times;</span>
+            <span class="close" onclick="cerrarModal('transporte')">&times;</span>
             <h2>Servicio de Transporte</h2>
             <p>Organiza el transporte para tu mascota de forma segura y cómoda.</p>
-            <form class="modal-form">
+            <div class="modal-form">
+                <label for="transporte-mascota">Seleccionar mascota</label>
+                <select id="transporte-mascota" name="id_pet" required>
+                    <option value="">-- Selecciona una mascota --</option>
+                    <!-- Se llenará dinámicamente -->
+                </select>
+
                 <label for="transporte-tipo">Tipo de transporte</label>
-                <select id="transporte-tipo">
+                <select id="transporte-tipo" onchange="tipoTransporteChange()">
                     <option value="">-- Selecciona una opción --</option>
                     <option value="ida">Solo ida</option>
                     <option value="ida-vuelta">Ida y vuelta</option>
                     <option value="urgente">Servicio urgente</option>
                 </select>
-                <label for="transporte-direccion">Dirección de recogida</label>
-                <input type="text" id="transporte-direccion" placeholder="Escribe la dirección...">
+                
+                <label for="transporte-fecha">Fecha de recogida</label>
+                <input type="date" id="transporte-fecha" min="2025-05-06">
+                
+                <label for="transporte-hora">Hora de recogida</label>
+                <input type="time" id="transporte-hora">
+                
+                <label for="transporte-direccion-recogida">Dirección de recogida</label>
+                <input type="text" id="transporte-direccion-recogida" placeholder="Escribe la dirección de recogida...">
+                
+                <div id="transporte-vuelta-container" style="display: none;">
+                    <label for="transporte-fecha-vuelta">Fecha de vuelta</label>
+                    <input type="date" id="transporte-fecha-vuelta" min="2025-05-06">
+                    
+                    <label for="transporte-hora-vuelta">Hora de vuelta</label>
+                    <input type="time" id="transporte-hora-vuelta">
+                </div>
+                
                 <label for="transporte-comentarios">Comentarios adicionales</label>
-                <textarea id="transporte-comentarios" rows="3" placeholder="Escribe detalles importantes..."></textarea>
-            </form>
-            <div class="modal-confirmacion"></div>
+                <textarea id="transporte-comentarios" rows="3" placeholder="Detalles importantes sobre tu mascota, necesidades especiales..."></textarea>
+            </div>
             <div class="modal-buttons">
-                <button class="btn-enviar" onclick="manejarBotonEnviar('modal-transporte')">Enviar</button>
-                <button class="btn-aceptar" onclick="cerrarModal('modal-transporte')">Aceptar</button>
+                <button class="btn-aceptar" onclick="closeModal('transporte')">Cancelar</button>
+                <button class="btn-enviar" onclick="sendTransporteData()">Solicitar Transporte</button>
             </div>
         </div>
     </div>

@@ -455,3 +455,37 @@ to {opacity: 1;}
     font-weight: bold;
     color: #000;
 }
+
+/* Estilos para los campos de fecha y hora */
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Contenedor para los campos adicionales */
+#transporte-vuelta-container {
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 3px solid #4CAF50;
+    background-color: #f9f9f9;
+}
+
+/* Estilos para mejorar la visualización en móviles */
+@media screen and (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+    }
+    
+    input[type="date"],
+    input[type="time"],
+    input[type="text"],
+    select,
+    textarea {
+        font-size: 16px; /* Evita el zoom en iOS al enfocar campos */
+    }
+}

@@ -94,12 +94,15 @@ class VeterinarianCreate(VeterinarianBase):
 class Veterinarian(VeterinarianBase):
     id_veterinarian: int
     id_user: int
+    
 
     class Config:
         orm_mode = True
 
 class AppointmentBase(BaseModel):
     date_hour_status: str
+    fecha_rec: str  # Fecha de recogida
+    comentario: Optional[str] = None 
 
 class AppointmentCreate(AppointmentBase):
     id_pet: int
