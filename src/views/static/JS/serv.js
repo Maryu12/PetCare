@@ -1,130 +1,184 @@
+// Ejecutar cuando el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
-    const botones = document.querySelectorAll(".elemento");
-    const modales = document.querySelectorAll(".modal");
-    const cierres = document.querySelectorAll(".close");
-
-    // Mostrar modal clic en botón
+    // Configurar los listeners para abrir modales
+    const botones = document.querySelectorAll("[data-modal]");
     botones.forEach(boton => {
+        const modalId = boton.getAttribute("data-modal");
         boton.addEventListener("click", () => {
-            const modalId = boton.getAttribute("data-modal");
             const modal = document.getElementById(modalId);
-            if (modal) modal.style.display = "block";
-        });
-    });
-
-    // Cerrar modal
-    cierres.forEach(cerrar => {
-        cerrar.addEventListener("click", () => {
-            cerrar.closest(".modal").style.display = "none";
-        });
-    });
-
-    // Cerrar modal clic fuera del contenido
-    window.addEventListener("click", (event) => {
-        modales.forEach(modal => {
-            if (event.target === modal) {
-                modal.style.display = "none";
+            if (modal) {
+                modal.style.display = "block";
+                
+                // Si es el modal de transporte, configurarlo específicamente
+                if (modalId === "modal-transporte") {
+                    configurarModalTransporte();
+                }
             }
         });
     });
+
+    // Configurar cierre de modales al hacer clic en X
+    const cierres = document.querySelectorAll(".close");
+    cierres.forEach(cerrar => {
+        cerrar.addEventListener("click", () => {
+            const modal = cerrar.closest(".modal");
+            if (modal) {
+                cerrarModal(modal.id);
+            }
+        });
+    });
+
+    // Cerrar modal haciendo clic fuera del contenido
+    window.addEventListener("click", (event) => {
+        if (event.target.classList.contains('modal')) {
+            cerrarModal(event.target.id);
+        }
+    });
 });
 
-function abrirModal(id) {
-    document.getElementById(id).style.display = 'block';
+// Configurar el modal de transporte
+function configurarModalTransporte() {
+    console.log("Configurando modal de transporte");
+
+    // Cargar las mascotas del usuario
+    cargarMascotas();
+
+    // Configurar fecha mínima (hoy)
+    const today = new Date().toISOString().split('T')[0];
+    const inputFecha = document.getElementById('transporte-fecha');
+    if (inputFecha) inputFecha.min = today;
+
+    // Resetear el formulario
+    document.getElementById('transporte-tipo').value = '';
+    document.getElementById('transporte-fecha').value = '';
+    document.getElementById('transporte-hora').value = '';
+    document.getElementById('transporte-comentarios').value = '';
 }
 
+// Función para cargar mascotas desde el servidor
+async function cargarMascotas() {
+    try {
+        const response = await fetch("/getMyPets");
+        if (response.ok) {
+            const pets = await response.json();
+            const petSelect = document.getElementById("transporte-mascota");
+
+            // Limpiar el desplegable antes de llenarlo
+            petSelect.innerHTML = '<option value="">-- Selecciona una mascota --</option>';
+
+            // Agregar una opción por cada mascota
+            pets.forEach(pet => {
+                const option = document.createElement("option");
+                option.value = pet.id_pet;
+                option.textContent = `${pet.pet_name} - ${pet.species}`;
+                petSelect.appendChild(option);
+            });
+        } else {
+            console.warn("No se pudo obtener la lista de mascotas.");
+        }
+    } catch (error) {
+        console.error("Error al cargar la lista de mascotas:", error);
+    }
+}
+
+// Cambiar tipo de transporte
+function tipoTransporteChange() {
+    const tipoTransporte = document.getElementById('transporte-tipo').value;
+    const vueltaContainer = document.getElementById('transporte-vuelta-container');
+
+    if (vueltaContainer) {
+        vueltaContainer.style.display = tipoTransporte === 'ida-vuelta' ? 'block' : 'none';
+    }
+}
+
+// Función para cerrar y limpiar un modal
 function cerrarModal(id) {
+    console.log("Cerrando modal:", id);
     const modal = document.getElementById(id);
     if (modal) {
         modal.style.display = 'none';
-
-        // Limpia los campos del formulario si el modal es "modal-veterinarios"
-        /*if (id === 'modal-veterinarios') {
-            document.getElementById("veterinarios-preferido").value = "";
-            document.getElementById("veterinarios-notas").value = "";
-            const confirmacion = document.getElementById("veterinarios-confirmacion");
+        
+        // Limpieza específica para cada modal
+        if (id === 'modal-transporte') {
+            // Para transporte, no limpiamos el selector de mascotas ya que lo cargamos dinámicamente
+            document.getElementById('transporte-tipo').value = '';
+            document.getElementById('transporte-fecha').value = '';
+            document.getElementById('transporte-hora').value = '';
+            document.getElementById('transporte-direccion-recogida').value = '';
+            document.getElementById('transporte-comentarios').value = '';
+            
+            const vueltaContainer = document.getElementById('transporte-vuelta-container');
+            if (vueltaContainer) vueltaContainer.style.display = 'none';
+            
+            const fechaVuelta = document.getElementById('transporte-fecha-vuelta');
+            if (fechaVuelta) fechaVuelta.value = '';
+            
+            const horaVuelta = document.getElementById('transporte-hora-vuelta');
+            if (horaVuelta) horaVuelta.value = '';
+        } else {
+            // Para otros modales, limpiar todos los campos
+            const inputs = modal.querySelectorAll("input, textarea, select");
+            inputs.forEach(input => {
+                if (input.tagName === "SELECT") {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = "";
+                }
+            });
+        }
+        
+        // Ocultar mensaje de confirmación si existe
+        const confirmacion = modal.querySelector(".modal-confirmacion");
+        if (confirmacion) {
             confirmacion.style.display = "none";
-            confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
-        }*/
-
-        // Limpia los campos del formulario si el modal es "modal-consulta"
-        if (id === 'modal-consulta') {
-            document.getElementById("opcion-consulta").value = "";
-            document.getElementById("comentarios-consulta").value = "";
-            const confirmacion = document.getElementById("consulta-confirmacion");
-            confirmacion.style.display = "none";
-            confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
+            confirmacion.innerHTML = "";
         }
     }
 }
 
-  // Cierra el modal si se hace clic fuera de él
-window.onclick = function(event) {
-const modales = document.getElementsByClassName('modal');
-for (let i = 0; i < modales.length; i++) {
-    if (event.target === modales[i]) {
-    modales[i].style.display = 'none';
+// Enviar datos del formulario de transporte
+function sendTransporteData() {
+    const idPet = document.getElementById('transporte-mascota').value;
+    const transporteTipo = document.getElementById('transporte-tipo').value;
+    const fechaRecogida = document.getElementById('transporte-fecha').value;
+    const horaRecogida = document.getElementById('transporte-hora').value;
+    const comentarios = document.getElementById('transporte-comentarios').value;
 
-    // Limpia los campos del formulario si el modal es "modal-veterinarios"
-    if (modales[i].id === 'modal-veterinarios') {
-        document.getElementById("veterinarios-preferido").value = "";
-        document.getElementById("veterinarios-notas").value = "";
-        const confirmacion = document.getElementById("veterinarios-confirmacion");
-        confirmacion.style.display = "none";
-        confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
-    }
-    
-    if (id === 'modal-consulta') {
-        document.getElementById("opcion-consulta").value = "";
-        document.getElementById("comentarios-consulta").value = "";
-        const confirmacion = document.getElementById("consulta-confirmacion");
-        confirmacion.style.display = "none";
-        confirmacion.innerHTML = ""; // Limpia el contenido del mensaje
-    }
-    }
-}
-};
-
-function sendConsultaData() {
-    const tipoConsulta = document.getElementById("opcion-consulta").value;
-    const comentarios = document.getElementById("comentarios-consulta").value;
-
-    if (!tipoConsulta || !comentarios) {
-        alert("Por favor, completa todos los campos antes de enviar.");
+    if (!idPet || !transporteTipo || !fechaRecogida || !horaRecogida) {
+        alert('Por favor, completa todos los campos obligatorios.');
         return;
     }
 
-    const confirmacion = document.getElementById("consulta-confirmacion");
-    confirmacion.innerHTML = `
-        <p>¡Se logró reservar el servicio correctamente!</p>
-        <p><strong>Tipo de consulta:</strong> ${tipoConsulta}</p>
-        <p><strong>Comentarios:</strong> ${comentarios}</p>
-    `;
-    confirmacion.style.display = "block";
+    const data = {
+        id_pet: idPet,
+        tipo_transporte: transporteTipo,
+        fecha_recogida: fechaRecogida,
+        hora_recogida: horaRecogida,
+        comentarios: comentarios
+    };
 
-    // Limpiar los campos después de enviar
-    document.getElementById("opcion-consulta").value = "";
-    document.getElementById("comentarios-consulta").value = "";
+    fetch('/api/transporte', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Solicitud de transporte enviada con éxito.');
+                cerrarModal('modal-transporte');
+            } else {
+                alert('Hubo un error al enviar la solicitud.');
+            }
+        })
+        .catch(error => console.error('Error al enviar los datos:', error));
 }
 
-// Codigo para la bd (no tocar perras)ni puta mierda
-//Falta implementar la obtencion de datos y el get para el main para obtener los datos desde la base de datos
-/*document.addEventListener("DOMContentLoaded", function () {
-  const selectVet = document.getElementById("veterinarios-preferido");
-
-  selectVet.addEventListener("change", function () {
-    const seleccion = selectVet.value;
-
-    if (seleccion !== "") {
-      document.getElementById("modal-detalle-veterinario").style.display = "block";
-    }
-  });
-});*/
-
+// Mostrar información del veterinario
 function mostrarDetalleVeterinario(veterinarioId) {
     const detalleVet = document.getElementById("detalle-vet");
 
-    // Información de ejemplo para los veterinarios
     const veterinariosInfo = {
         "1": {
             nombre: "Dr. Juan Pérez",
@@ -146,11 +200,9 @@ function mostrarDetalleVeterinario(veterinarioId) {
         }
     };
 
-    // Obtén los datos del veterinario seleccionado
     const veterinario = veterinariosInfo[veterinarioId];
 
     if (veterinario) {
-        // Llena el modal con la información del veterinario
         detalleVet.innerHTML = `
             <p><strong>Nombre:</strong> ${veterinario.nombre}</p>
             <p><strong>Especialidad:</strong> ${veterinario.especialidad}</p>
@@ -163,7 +215,42 @@ function mostrarDetalleVeterinario(veterinarioId) {
     }
 }
 
-function guarderia(){
-    
+// Mensaje de confirmación al enviar servicio
+function mostrarMensajeExito(modalId, detalles) {
+    const confirmacion = document.querySelector(`#${modalId} .modal-confirmacion`);
+    confirmacion.innerHTML = `
+        <p>¡Agendamiento exitoso! Servicio enviado correctamente.</p>
+        <p><strong>Detalles del servicio:</strong></p>
+        ${detalles}
+    `;
+    confirmacion.style.display = "block";
 }
 
+// Limpiar campos manualmente (por ID de modal)
+function limpiarCampos(modalId) {
+    const modal = document.getElementById(modalId);
+    const inputs = modal.querySelectorAll("input, textarea, select");
+    inputs.forEach(input => {
+        if (input.tagName === "SELECT") {
+            input.selectedIndex = 0;
+        } else {
+            input.value = "";
+        }
+    });
+}
+
+// Manejar botón de enviar
+function manejarBotonEnviar(modalId) {
+    const modal = document.getElementById(modalId);
+    const detalles = Array.from(modal.querySelectorAll("input, textarea, select"))
+        .filter(input => input.value)
+        .map(input => `<p><strong>${input.previousElementSibling?.textContent || input.name}: </strong> ${input.value}</p>`)
+        .join("");
+
+    if (detalles) {
+        mostrarMensajeExito(modalId, detalles);
+        limpiarCampos(modalId);
+    } else {
+        alert("Por favor, completa todos los campos antes de enviar.");
+    }
+}

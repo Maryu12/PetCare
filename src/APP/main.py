@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException
+from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory
+from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory, Appointment
 from passlib.context import CryptContext
 import logging
 from fastapi.responses import JSONResponse
@@ -66,6 +66,10 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
+
+@app.get("/transporte")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("transporte.html", {"request": request})
 
 @app.get("/perf_vet")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -163,12 +167,89 @@ async def get_view_pets(request: Request, db: Session = Depends(get_db)):
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def get_my_pets(request: Request, db: Session = Depends(get_db)):
     user_id = request.cookies.get("user_id")
-    print("USER ID:", user_id)  
+    user_role = request.cookies.get("user_role")
 
-    pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
-    print("MASCOTAS:", pets)  
+    # Si el usuario es Veterinario o Administrador, devolver todas las mascotas
+    if user_role in ["Veterinario", "Administrador de la tienda"]:
+        pets = db.query(Pet).all()
+    else:
+        # Si el usuario es Cliente, devolver solo sus mascotas
+        pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+@app.post("/api/transporte")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_transporte(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    
+    # Determinar el ID del servicio según el tipo de transporte
+    tipo_transporte = data.get("tipo_transporte")
+    if tipo_transporte == "ida":
+        id_service = 2  # Solo ida
+    elif tipo_transporte in ["ida-vuelta", "urgente"]:
+        id_service = 5  # Ida y vuelta o servicio urgente
+    else:
+        raise HTTPException(status_code=400, detail="Tipo de transporte inválido")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=id_service,  # ID del servicio determinado
+        id_veterinarian=1,  # No aplica veterinario para transporte
+        date_hour_status=data.get("hora_recogida"),  # Hora de recogida
+        fecha_rec=data.get("fecha_recogida"),  # Fecha de recogida
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de transporte registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+@app.delete("/api/cancelAppointment/{id_appointment}")
+async def cancelar_servicio(id_appointment: int, db: Session = Depends(get_db)):
+    # Buscar el servicio en la base de datos
+    servicio = db.query(Appointment).filter(Appointment.id_appointment == id_appointment).first()
+
+    if not servicio:
+        raise HTTPException(status_code=404, detail="Servicio no encontrado")
+
+    # Eliminar el servicio
+    db.delete(servicio)
+    db.commit()
+
+    return {"success": True, "message": "Servicio cancelado con éxito"}
+
+@app.get("/api/getAppointments")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_appointments(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+
+    # Si el usuario es Cliente, devolver solo sus citas
+    if user_role == "Cliente":
+        appointments = db.query(Appointment).join(Pet).filter(Pet.id_owner == user_id).all()
+    else:
+        # Si es Veterinario o Administrador, devolver todas las citas
+        appointments = db.query(Appointment).all()
+
+    return [
+        {
+            "id_appointment": appointment.id_appointment,
+            "pet_name": appointment.pet.pet_name,
+            "tipo_transporte": "Ida" if appointment.id_service == 2 else "Ida y vuelta",
+            "fecha_recogida": appointment.fecha_rec,
+            "hora_recogida": appointment.date_hour_status,
+            "comentarios": appointment.comentario,
+        }
+        for appointment in appointments
+    ]
 
 @app.get("/viewHistory/{id_pet}")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])

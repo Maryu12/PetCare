@@ -80,6 +80,8 @@ class Appointment(Base):
     id_service = Column(Integer, ForeignKey('services.id_service'))
     id_veterinarian = Column(Integer, ForeignKey('veterinarian.id_veterinarian'))
     date_hour_status = Column(String(100))
+    fecha_rec = Column(String(200), nullable=True)  # Fecha de recogida
+    comentario = Column(String(200), nullable=True)  # Comentario
 
     pet = relationship("Pet", back_populates="appointments")
     service = relationship("Services", back_populates="appointments")
