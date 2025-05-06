@@ -1,97 +1,178 @@
+// Ejecutar cuando el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
+    // Configurar los listeners para abrir modales
     const botones = document.querySelectorAll("[data-modal]");
-    const modales = document.querySelectorAll(".modal");
-    const cierres = document.querySelectorAll(".close");
-
-    // Mostrar modal al hacer clic en el botón
     botones.forEach(boton => {
         const modalId = boton.getAttribute("data-modal");
         boton.addEventListener("click", () => {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = "block";
-
-                // Si es el modal de transporte, configura sus datos
+                
+                // Si es el modal de transporte, configurarlo específicamente
                 if (modalId === "modal-transporte") {
-                    cargarMascotas();
-
-                    const today = new Date().toISOString().split("T")[0];
-                    document.getElementById('transporte-fecha').min = today;
-                    document.getElementById('transporte-fecha-vuelta').min = today;
-
-                    // Resetear el formulario
-                    document.getElementById('transporte-tipo').value = '';
-                    document.getElementById('transporte-fecha').value = '';
-                    document.getElementById('transporte-hora').value = '';
-                    document.getElementById('transporte-direccion-recogida').value = '';
-                    document.getElementById('transporte-direccion-entrega').value = '';
-                    document.getElementById('transporte-fecha-vuelta').value = '';
-                    document.getElementById('transporte-hora-vuelta').value = '';
-                    document.getElementById('transporte-comentarios').value = '';
-                    document.getElementById('transporte-vuelta-container').style.display = 'none';
+                    configurarModalTransporte();
                 }
             }
         });
     });
 
-    // Cerrar modal al hacer clic en X
+    // Configurar cierre de modales al hacer clic en X
+    const cierres = document.querySelectorAll(".close");
     cierres.forEach(cerrar => {
         cerrar.addEventListener("click", () => {
             const modal = cerrar.closest(".modal");
-            if (modal) cerrarModal(modal.id);
+            if (modal) {
+                cerrarModal(modal.id);
+            }
         });
     });
 
     // Cerrar modal haciendo clic fuera del contenido
     window.addEventListener("click", (event) => {
-        modales.forEach(modal => {
-            if (event.target === modal) {
-                cerrarModal(modal.id);
-            }
-        });
+        if (event.target.classList.contains('modal')) {
+            cerrarModal(event.target.id);
+        }
     });
 });
 
+// Configurar el modal de transporte
+function configurarModalTransporte() {
+    console.log("Configurando modal de transporte");
+
+    // Cargar las mascotas del usuario
+    cargarMascotas();
+
+    // Configurar fecha mínima (hoy)
+    const today = new Date().toISOString().split('T')[0];
+    const inputFecha = document.getElementById('transporte-fecha');
+    if (inputFecha) inputFecha.min = today;
+
+    // Resetear el formulario
+    document.getElementById('transporte-tipo').value = '';
+    document.getElementById('transporte-fecha').value = '';
+    document.getElementById('transporte-hora').value = '';
+    document.getElementById('transporte-comentarios').value = '';
+}
+
+// Función para cargar mascotas desde el servidor
+async function cargarMascotas() {
+    try {
+        const response = await fetch("/getMyPets");
+        if (response.ok) {
+            const pets = await response.json();
+            const petSelect = document.getElementById("transporte-mascota");
+
+            // Limpiar el desplegable antes de llenarlo
+            petSelect.innerHTML = '<option value="">-- Selecciona una mascota --</option>';
+
+            // Agregar una opción por cada mascota
+            pets.forEach(pet => {
+                const option = document.createElement("option");
+                option.value = pet.id_pet;
+                option.textContent = `${pet.pet_name} - ${pet.species}`;
+                petSelect.appendChild(option);
+            });
+        } else {
+            console.warn("No se pudo obtener la lista de mascotas.");
+        }
+    } catch (error) {
+        console.error("Error al cargar la lista de mascotas:", error);
+    }
+}
+
+// Cambiar tipo de transporte
+function tipoTransporteChange() {
+    const tipoTransporte = document.getElementById('transporte-tipo').value;
+    const vueltaContainer = document.getElementById('transporte-vuelta-container');
+
+    if (vueltaContainer) {
+        vueltaContainer.style.display = tipoTransporte === 'ida-vuelta' ? 'block' : 'none';
+    }
+}
+
 // Función para cerrar y limpiar un modal
 function cerrarModal(id) {
+    console.log("Cerrando modal:", id);
     const modal = document.getElementById(id);
     if (modal) {
         modal.style.display = 'none';
-
-        // Limpieza general de inputs, textareas y selects
-        const inputs = modal.querySelectorAll("input, textarea, select");
-        inputs.forEach(input => {
-            if (input.tagName === "SELECT") {
-                input.selectedIndex = 0;
-            } else {
-                input.value = "";
-            }
-        });
-
-        // Ocultar mensaje de confirmación
+        
+        // Limpieza específica para cada modal
+        if (id === 'modal-transporte') {
+            // Para transporte, no limpiamos el selector de mascotas ya que lo cargamos dinámicamente
+            document.getElementById('transporte-tipo').value = '';
+            document.getElementById('transporte-fecha').value = '';
+            document.getElementById('transporte-hora').value = '';
+            document.getElementById('transporte-direccion-recogida').value = '';
+            document.getElementById('transporte-comentarios').value = '';
+            
+            const vueltaContainer = document.getElementById('transporte-vuelta-container');
+            if (vueltaContainer) vueltaContainer.style.display = 'none';
+            
+            const fechaVuelta = document.getElementById('transporte-fecha-vuelta');
+            if (fechaVuelta) fechaVuelta.value = '';
+            
+            const horaVuelta = document.getElementById('transporte-hora-vuelta');
+            if (horaVuelta) horaVuelta.value = '';
+        } else {
+            // Para otros modales, limpiar todos los campos
+            const inputs = modal.querySelectorAll("input, textarea, select");
+            inputs.forEach(input => {
+                if (input.tagName === "SELECT") {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = "";
+                }
+            });
+        }
+        
+        // Ocultar mensaje de confirmación si existe
         const confirmacion = modal.querySelector(".modal-confirmacion");
         if (confirmacion) {
             confirmacion.style.display = "none";
             confirmacion.innerHTML = "";
         }
-
-        // Limpieza específica para modales
-        if (id === 'modal-veterinarios') {
-            document.getElementById("veterinarios-preferido").value = "";
-            document.getElementById("veterinarios-notas").value = "";
-            const conf = document.getElementById("veterinarios-confirmacion");
-            conf.style.display = "none";
-            conf.innerHTML = "";
-        }
-
-        if (id === 'modal-consulta') {
-            document.getElementById("opcion-consulta").value = "";
-            document.getElementById("comentarios-consulta").value = "";
-            const conf = document.getElementById("consulta-confirmacion");
-            conf.style.display = "none";
-            conf.innerHTML = "";
-        }
     }
+}
+
+// Enviar datos del formulario de transporte
+function sendTransporteData() {
+    const idPet = document.getElementById('transporte-mascota').value;
+    const transporteTipo = document.getElementById('transporte-tipo').value;
+    const fechaRecogida = document.getElementById('transporte-fecha').value;
+    const horaRecogida = document.getElementById('transporte-hora').value;
+    const comentarios = document.getElementById('transporte-comentarios').value;
+
+    if (!idPet || !transporteTipo || !fechaRecogida || !horaRecogida) {
+        alert('Por favor, completa todos los campos obligatorios.');
+        return;
+    }
+
+    const data = {
+        id_pet: idPet,
+        tipo_transporte: transporteTipo,
+        fecha_recogida: fechaRecogida,
+        hora_recogida: horaRecogida,
+        comentarios: comentarios
+    };
+
+    fetch('/api/transporte', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Solicitud de transporte enviada con éxito.');
+                cerrarModal('modal-transporte');
+            } else {
+                alert('Hubo un error al enviar la solicitud.');
+            }
+        })
+        .catch(error => console.error('Error al enviar los datos:', error));
 }
 
 // Mostrar información del veterinario
@@ -171,86 +252,5 @@ function manejarBotonEnviar(modalId) {
         limpiarCampos(modalId);
     } else {
         alert("Por favor, completa todos los campos antes de enviar.");
-    }
-}
-
-// Cargar mascotas desde el servidor
-async function cargarMascotas() {
-    try {
-        console.log("Cargando mascotas...");
-        const response = await fetch('/getMyPets', { credentials: 'include' });
-
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`);
-        }
-
-        const mascotas = await response.json();
-        console.log("Mascotas recibidas:", mascotas);
-
-        const selectMascota = document.getElementById('transporte-mascota');
-
-        //while (selectMascota.options.length > 1) {
-          //  selectMascota.remove(1);
-        //}
-
-        mascotas.forEach(mascota => {
-            const option = document.createElement('option');
-            option.value = mascota.id_pet;
-            option.textContent = `${mascota.pet_name} (${mascota.species})`;
-            selectMascota.appendChild(option);
-        });
-    } catch (error) {
-        console.error('Error al cargar las mascotas:', error);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const transporteBtn = document.querySelector('[data-modal="modal-transporte"]');
-    transporteBtn.addEventListener('click', cargarMascotas);
-});
-
-// Cambiar tipo de transporte
-function tipoTransporteChange() {
-    const tipoTransporte = document.getElementById('transporte-tipo').value;
-    const vueltaContainer = document.getElementById('transporte-vuelta-container');
-
-    vueltaContainer.style.display = tipoTransporte === 'ida-vuelta' ? 'block' : 'none';
-}
-
-// Enviar datos del formulario de transporte
-async function sendTransporteData() {
-    const mascota = document.getElementById('transporte-mascota').value;
-    const fechaRecogida = document.getElementById('transporte-fecha').value;
-    const horaRecogida = document.getElementById('transporte-hora').value;
-    const comentarios = document.getElementById('transporte-comentarios').value;
-
-    if (!mascota || !fechaRecogida || !horaRecogida) {
-        alert('Por favor, completa todos los campos obligatorios');
-        return;
-    }
-
-    try {
-        const response = await fetch('/api/transporte', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id_pet: mascota,
-                fecha_recogida: fechaRecogida,
-                hora_recogida: horaRecogida,
-                comentarios: comentarios
-            }),
-            credentials: 'include'
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            alert(`Solicitud de transporte registrada correctamente. ID de la cita: ${data.appointment_id}`);
-            cerrarModal('modal-transporte');
-        } else {
-            alert('Error al registrar la solicitud de transporte');
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Error al enviar la solicitud');
     }
 }

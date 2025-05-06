@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/transporte.css">
+    <title>Servicio de Transporte</title>
+</head>
+<body>
+    <header class="container">
+        <nav>
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+            </a>
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Servicio de Transporte</h1>
+        <section class="form-section">
+            <h2>Agendar Transporte</h2>
+            <form id="transporte-form">
+                <label for="transporte-mascota">Seleccionar mascota</label>
+                <select id="transporte-mascota" name="id_pet" required>
+                    <option value="">-- Selecciona una mascota --</option>
+                </select>
+
+                <label for="transporte-tipo">Tipo de transporte</label>
+                <select id="transporte-tipo" name="tipo_transporte" required>
+                    <option value="">-- Selecciona una opción --</option>
+                    <option value="ida">Solo ida</option>
+                    <option value="ida-vuelta">Ida y vuelta</option>
+                </select>
+
+                <label for="transporte-fecha">Fecha de recogida</label>
+                <input type="date" id="transporte-fecha" name="fecha_recogida" required>
+
+                <label for="transporte-hora">Hora de recogida</label>
+                <input type="time" id="transporte-hora" name="hora_recogida" required>
+
+                <label for="transporte-comentarios">Comentarios adicionales</label>
+                <textarea id="transporte-comentarios" name="comentarios" rows="3" placeholder="Detalles importantes sobre tu mascota, necesidades especiales..."></textarea>
+
+                <button type="button" id="agendar-transporte">Agendar Transporte</button>
+            </form>
+        </section>
+
+        <section class="table-section">
+            <h2>Servicios Agendados</h2>
+            <table id="tabla-servicios">
+                <thead>
+                    <tr>
+                        <th>Mascota</th>
+                        <th>Tipo</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Comentarios</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los servicios se llenarán dinámicamente -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="../static/JS/transporte.js"></script>
+</body>
+</html>
