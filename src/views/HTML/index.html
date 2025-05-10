@@ -16,9 +16,13 @@
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
-                <a href="/manage_users" class="nav-button">Ch Rol</a>
-                <a href="/serv_vet" class="nav-button">Vet</a>
 
+                {% if user_role == 'Administrador de la tienda' %}
+                    <a href="/manage_users" class="nav-button">Ch Rol</a>
+                    <a href="/serv_vet" class="nav-button">Vet</a>
+                {% elif user_role == 'Veterinario' %}
+                    <a href="/serv_vet" class="nav-button">Vet</a>
+                {% endif %}
             </div>
 
             {% if is_logged_in %}
