@@ -359,3 +359,131 @@ h2 {
     to {opacity: 1;}
 }
 
+.planes-suscripcion {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(91, 154, 154, 0.1);
+    border-radius: 20px;
+  }
+  
+  .planes-suscripcion h2 {
+    font-size: 32px;
+    color: #166E6E;
+    margin-bottom: 40px;
+  }
+  
+  .tarjetas-suscripcion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .tarjeta-plan {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 25px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+    text-align: left;
+    border-top: 6px solid transparent;
+    transition: transform 0.3s;
+  }
+  
+  .tarjeta-plan:hover {
+    transform: scale(1.05);
+  }
+  
+  .tarjeta-plan h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #166E6E;
+  }
+  
+  .tarjeta-plan .detalle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .tarjeta-plan ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .tarjeta-plan ul li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #333;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .tarjeta-plan ul li::before {
+    content: "✔";
+    color: #1A8F8F;
+    position: absolute;
+    left: 0;
+  }
+  
+  .tarjeta-plan button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1A8F8F;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .boton-plan {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #87C7C4;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+.boton-plan:hover {
+    background-color: #87C7C4;
+}
+  
+  .tarjeta-plan button:hover {
+    background-color: #166E6E;
+  }
+  
+  .tarjeta-plan.premium {
+    border-top-color: #d4af37;
+  }
+  
+  .tarjeta-plan.estandar {
+    border-top-color: #66A6A6;
+  }
+  
+  .tarjeta-plan.basico {
+    border-top-color: #A2E0DC;
+  }
+  
+  .etiqueta-popular {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #C0392B;
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    width: 120px;
+  }

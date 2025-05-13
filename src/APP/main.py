@@ -15,6 +15,7 @@ from passlib.context import CryptContext
 import logging
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi import Query
 
 async def server_status_middleware(request: Request, call_next):
     if getattr(app, 'just_restarted', True):
@@ -62,6 +63,10 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         "index.html",
         {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name})
+## suscripción lalalala
+@app.get("/suscripcion", response_class=HTMLResponse)
+async def suscripcion(request: Request, plan: str = Query(None)):
+    return templates.TemplateResponse("suscripcion.html", {"request": request, "plan": plan})
 
 @app.get("/login")
 async def get_login(request: Request):

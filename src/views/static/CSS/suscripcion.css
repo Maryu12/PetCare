@@ -1,0 +1,64 @@
+
+main {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+  }
+  
+  form label {
+    display: block;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  
+  form input,
+  form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+  button[type="submit"] {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    background-color: #38a169;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #2f855a;
+  }
+
+  .btn-suscripcion {
+    display: inline-block;
+    padding: 12px 20px;
+    background-color: #38a169; 
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+  
+  .btn-suscripcion:hover {
+    background-color: #2f855a;
+  }
+  
