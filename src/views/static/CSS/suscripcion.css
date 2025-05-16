@@ -1,64 +1,672 @@
-
-main {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  }
-  
-  h2 {
-    text-align: center;
-    color: #444;
-    margin-bottom: 30px;
-  }
-  
-  form label {
-    display: block;
-    font-weight: bold;
-    margin-top: 15px;
-  }
-  
-  form input,
-  form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15+Charted&family=Special+Gothic+Expanded+One&display=swap');
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-  }
-  
-  button[type="submit"] {
-    margin-top: 25px;
-    width: 100%;
-    padding: 12px;
-    background-color: #38a169;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #2f855a;
-  }
+    font-family: 'Roboto', sans-serif;
+}
 
-  .btn-suscripcion {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #38a169; 
+body {
+    background-color: #c9d6ff;
+    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+    
+    padding-top: 100px;
+
+    padding-bottom: 120px;
+    color: #333;
+}
+
+/* Header y navegación */
+header.container {
+    background-color: #166E6E;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;  
+    z-index: 1000;
+}
+
+nav {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-right: 20px;
+}
+
+.nav-logo img {
+    width: 100px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo img:hover {
+    transform: scale(1.1);
+}
+/* Estilo para el mensaje de bienvenida */
+.nav-message {
+    right: 200px;
+    top: 5px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    background-color: #bbc2c2;
+    padding: 8px 100px;
+    border-radius:15px;
+    /*align-items: center;*/
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+.nav-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.nav-button {
     color: white;
     text-decoration: none;
-    border-radius: 8px;
     font-weight: bold;
+    background-color: #6A9492;
+    padding: 10px 20px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
+    font-size: 16px;
+}
+
+.nav-button:hover {
+    background-color: #ffffff;
+    color: #6A9492;
+}
+
+.login-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #6A9492;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.login-button:hover {
+    background-color: #ffffff;
+    color: #6A9492;
+}
+.logout-button {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    background-color: #6A9492;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.logout-button:hover {
+    background-color: #ffffff;
+    color: #6A9492;
+}
+.full-width-image {
+    width: 100%;
+    margin-top: 0px; 
+}
+
+.full-width-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 60px;
+    color: #fff;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
     text-align: center;
+    padding: 10px 20px;
+    background: rgba(22, 110, 110, 0.5); 
+    border-radius: 20px;
+}
+
+.footer {
+    background-color: #166E6E;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.footer-links {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #c9d6ff;
+}
+
+.logoC {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1100;
+}
+
+.logoM {
+    width: 80px;
+    height: auto;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-top: 80px;
+    color: #000;
+    text-align: center;
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+    margin: 40px 0 20px;
+}
+
+.servicios-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 40px;
+    padding: 30px;
+    width: 95%;
+    max-width: 1400px;
+}
+
+.servicio-box {
+    background-color: #A2E0DC;
+    border-radius: 25px;
+    padding: 60px 30px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 20px;
+    color: #000;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.servicio-box:hover {
+    transform: translateY(-10px);
+    background-color: #87C7C4;
+}
+
+.servicio-icon {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 15px;
+}
+
+.servicio-box span {
+    margin-top: 15px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+}
+.servicios-card {
+    background: rgba(91, 154, 154, 0.5); /* semitransparente para destacar */
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 20px auto;
+    width: 95%;
+    max-width: 1500px;
+}
+.frase-carrusel {
+    width: 100vw; /* ancho de toda la ventana */
+    background: rgba(22, 110, 110, 0.5); /* semitransparente para destacar */
+    padding: 30px 10px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 0; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-left: calc(-50vw + 50%); 
+}
+
+
+.frase-slide {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+}
+
+.frase-slide p {
+    font-size: 24px;
+    font-weight: 500;
+    color: #ffffff;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 120px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    }
+
+.modal-contenido {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 60%;
+    max-width: 600px;
+    animation: fadeIn 0.3s;
+    max-height: 70vh; 
+    overflow-y: auto; 
+    line-height: 1.6;     
+    margin-bottom: 15px;   
+    text-align: justify; 
+    padding: 30px; 
+}
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar:hover {
+    color: black;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.planes-suscripcion {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 40px 20px;
+    text-align: center;
+    background: rgba(91, 154, 154, 0.1);
+    border-radius: 20px;
   }
   
-  .btn-suscripcion:hover {
-    background-color: #2f855a;
+  .planes-suscripcion h2 {
+    font-size: 32px;
+    color: #166E6E;
+    margin-bottom: 40px;
   }
   
+  .tarjetas-suscripcion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+  }
+  
+  .tarjeta-plan {
+    background: white;
+    border-radius: 15px;
+    padding: 30px 25px;
+    width: 300px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
+    text-align: left;
+    border-top: 6px solid transparent;
+    transition: transform 0.3s;
+  }
+  
+  .tarjeta-plan:hover {
+    transform: scale(1.05);
+  }
+  
+  .tarjeta-plan h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #166E6E;
+  }
+  
+  .tarjeta-plan .detalle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .tarjeta-plan ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+  
+  .tarjeta-plan ul li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #333;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  .tarjeta-plan ul li::before {
+    content: "✔";
+    color: #1A8F8F;
+    position: absolute;
+    left: 0;
+  }
+  
+  .tarjeta-plan button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1A8F8F;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .boton-plan {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #87C7C4;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+.boton-plan:hover {
+    background-color: #87C7C4;
+}
+  
+  .tarjeta-plan button:hover {
+    background-color: #166E6E;
+  }
+  
+  .tarjeta-plan.premium {
+    border-top-color: #d4af37;
+  }
+  
+  .tarjeta-plan.estandar {
+    border-top-color: #66A6A6;
+  }
+  
+  .tarjeta-plan.basico {
+    border-top-color: #A2E0DC;
+  }
+  
+  .etiqueta-popular {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background-color: #C0392B;
+    color: white;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 10px;
+    width: 120px;
+  }
+
+
+/* Suscripción CSS */
+.subscription-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.subscription-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.subscription-header h2 {
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+
+.subscription-header p {
+  color: #718096;
+}
+
+/* Estilos para la sección del plan seleccionado */
+.plan-selected {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #4299e1;
+}
+
+.plan-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.plan-name {
+  font-weight: 600;
+  color: #000000;
+  font-size: 1.1rem;
+}
+
+#final-price {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+#selected-plan-price{
+  font-weight: bold;
+  color: #000000;
+  font-size: 1.1rem;
+}
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-section h4 {
+  color: #4a5568;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a5568;
+  font-size: 0.875rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4299e1;
+}
+
+.stripe-card-element {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.stripe-errors {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  min-height: 1.25rem;
+}
+
+/* Estilos para el botón de suscripción */
+.subscribe-button {
+  width: 100%;
+  padding: 1rem;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s;
+}
+
+.subscribe-button:hover {
+  background: #3182ce;
+}
+
+.subscribe-button .button-text {
+  font-weight: 600;
+}
+
+.subscribe-button .price-plan {
+  font-weight: bold;
+}
+
+.secure-payment {
+  text-align: center;
+  color: #718096;
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.lock-icon {
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+.subscription-footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.footer-links {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #718096;
+  text-decoration: none;
+  margin: 0 0.5rem;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+.mensaje-exito {
+    background: #e6ffe6;
+    border: 1.5px solid #2ecc40;
+    color: #218838;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(46, 204, 64, 0.08);
+}
+.mensaje-exito h2 {
+    margin-top: 0;
+    color: #218838;
+}

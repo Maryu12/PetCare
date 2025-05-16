@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suscripción</title>
     <link rel="stylesheet" href="../static/CSS/suscripcion.css">
-    <link rel="stylesheet" href="../static/CSS/styles.css"> 
 </head>
 <body>
 
@@ -27,25 +26,63 @@
         </nav>
     </header>
     <main>
-        <h2>Formulario de Suscripción</h2>
-        <form action="/procesar_suscripcion" method="POST">
-            <label for="plan">Plan Seleccionado</label>
-            <input type="text" id="plan" name="plan" readonly>
+        <div class="subscription-container">
+            <div class="subscription-header">
+                <h2>Complete su Suscripción</h2>
+                <p>Disfrute de acceso ilimitado a todos nuestros servicios</p>
+            </div>
 
-            <label for="correo">Correo Electrónico:</label>
-            <input type="email" id="correo" name="correo" required>
+            <div class="subscription-plan">
+                <div class="plan-selected">
+                    <h3>Plan Seleccionado</h3>
+                    <div class="plan-details">
+                        <span id="selected-plan-name" class="plan-name"></span>
+                        <span id="selected-plan-price" class="price-plan"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="mensaje-confirmacion"></div>
+            <form id="suscripcion-form" action="/procesar_suscripcion" method="POST">
+                <div class="form-section">
+                <h4>Información del Usuario</h4>
+                <div class="form-group">
+                    <label for="name">Nombre completo</label>
+                    <input type="text" id="name" placeholder="Ingrese su nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo electrónico</label>
+                    <input type="email" id="email" placeholder="ejemplo@correo.com" required>
+                </div>
+                </div>
 
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
+                <div class="form-section">
+                <h4>Información de Pago</h4>
+                <div id="card-element" class="stripe-card-element">
+                    <!-- Stripe Card Element will be inserted here -->
+                </div>
+                <div id="card-errors" role="alert" class="stripe-errors"></div>
+                </div>
 
-            <label for="pago">Método de Pago:</label>
-            <select id="pago" name="pago" required>
-                <option value="tarjeta">Tarjeta de Crédito</option>
-                <option value="paypal">PayPal</option>
-            </select>
+                <div class="form-actions">
+                <button type="submit" class="subscribe-button">
+                    <span class="button-text">Suscribirse ahora</span>
+                    <span id="final-price" class="price-plan"></span>
+                </button>
+                <p class="secure-payment">
+                    <i class="lock-icon"></i> Pago seguro procesado por Stripe
+                </p>
+                </div>
+            </form>
 
-            <button type="submit" class="btn-suscripcion">Suscribirse</button>
-        </form>
+            <div class="subscription-footer">
+                <div class="footer-links">
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Contacto</a>
+                </div>
+                <p class="copyright">© 2025 Número. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </main>
 
     <footer class="footer">
@@ -127,12 +164,78 @@
         </div>
         </div>
     
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const plan = urlParams.get('plan');
-        if (plan) {
-            document.getElementById('plan').value = plan;
-        }
+        document.addEventListener("DOMContentLoaded", function() {
+            // Configuración Stripe
+            const stripe = Stripe("pk_test_51ROjP4Pk7Erlpm35VR4UsniQR5uJD1OXrKPOdq50VwAaPG9do8YX7A1BzMIWgIqzjqqSKIqJtXTSLRVmMPDT8zeB00BBmAQOKW"); 
+            const elements = stripe.elements();
+
+            const card = elements.create("card", {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                        '::placeholder': { color: '#aab7c4' }
+                    },
+                    invalid: { color: '#fa755a', iconColor: '#fa755a' }
+                },
+                hidePostalCode: true
+            });
+            card.mount("#card-element");
+
+            // Manejo del formulario
+            const form = document.getElementById("suscripcion-form");
+            form.addEventListener("submit", async function(event) {
+                event.preventDefault();
+                const submitButton = form.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="button-text">Procesando...</span>';
+
+                try {
+                    // Crear token de pago
+                    const { token, error } = await stripe.createToken(card);
+                    if (error) throw error;
+
+                    // Obtener datos del formulario
+                    const formData = {
+                        plan: form.querySelector('input[name="plan"]').value,
+                        name: form.querySelector('#name').value,
+                        email: form.querySelector('#email').value,
+                        stripe_token: token.id
+                    };
+
+                    // Enviar al backend
+                    const response = await fetch("/api/v1/process-subscription", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.detail || "Error al procesar el pago");
+
+                    // Mostrar mensaje de éxito en la misma página
+                    document.getElementById("mensaje-confirmacion").innerHTML = `
+                        <div class="mensaje-exito">
+                            <h2>¡Pago realizado con éxito!</h2>
+                            <p>Tu pago fue procesado correctamente. Revisa tu correo para ver la confirmación.</p>
+                            <p><strong>ID de transacción:</strong> ${data.payment_id}</p>
+                        </div>
+                    `;
+                    form.reset();
+                    card.clear();
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span class="button-text">Suscribirse ahora</span>';
+
+                } catch (error) {
+                    document.getElementById("card-errors").textContent = error.message;
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = '<span class="button-text">Suscribirse ahora</span>';
+                }
+            });
+        });
+
     </script>
     <script src="../static/JS/suscripcion.js"></script>
 </body>

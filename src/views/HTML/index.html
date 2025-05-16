@@ -96,7 +96,7 @@
                 <div class="etiqueta-popular">Más popular</div>
                 <h3>Premium</h3>
                 <p class="detalle">Servicios ilimitados + atención prioritaria</p>
-                <p><strong>$ 49.900</strong> / mes</p>
+                <p id="plan-premium"><strong>$ 49.900</strong> / mes</p>
                 <ul>
                   <li>Atención veterinaria 24/7</li>
                   <li>Transporte incluido</li>
@@ -105,33 +105,33 @@
                   <li>Soporte personalizado</li>
                   <li>Acceso al historial medico</li>
                 </ul>
-                <a href="/suscripcion?plan=Premium" class="boton-plan">Seleccionar</a>
+                <a href="/suscripcion?plan=Premium&precio=49900" class="boton-plan">Seleccionar</a>
               </div>
           
               <div class="tarjeta-plan estandar">
                 <h3>Estándar</h3>
                 <p class="detalle">Ideal para dueños activos y responsables</p>
-                <p><strong>$ 29.900</strong> / mes</p>
+                <p id="plan-estandar"><strong>$ 29.900</strong> / mes</p>
                 <ul>
                   <li>Citas veterinarias programadas</li>
                   <li>Guardería con reserva previa</li>
                   <li>Descuentos moderados</li>
                   <li>Soporte básico</li>
                 </ul>
-                <a href="/suscripcion?plan=estandar" class="boton-plan">Seleccionar</a>
+                <a href="/suscripcion?plan=estandar&precio=29900" class="boton-plan">Seleccionar</a>
               </div>
           
               <div class="tarjeta-plan basico">
                 <h3>Básico</h3>
                 <p class="detalle">Acceso esencial a servicios Milenzo</p>
-                <p><strong>$ 18.900</strong> / mes</p>
+                <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
                 <ul>
                   <li>Acceso a veterinarios por cita</li>
                   <li>Guardería limitada</li>
                   <li>Sin transporte incluido</li>
                   <li>Acceso a promociones puntuales</li>
                 </ul>
-                <a href="/suscripcion?plan=basico" class="boton-plan">Seleccionar</a>
+                <a href="/suscripcion?plan=basico&precio=18900" class="boton-plan">Seleccionar</a>
                 
               </div>
           
@@ -236,5 +236,23 @@
       </div>
       
       <script src="../static/JS/index.js"></script>
+      <script>
+        document.querySelectorAll('.boton-plan').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                let plan = this.getAttribute('href').split('=')[1].toLowerCase();
+                let precio = '';
+                if (plan === 'premium') {
+                    precio = document.getElementById('plan-premium').innerText;
+                } else if (plan === 'estandar') {
+                    precio = document.getElementById('plan-estandar').innerText;
+                } else if (plan === 'basico') {
+                    precio = document.getElementById('plan-basico').innerText;
+                }
+                localStorage.setItem('precioPlan', precio);
+                window.location.href = this.getAttribute('href');
+            });
+        });
+</script>
 </body>
 </html>

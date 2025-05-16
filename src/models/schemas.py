@@ -44,8 +44,19 @@ class RolSimple(BaseModel):
     id_rol: int
     description: str
 
-#---------------------------------------------------------------------
+#------------------------------Payment---------------------------------------
 
+class SubscriptionCreate(BaseModel):
+    plan: str
+    name: str
+    email: str
+    stripe_token: str
+
+class SubscriptionResponse(BaseModel):
+    subscription_id: str
+    status: str
+
+#---------------------------------------------------------------------
 class PetBase(BaseModel):
     pet_name: str
     species: str

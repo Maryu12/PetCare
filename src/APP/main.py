@@ -16,6 +16,7 @@ import logging
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi import Query
+from ..controllers.payment_controller import router as payment_router
 
 async def server_status_middleware(request: Request, call_next):
     if getattr(app, 'just_restarted', True):
@@ -31,6 +32,8 @@ app = FastAPI()
 app.add_middleware(GZipMiddleware)
 app.just_restarted = True 
 app.middleware("http")(server_status_middleware)
+
+app.include_router(payment_router, prefix="/api/v1")
 
 #Configuracion de Directorios para cada vista 
 
