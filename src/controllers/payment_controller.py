@@ -18,9 +18,9 @@ router = APIRouter()
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
 STRIPE_AMOUNTS = {
-    "premium": int(os.getenv("STRIPE_PREMIUM_PRICE")),   # Cambia estos valores según tus precios reales
-    "estandar": int(os.getenv("STRIPE_STANDARD_PRICE")),
-    "basico": int(os.getenv("STRIPE_BASIC_PRICE"))
+    "premium":49900,
+    "estandar" : 29900,
+    "basico" :18900
 }
 
 @router.post("/process-subscription")

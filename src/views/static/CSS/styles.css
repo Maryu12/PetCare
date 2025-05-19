@@ -222,6 +222,7 @@ h2 {
     margin: 40px 0 20px;
 }
 
+
 .servicios-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -373,6 +374,12 @@ h2 {
     color: #166E6E;
     margin-bottom: 40px;
   }
+
+  .titulo-plan h3{
+    font-size: 32px;
+    color: #166E6E;
+    margin-bottom: 40px;
+}
   
   .tarjetas-suscripcion {
     display: flex;
