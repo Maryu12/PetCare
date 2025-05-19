@@ -86,54 +86,8 @@
                 </div>
             </div>
         </div>
-        {% if user_role == 'Usuario' %}
-        <div class="planes-suscripcion">
-            <h2>Selecciona el plan ideal para ti</h2>
-            <div class="tarjetas-suscripcion">
-                <div class="tarjeta-plan premium">
-                    <div class="etiqueta-popular">Más popular</div>
-                    <h3>Premium</h3>
-                    <p class="detalle">Servicios ilimitados + atención prioritaria</p>
-                    <p id="plan-premium"><strong>$ 49.900</strong> / mes</p>
-                    <ul>
-                      <li>Atención veterinaria 24/7</li>
-                      <li>Transporte incluido</li>
-                      <li>Acceso a guardería y grooming</li>
-                      <li>Descuentos en servicios Milenzo</li>
-                      <li>Soporte personalizado</li>
-                      <li>Acceso al historial medico</li>
-                    </ul>
-                    <a href="/suscripcion?plan=Premium&precio=49900" class="boton-plan">Seleccionar</a>
-                </div>
-
-                <div class="tarjeta-plan estandar">
-                    <h3>Estándar</h3>
-                    <p class="detalle">Ideal para dueños activos y responsables</p>
-                    <p id="plan-estandar"><strong>$ 29.900</strong> / mes</p>
-                    <ul>
-                      <li>Citas veterinarias programadas</li>
-                      <li>Guardería con reserva previa</li>
-                      <li>Descuentos moderados</li>
-                      <li>Soporte básico</li>
-                    </ul>
-                    <a href="/suscripcion?plan=estandar&precio=29900" class="boton-plan">Seleccionar</a>
-                </div>
-
-                <div class="tarjeta-plan basico">
-                    <h3>Básico</h3>
-                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
-                    <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
-                    <ul>
-                      <li>Acceso a veterinarios por cita</li>
-                      <li>Guardería limitada</li>
-                      <li>Sin transporte incluido</li>
-                      <li>Acceso a promociones puntuales</li>
-                    </ul>
-                    <a href="/suscripcion?plan=basico&precio=18900" class="boton-plan">Seleccionar</a>
-                </div>
-            </div>
-        </div>
-        {% elif user_role == 'Veterinario' %}
+        
+        {% if user_role == 'Veterinario' %}
         <div class="planes-suscripcion">
             <h2>Planes para profesionales veterinarios</h2>
             <div class="tarjetas-suscripcion">
@@ -151,7 +105,7 @@
                 </div>
             </div>
         </div>
-        {% else %}
+        {% elif user_role == 'Administrador de la tienda' or not is_logged_in %}
         <div class="planes-suscripcion">
             <h2>Selecciona el plan ideal para ti</h2>
             <h3 class="titulo-plan" style="font-size: 30px; color: #166E6E; margin-bottom: 40px;">Planes usuarios normales</h3>
@@ -170,6 +124,66 @@
                       <li>Soporte personalizado</li>
                       <li>Acceso al historial medico</li>
                     </ul>
+                </div>
+
+                <div class="tarjeta-plan estandar">
+                    <h3>Estándar</h3>
+                    <p class="detalle">Ideal para dueños activos y responsables</p>
+                    <p id="plan-estandar"><strong>$ 29.900</strong> / mes</p>
+                    <ul>
+                      <li>Citas veterinarias programadas</li>
+                      <li>Guardería con reserva previa</li>
+                      <li>Descuentos moderados</li>
+                      <li>Soporte básico</li>
+                    </ul>
+                </div>
+
+                <div class="tarjeta-plan basico">
+                    <h3>Básico</h3>
+                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
+                    <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
+                    <ul>
+                      <li>Acceso a veterinarios por cita</li>
+                      <li>Guardería limitada</li>
+                      <li>Sin transporte incluido</li>
+                      <li>Acceso a promociones puntuales</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tajerta-plan vet pro">
+              <h2>Planes especiales para profesionales veterinarios</h2>
+              <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <h3>Plan Vet Pro</h3>
+                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
+                    <p><strong>$ 79.900</strong> / mes</p>
+                    <ul>
+                        <li>Gestión de citas avanzada</li>
+                        <li>Visibilidad para nuevos clientes</li>
+                        <li>Soporte técnico especializado</li>
+                        <li>Acceso a historial de pacientes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}
+        <div class="planes-suscripcion">
+            <h2>Selecciona el plan ideal para ti</h2>
+            <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <div class="etiqueta-popular">Más popular</div>
+                    <h3>Premium</h3>
+                    <p class="detalle">Servicios ilimitados + atención prioritaria</p>
+                    <p id="plan-premium"><strong>$ 49.900</strong> / mes</p>
+                    <ul>
+                      <li>Atención veterinaria 24/7</li>
+                      <li>Transporte incluido</li>
+                      <li>Acceso a guardería y grooming</li>
+                      <li>Descuentos en servicios Milenzo</li>
+                      <li>Soporte personalizado</li>
+                      <li>Acceso al historial medico</li>
+                    </ul>
                     <a href="/suscripcion?plan=Premium&precio=49900" class="boton-plan">Seleccionar</a>
                 </div>
 
@@ -199,23 +213,6 @@
                     <a href="/suscripcion?plan=basico&precio=18900" class="boton-plan">Seleccionar</a>
                 </div>
             </div>
-            <div class="tajerta-plan vet pro">
-              <h2>Planes especiales para profesionales veterinarios</h2>
-              <div class="tarjetas-suscripcion">
-                <div class="tarjeta-plan premium">
-                    <h3>Plan Vet Pro</h3>
-                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
-                    <p><strong>$ 79.900</strong> / mes</p>
-                    <ul>
-                        <li>Gestión de citas avanzada</li>
-                        <li>Visibilidad para nuevos clientes</li>
-                        <li>Soporte técnico especializado</li>
-                        <li>Acceso a historial de pacientes</li>
-                    </ul>
-                    <a href="/suscripcion?plan=vetpro&precio=79900" class="boton-plan">Seleccionar</a>
-                </div>
-            </div>
-        </div>
         </div>
         {% endif %}
 
