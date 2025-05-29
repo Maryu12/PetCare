@@ -414,7 +414,7 @@ async def login(
     if not user or not pwd_context.verify(password, user.password_hashed):
         return templates.TemplateResponse(
             "login.html",
-            {"request": request, "error": "Credenciales inválidas"},
+            {"request": request, "login_error": "Credenciales inválidas"},
             status_code=401
         )
     

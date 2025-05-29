@@ -13,6 +13,12 @@
     </div>
     {% endif %}
 
+    {% if login_error %}
+    <div class="alert error">
+        {{ login_error }}
+    </div>
+    {% endif %}
+
     {% if request.query_params.get('register_success') %}
     <div class="alert success">
         ¡Registro exitoso! Por favor inicia sesión.
