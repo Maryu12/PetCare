@@ -362,6 +362,49 @@
         </div>
       </div>
 
+    <div id="toast" style="
+    display:none;
+    position:fixed;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    min-width:320px;
+    max-width:90vw;
+    background:rgba(40,40,40,0.98);
+    color:#fff;
+    padding:24px 32px 24px 64px;
+    border-radius:16px;
+    font-size:1.08em;
+    z-index:9999;
+    box-shadow:0 4px 24px rgba(0,0,0,0.25);
+    border:2px solid #6ec1e4;
+    position:fixed;
+    animation:fadeInToast 0.5s;
+    font-family:inherit;
+">
+    <span style="
+        position:absolute;
+        left:24px;
+        top:50%;
+        transform:translateY(-50%);
+        font-size:2em;
+        color:#6ec1e4;
+        ">
+        🛁
+    </span>
+    <span id="toast-msg"></span>
+    <span id="toast-close" style="
+        position:absolute;
+        right:18px;
+        top:12px;
+        font-size:1.3em;
+        color:#fff;
+        cursor:pointer;
+        opacity:0.7;
+        transition:opacity 0.2s;
+    " title="Cerrar">&times;</span>
+</div>
+
     <script>
         
         const precios = {
@@ -441,6 +484,45 @@
                 }
             });
         }
+
+        // ...existing code...
+
+document.querySelector('.formulario-spa').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // Recoge los datos del formulario
+    const nombreMascota = document.getElementById('nombre-mascota').value;
+    const raza = document.getElementById('raza').value;
+    const edad = document.getElementById('edad').value;
+    const agresivo = document.getElementById('agresivo').value;
+    const alergias = document.getElementById('alergias').value;
+    const fechaCita = document.getElementById('fecha-cita').value;
+    const horaCita = document.getElementById('hora-cita').value;
+    const comentarios = document.getElementById('comentarios').value;
+
+    // Opciones seleccionadas
+    let servicios = [];
+    const bano = document.querySelector('input[name="tipo-bano"]:checked');
+    if (bano) servicios.push('Baño: ' + bano.labels[0].innerText.trim());
+    document.querySelectorAll('input[name="servicios-corte"]:checked').forEach(corte => {
+        servicios.push('Corte: ' + corte.labels[0].innerText.trim());
+    });
+
+    // Mensaje de notificación
+    let mensaje = `¡Cita de Spa reservada!\nMascota: ${nombreMascota}\nRaza: ${raza}\nEdad: ${edad}\nAgresivo: ${agresivo}\nAlergias: ${alergias}\nServicios: ${servicios.join(', ')}\nFecha: ${fechaCita}\nHora: ${horaCita}\nComentarios: ${comentarios}`;
+
+    mostrarToast(mensaje.replace(/\n/g, '<br>'));
+});
+
+
+function mostrarToast(mensaje) {
+    const toast = document.getElementById('toast');
+    toast.textContent = mensaje;
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 4000);
+}
     </script>
 </body>
 </html>

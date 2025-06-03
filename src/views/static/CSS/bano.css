@@ -575,3 +575,22 @@ nav {
         font-size: 2.5rem;
     }
 }
+
+@keyframes fadeInToast {
+    from { opacity:0; bottom:0px;}
+    to   { opacity:1; bottom:40px;}
+}
+@keyframes fadeOutToast {
+    from { opacity:1; bottom:40px;}
+    to   { opacity:0; bottom:0px;}
+}
+#toast.show {
+    display:block !important;
+    animation:fadeInToast 0.5s;
+}
+#toast.hide {
+    animation:fadeOutToast 0.5s;
+}
+#toast:hover #toast-close {
+    opacity:1;
+}
