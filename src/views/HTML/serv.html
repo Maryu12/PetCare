@@ -112,40 +112,11 @@
             </div>
         </div>
 
-        <button class="elemento" data-modal="modal-control">
+        <a href="/control" class="elemento">
             <img src="../static/images/Control1.png" alt="Control" class="elemento-icon">
             <span>Control</span>
-        </button>
-        <div id="modal-control" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('modal-control')">&times;</span>
-                <h2>Control Veterinario</h2>
-                <p>Realiza un control veterinario para tu mascota y lleva un registro de las evaluaciones realizadas.</p>
-                <form class="modal-form">
-                    <label for="control-mascota">Seleccionar mascota</label>
-                    <select id="control-mascota">
-                        <option value="mascota1">Mascota 1</option>
-                        <option value="mascota2">Mascota 2</option>
-                        <option value="mascota3">Mascota 3</option>
-                    </select>
-                    <label for="control-tipo">Tipo de control</label>
-                    <select id="control-tipo">
-                        <option value="vacuna">Vacuna</option>
-                        <option value="revision">Revisión</option>
-                        <option value="evaluacion">Evaluación general</option>
-                    </select>
-                    <label for="control-fecha">Fecha del control</label>
-                    <input type="date" id="control-fecha">
-                    <label for="control-comentarios">Comentarios adicionales</label>
-                    <textarea id="control-comentarios" rows="3" placeholder="Escribe detalles sobre el control aquí..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button class="btn-enviar" onclick="manejarBotonEnviar('modal-control')">Enviar</button>
-                    <button class="btn-aceptar" onclick="cerrarModal('modal-control')">Aceptar</button>
-                </div>
-            </div>
-        </div>
+        </a>
+   
 
         <button class="elemento" data-modal="modal-historial">
             <img src="../static/images/Historial1.png" alt="Historial" class="elemento-icon">
