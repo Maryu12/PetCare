@@ -494,3 +494,88 @@ h2 {
     border-radius: 10px;
     width: 120px;
   }  
+
+
+  @media (max-width: 768px) {
+
+    .nav-message {
+        font-size: 16px;
+        padding: 5px 20px;
+        margin: 0 10px;
+        text-align: center;
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .login-button, .logout-button, .nav-button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .overlay-text {
+        font-size: 28px;
+        padding: 8px 15px;
+    }
+
+    .servicios-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 20px 10px;
+    }
+
+    .planes-suscripcion {
+        padding: 20px 10px;
+    }
+
+    .tarjetas-suscripcion {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .tarjeta-plan {
+        width: 100%;
+        padding: 25px 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+        margin-top: 100px;
+    }
+
+    h2, .planes-suscripcion h2 {
+        font-size: 24px;
+    }
+
+    .frase-carrusel {
+        height: auto;
+        padding: 20px;
+    }
+
+    .frase-slide p {
+        font-size: 18px;
+    }
+
+    .modal-contenido {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .servicios-container {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .tarjetas-suscripcion {
+        justify-content: center;
+    }
+
+    .tarjeta-plan {
+        width: 90%;
+        max-width: 350px;
+    }
+}
