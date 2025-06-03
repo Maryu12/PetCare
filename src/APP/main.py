@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException, Body
+from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException, Body, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -15,6 +15,8 @@ from passlib.context import CryptContext
 import logging
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi import Query
+from ..controllers.payment_controller import router as payment_router
 
 async def server_status_middleware(request: Request, call_next):
     if getattr(app, 'just_restarted', True):
@@ -30,6 +32,8 @@ app = FastAPI()
 app.add_middleware(GZipMiddleware)
 app.just_restarted = True 
 app.middleware("http")(server_status_middleware)
+
+app.include_router(payment_router, prefix="/api/v1")
 
 #Configuracion de Directorios para cada vista 
 
@@ -62,6 +66,10 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         "index.html",
         {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name})
+## suscripción lalalala
+@app.get("/suscripcion", response_class=HTMLResponse)
+async def suscripcion(request: Request, plan: str = Query(None)):
+    return templates.TemplateResponse("suscripcion.html", {"request": request, "plan": plan})
 
 @app.get("/login")
 async def get_login(request: Request):
@@ -112,6 +120,17 @@ async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
             "user_role": user_role
         }
     )
+@app.get("/bano", response_class=HTMLResponse)
+async def bano_view(request: Request):
+    return templates.TemplateResponse("bano.html", {"request": request})
+
+@app.get("/control", response_class=HTMLResponse)
+async def control_view(request: Request):
+    return templates.TemplateResponse("control.html", {"request": request})
+
+@app.get("/guarderia", response_class=HTMLResponse)
+async def guarderia_view(request: Request):
+    return templates.TemplateResponse("guarderia.html", {"request": request})
 
 @app.get("/getVetProfile")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -126,6 +145,17 @@ async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
         return JSONResponse(content={}, status_code=200)  # Retorna un objeto vacío si no existe el perfil
 
     return vet_profile
+
+
+@app.get("/getVeterinarians")
+async def get_veterinarians(db: Session = Depends(get_db)):
+    vets = db.query(Veterinarian).all()
+    return JSONResponse(content=[{
+        "id_veterinarian": vet.id_veterinarian,
+        "name_vet": vet.name_vet,
+        "last_name": vet.last_name,
+        "description": vet.description
+    } for vet in vets])
 
 @app.get("/modifyHistory")
 @role_required(["Veterinario", "Administrador de la tienda"])  
@@ -406,7 +436,7 @@ async def login(
     if not user or not pwd_context.verify(password, user.password_hashed):
         return templates.TemplateResponse(
             "login.html",
-            {"request": request, "error": "Credenciales inválidas"},
+            {"request": request, "login_error": "Credenciales inválidas"},
             status_code=401
         )
     
@@ -603,6 +633,53 @@ async def modify_pet_history(
     db.refresh(medic_history)
 
     return {"message": "Historial médico guardado exitosamente"}
+
+#Metodos novos
+@app.post("/control-veterinario", status_code=status.HTTP_201_CREATED)
+async def registrar_control_veterinario(
+    request: Request,
+    mascota: int = Form(...),
+    veterinario: int = Form(...),
+    fecha: str = Form(...),
+    hora: str = Form(...),
+    comentario: str = Form(""),
+    db: Session = Depends(get_db),
+    user_id: int = Cookie(None)
+):
+    # Validar usuario autenticado
+    if not user_id:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    # id_pet y id_veterinarian llegan del formulario
+    id_pet = mascota
+    id_veterinarian = veterinario
+    id_service = 6  # Fijo para control veterinario
+
+    # Guardar en la tabla Appointment (ajusta si tienes otra tabla)
+    nueva_cita = Appointment(
+        id_pet=id_pet,
+        id_service=id_service,
+        id_veterinarian=id_veterinarian,
+        fecha_rec=fecha,
+        date_hour_status=hora,
+        comentario=comentario
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"message": "Control veterinario registrado correctamente", "id_appointment": nueva_cita.id_appointment}
+
+@app.get("/control")
+async def control_veterinario(request: Request, db: Session = Depends(get_db), user_id: int = Cookie(None)):
+    if not user_id:
+        return RedirectResponse(url="/login")
+    mascotas = db.query(Pet).filter(Pet.id_owner == user_id).all()
+    veterinarios = db.query(Veterinarian).all()
+    return templates.TemplateResponse("control.html", {
+        "request": request,
+        "mascotas": mascotas,
+        "veterinarios": veterinarios
+    })
 
 # Por favor no tocar esto :)
 

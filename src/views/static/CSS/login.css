@@ -19,6 +19,15 @@ body{
     justify-content: center;
     flex-direction: column;
     height: 100vh;
+
+    html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    min-height: 100dvh; /* altura visible útil en móviles */
+}
 }
 
 .logo-container {
@@ -394,7 +403,7 @@ li {
     }
 
     .toggle-container {
-        display: none; /* Oculta el panel lateral en móviles */
+        display: none; 
     }
 
     .sign-in, .sign-up {
@@ -413,3 +422,68 @@ li {
     }
 }
 
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 20px;
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .toggle-container {
+        display: none;
+    }
+
+    .sign-in, .sign-up {
+        width: 100%;
+    }
+
+    .logo-container {
+        top: 20px;
+        transform: translateX(-50%);
+        width: 140px;
+        height: auto;
+    }
+
+    .back-button-container {
+        top: 10px;
+        right: 10px;
+    }
+
+    .container button,
+    .back-button {
+        padding: 8px 25px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    .container p,
+    .container a,
+    .container span {
+        font-size: 12px;
+    }
+
+    .container button {
+        padding: 8px 20px;
+        font-size: 11px;
+    }
+
+    .input-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .input-group i {
+        margin: 0 0 5px 0;
+    }
+}

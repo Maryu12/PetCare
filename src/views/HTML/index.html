@@ -10,7 +10,7 @@
     <header class="container">
         <nav> 
             
-            <a href="/" class="nav-logo"> <img src="../static/images/milen-2.png" alt="Logo Milenzo"></a>
+            <a href="/" class="nav-logo"> <img src="../static/images/milen-2.webp" alt="Logo Milenzo"></a>
            
             <div class="nav-buttons">
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
@@ -35,7 +35,7 @@
         </nav>
     </header> 
     <div class="full-width-image">
-        <img src="../static/images/jiji.png" alt="portada">
+        <img src="../static/images/jiji.webp" alt="portada">
         <div class="overlay-text">¡Bienvenido!</div>
     </div>
     <main>
@@ -53,39 +53,169 @@
         <div class="servicios-card">
             <div class="servicios-container">
                 <div class="servicio-box">
-                    <img src="../static/images/Baño.png" alt="Baño" class="servicio-icon">
+                    <img src="../static/images/Baño.webp" alt="Baño" class="servicio-icon">
                     Baño
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/Corte.png" alt="Corte" class="servicio-icon">
+                    <img src="../static/images/Corte.webp" alt="Corte" class="servicio-icon">
                     Corte
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/Consulta.png" alt="Consulta" class="servicio-icon">
+                    <img src="../static/images/Consulta.webp" alt="Consulta" class="servicio-icon">
                     Consulta
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/Control.png" alt="Control" class="servicio-icon">
+                    <img src="../static/images/Control.webp" alt="Control" class="servicio-icon">
                     Control
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/Historial.png" alt="Historial" class="servicio-icon">
+                    <img src="../static/images/Historial.webp" alt="Historial" class="servicio-icon">
                     Historial
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/veterinarios.png" alt="Veterinarios" class="servicio-icon">
+                    <img src="../static/images/veterinarios.webp" alt="Veterinarios" class="servicio-icon">
                     Veterinarios
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/Guarderia.png" alt="Guarderia" class="servicio-icon">
+                    <img src="../static/images/Guarderia.webp" alt="Guarderia" class="servicio-icon">
                     Guarderia
                 </div>
                 <div class="servicio-box">
-                    <img src="../static/images/transporte.png" alt="Transporte" class="servicio-icon">
+                    <img src="../static/images/transporte.webp" alt="Transporte" class="servicio-icon">
                     Transporte
                 </div>
             </div>
         </div>
+        
+        {% if user_role == 'Veterinario' %}
+        <div class="planes-suscripcion">
+            <h2>Planes para profesionales veterinarios</h2>
+            <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <h3>Plan Vet Pro</h3>
+                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
+                    <p><strong>$ 79.900</strong> / mes</p>
+                    <ul>
+                        <li>Gestión de citas avanzada</li>
+                        <li>Visibilidad para nuevos clientes</li>
+                        <li>Soporte técnico especializado</li>
+                        <li>Acceso a historial de pacientes</li>
+                    </ul>
+                    <a href="/suscripcion?plan=vetpro&precio=79900" class="boton-plan">Seleccionar</a>
+                </div>
+            </div>
+        </div>
+        {% elif user_role == 'Administrador de la tienda' or not is_logged_in %}
+        <div class="planes-suscripcion">
+            <h2>Selecciona el plan ideal para ti</h2>
+            <h3 class="titulo-plan" style="font-size: 30px; color: #166E6E; margin-bottom: 40px;">Planes usuarios normales</h3>
+            <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <div class="etiqueta-popular">Más popular</div>
+                    
+                    <h3>Premium</h3>
+                    <p class="detalle">Servicios ilimitados + atención prioritaria</p>
+                    <p id="plan-premium"><strong>$ 49.900</strong> / mes</p>
+                    <ul>
+                      <li>Atención veterinaria 24/7</li>
+                      <li>Transporte incluido</li>
+                      <li>Acceso a guardería y grooming</li>
+                      <li>Descuentos en servicios Milenzo</li>
+                      <li>Soporte personalizado</li>
+                      <li>Acceso al historial medico</li>
+                    </ul>
+                </div>
+
+                <div class="tarjeta-plan estandar">
+                    <h3>Estándar</h3>
+                    <p class="detalle">Ideal para dueños activos y responsables</p>
+                    <p id="plan-estandar"><strong>$ 29.900</strong> / mes</p>
+                    <ul>
+                      <li>Citas veterinarias programadas</li>
+                      <li>Guardería con reserva previa</li>
+                      <li>Descuentos moderados</li>
+                      <li>Soporte básico</li>
+                    </ul>
+                </div>
+
+                <div class="tarjeta-plan basico">
+                    <h3>Básico</h3>
+                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
+                    <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
+                    <ul>
+                      <li>Acceso a veterinarios por cita</li>
+                      <li>Guardería limitada</li>
+                      <li>Sin transporte incluido</li>
+                      <li>Acceso a promociones puntuales</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="tajerta-plan vet pro">
+              <h2>Planes especiales para profesionales veterinarios</h2>
+              <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <h3>Plan Vet Pro</h3>
+                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
+                    <p><strong>$ 79.900</strong> / mes</p>
+                    <ul>
+                        <li>Gestión de citas avanzada</li>
+                        <li>Visibilidad para nuevos clientes</li>
+                        <li>Soporte técnico especializado</li>
+                        <li>Acceso a historial de pacientes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+        {% else %}
+        <div class="planes-suscripcion">
+            <h2>Selecciona el plan ideal para ti</h2>
+            <div class="tarjetas-suscripcion">
+                <div class="tarjeta-plan premium">
+                    <div class="etiqueta-popular">Más popular</div>
+                    <h3>Premium</h3>
+                    <p class="detalle">Servicios ilimitados + atención prioritaria</p>
+                    <p id="plan-premium"><strong>$ 49.900</strong> / mes</p>
+                    <ul>
+                      <li>Atención veterinaria 24/7</li>
+                      <li>Transporte incluido</li>
+                      <li>Acceso a guardería y grooming</li>
+                      <li>Descuentos en servicios Milenzo</li>
+                      <li>Soporte personalizado</li>
+                      <li>Acceso al historial medico</li>
+                    </ul>
+                    <a href="/suscripcion?plan=Premium&precio=49900" class="boton-plan">Seleccionar</a>
+                </div>
+
+                <div class="tarjeta-plan estandar">
+                    <h3>Estándar</h3>
+                    <p class="detalle">Ideal para dueños activos y responsables</p>
+                    <p id="plan-estandar"><strong>$ 29.900</strong> / mes</p>
+                    <ul>
+                      <li>Citas veterinarias programadas</li>
+                      <li>Guardería con reserva previa</li>
+                      <li>Descuentos moderados</li>
+                      <li>Soporte básico</li>
+                    </ul>
+                    <a href="/suscripcion?plan=estandar&precio=29900" class="boton-plan">Seleccionar</a>
+                </div>
+
+                <div class="tarjeta-plan basico">
+                    <h3>Básico</h3>
+                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
+                    <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
+                    <ul>
+                      <li>Acceso a veterinarios por cita</li>
+                      <li>Guardería limitada</li>
+                      <li>Sin transporte incluido</li>
+                      <li>Acceso a promociones puntuales</li>
+                    </ul>
+                    <a href="/suscripcion?plan=basico&precio=18900" class="boton-plan">Seleccionar</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
     </main>
 
     <footer class="footer">
@@ -182,6 +312,26 @@
             <p> *Instagram / Facebook / Twitter: @MilenzoPetShop</p>
         </div>
       </div>
+      
       <script src="../static/JS/index.js"></script>
-</body>
+
+      <script>
+        document.querySelectorAll('.boton-plan').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            let plan = this.getAttribute('href').split('=')[1].toLowerCase();
+            let precio = '';
+            if (plan === 'premium') {
+                precio = document.getElementById('plan-premium').innerText;
+            } else if (plan === 'estandar') {
+                precio = document.getElementById('plan-estandar').innerText;
+            } else if (plan === 'basico') {
+                precio = document.getElementById('plan-basico').innerText;
+            }
+            localStorage.setItem('precioPlan', precio);
+            window.location.href = this.getAttribute('href');
+          });
+        });
+      </script>
+  </body>
 </html>

@@ -1,85 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/CSS/manage_users.css">
-    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="../static/CSS/control.css">
+    <title>Milenzo</title>
 </head>
-<header class="container">
-    <nav> 
-        <!-- Logo -->
-        <a href="/" class="nav-logo">
-            <img src="../static/images/milen-2.webp" alt="Logo Milenzo">
-        </a>
-        <!-- Botones principales -->
-        <div class="nav-buttons">
-            <a href="/myPets" class="nav-button">Mis Mascotas</a>
-            <a href="/serv" class="nav-button">Servicios</a>
-            <a href="/about" class="nav-button">Nosotros</a>
+<body>  
+ 
+    <header class="container">
+        <nav> 
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.webp" alt="Logo Milenzo">
+            </a>
+            <!-- Botones principales -->
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            {% if is_logged_in %}
+                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+        </nav>
+    </header> 
+
+    <main class="control-veterinario-section">
+        <div class="hero-control">
+            <h1>Control Veterinario</h1>
+            <p class="descripcion-control">Realiza un control veterinario para tu mascota y lleva un registro de las evaluaciones registradas.</p>
         </div>
-        {% if is_logged_in %}
-                <a href="/logout" class="nav-button" >Cerrar Sesion</a>
-        {% else %}
-            <a href="/login" class="login-button">Login</a>
-        {% endif %}
+
+        <div class="formulario-container">
+            <form class="formulario-control" action="/control-veterinario" method="post">
+                <div class="form-group">
+                    <label for="mascota">Seleccionar la mascota:</label>
+                    <select id="petSelect" name="mascota" required>
+                        <option value="">Elegir una mascota</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="veterinario">Seleccionar veterinario:</label>
+                    <select id="vetSelect" name="veterinario" required>
+                        <option value="">Elegir un veterinario</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hora">Hora:</label>
+                        <input type="time" id="hora" name="hora" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="comentario">Comentarios:</label>
+                    <textarea id="comentario" name="comentario" placeholder="Describe los síntomas o motivo de la consulta..." rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn-agendar">Agendar Cita</button>
+            </form>
         </div>
-    </nav>
-</header> 
-<body>
-    <h1>Gestión de Usuarios</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Rol Actual</th>
-                <th>Nuevo Rol</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id_user }}</td>
-                <td>{{ user.u_name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.telefono }}</td>
-                <td>{{ user.rol.description }}</td>
-                <td>
-                    <form action="/admin/users/assign-role" method="post">
-                        <input type="hidden" name="user_id" value="{{ user.id_user }}">
-                        <select name="new_role" required>
-                            <option value="1">Cliente</option>
-                            <option value="2">Veterinario</option>
-                            <option value="3">Administrador de la tienda</option>
-                        </select>
-                        <button type="submit">Asignar Rol</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <!-- Nueva sección para gestionar vehículos -->
-    <h1>Gestión Vehículo</h1>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID Servicio</th>
-                <th>Nombre Mascota</th>
-                <th>Tipo de Transporte</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Comentarios</th>
-                <th>Asignar Vehículo</th>
-            </tr>
-        </thead>
-        <tbody id="tabla-vehiculos">
-            <!-- Las filas se llenarán dinámicamente-->
-        </tbody>
-    </table>
+    </main>
+
     <footer class="footer">
         <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
         <div class="footer-links">
@@ -89,8 +81,9 @@
         </div>
     </footer>
 
+    <!-- Modales -->
     <div id="modal-privacidad" class="modal">
-        <div class="modal-contenido">
+        <div class="modal-contenido"> 
           <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
           <h2>Política de Privacidad</h2>
           <p>🛡️ Última actualización: abril de 2025
@@ -159,7 +152,51 @@
             <p> *Redes sociales:
             <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
         </div>
-      </div> 
-    <script src="../static/JS/manage.js"></script>
+      </div>
+
+
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    // Mascotas
+    try {
+        const response = await fetch("/getMyPets");
+        if (response.ok) {
+            const pets = await response.json();
+            const petSelect = document.getElementById("petSelect");
+            petSelect.innerHTML = '<option value="">Elegir una mascota</option>';
+            pets.forEach(pet => {
+                const option = document.createElement("option");
+                option.value = pet.id_pet;
+                option.textContent = `${pet.pet_name} - ${pet.species}`;
+                petSelect.appendChild(option);
+            });
+        } else {
+            console.warn("No se pudo obtener la lista de mascotas.");
+        }
+    } catch (error) {
+        console.error("Error al cargar la lista de mascotas:", error);
+    }
+
+    // Veterinarios
+    try {
+        const response = await fetch("/getVeterinarians");
+        if (response.ok) {
+            const vets = await response.json();
+            const vetSelect = document.getElementById("vetSelect");
+            vetSelect.innerHTML = '<option value="">Elegir un veterinario</option>';
+            vets.forEach(vet => {
+                const option = document.createElement("option");
+                option.value = vet.id_veterinarian;
+                option.textContent = `${vet.name_vet} ${vet.last_name} - ${vet.description}`;
+                vetSelect.appendChild(option);
+            });
+        } else {
+            console.warn("No se pudo obtener la lista de veterinarios.");
+        }
+    } catch (error) {
+        console.error("Error al cargar la lista de veterinarios:", error);
+    }
+});
+</script>
 </body>
 </html>

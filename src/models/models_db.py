@@ -142,3 +142,12 @@ class OrderDetail(Base):
 
     order = relationship("Order", back_populates="order_details")
     product = relationship("Product", back_populates="order_details")
+
+class Subscription(Base):
+    __tablename__ = "subscriptiondata"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    email = Column(String)
+    plan = Column(String)
+    stripetoken = Column(String)
