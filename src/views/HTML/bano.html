@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/bano.css">
+    <title>Baño y Corte</title>
+</head>
+<body>  
+ 
+    <header class="container">
+        <nav> 
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.png" alt="Logo Milenzo">
+            </a>
+            <!-- Botones principales -->
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            {% if is_logged_in %}
+                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+        </nav>
+    </header> 
+
+    <!-- Banner principal -->
+    <div class="banner-spa">
+        <img src="../static/images/banoCorte.PNG" alt="bano">
+        <div class="banner-overlay">
+            <h1>¡Spa Premium para tu Mascota!</h1>
+            <p class="banner-subtitle">Belleza y bienestar en un solo lugar</p>
+        </div>
+    </div>
+
+    <main class="spa-section">
+        <!-- Sección de bienvenida y promoción -->
+        <div class="bienvenida-section">
+            <div class="welcome-card">
+                <h2>Bienvenido al Spa Milenzo</h2>
+                <p>Transformamos a tu peludo en una estrella con nuestros servicios profesionales de grooming</p>
+            </div>
+
+            <div class="promociones-grid">
+                <div class="promo-card">
+                    
+                    <h3>Baños Especializados</h3>
+                    <p>Productos premium para cada tipo de pelaje y piel</p>
+                </div>
+                <div class="promo-card">
+                    
+                    <h3>Cortes Profesionales</h3>
+                    <p>Estilistas certificados con técnicas de última generación</p>
+                </div>
+                <div class="promo-card">
+                    
+                    <h3>Cuidado Completo</h3>
+                    <p>Uñas, oídos y cepillado para un look perfecto</p>
+                </div>
+                <div class="promo-card">
+                    
+                    <h3>Amor y Paciencia</h3>
+                    <p>Tratamos a tu mascota con el cariño que se merece</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="formulario-container">
+            <div class="form-header">
+                <h2>Reserva tu Cita de Spa</h2>
+                <p>Selecciona los servicios que deseas para tu mascota</p>
+            </div>
+
+            <form class="formulario-spa">
+                <!-- Información básica -->
+                <div class="form-section">
+                    <h3>📋 Información de la Mascota</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre-mascota">Nombre de la mascota:</label>
+                            <input type="text" id="nombre-mascota" name="nombre-mascota" placeholder="Ej: Enzo" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="raza">Raza:</label>
+                            <input type="text" id="raza" name="raza" placeholder="Ej: Lobito" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edad">Edad:</label>
+                            <select id="edad" name="edad" required>
+                                <option value="">Seleccionar edad</option>
+                                <option value="cachorro">Cachorro (0-1 año)</option>
+                                <option value="joven">Joven (1-3 años)</option>
+                                <option value="adulto">Adulto (3-7 años)</option>
+                                <option value="senior">Senior (7+ años)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="agresivo">¿Es agresivo durante el grooming?</label>
+                            <select id="agresivo" name="agresivo" required>
+                                <option value="">Seleccionar</option>
+                                <option value="no">No, es muy tranquilo</option>
+                                <option value="poco">Un poco nervioso</option>
+                                <option value="si">Sí, requiere cuidado especial</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="alergias">Alergias o sensibilidades:</label>
+                        <textarea id="alergias" name="alergias" placeholder="Describe cualquier alergia a productos, sensibilidad en la piel, etc. (Opcional)" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Sección de Baño -->
+                <div class="form-section">
+                    <div class="service-header">
+                        <input type="checkbox" id="servicio-bano" name="servicio-bano" onchange="toggleSection('bano-options')">
+                        <label for="servicio-bano" class="service-title">Servicios de Baño</label>
+                    </div>
+
+                    <div id="bano-options" class="service-options" style="display: none;">
+                        <div class="options-grid">
+                            <div class="option-card">
+                                <input type="radio" id="bano-normal" name="tipo-bano" value="normal">
+                                <label for="bano-normal" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Baño Normal</h4>
+                                        <p>Shampoo premium, acondicionador, secado y cepillado</p>
+                                        <span class="precio">$25.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="option-card">
+                                <input type="radio" id="bano-medicado" name="tipo-bano" value="medicado">
+                                <label for="bano-medicado" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Baño Medicado</h4>
+                                        <p>Shampoo medicinal para problemas de piel, tratamiento especializado</p>
+                                        <span class="precio">$40.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="option-card">
+                                <input type="radio" id="bano-antipulgas" name="tipo-bano" value="antipulgas">
+                                <label for="bano-antipulgas" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Baño Antipulgas</h4>
+                                        <p>Tratamiento especializado contra pulgas y garrapatas</p>
+                                        <span class="precio">$38.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="option-card">
+                                <input type="radio" id="bano-sensible" name="tipo-bano" value="sensible">
+                                <label for="bano-sensible" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Baño Piel Sensible</h4>
+                                        <p>Productos hipoalergénicos para pieles delicadas</p>
+                                        <span class="precio">$35.000</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de Corte -->
+                <div class="form-section">
+                    <div class="service-header">
+                        <input type="checkbox" id="servicio-corte" name="servicio-corte" onchange="toggleSection('corte-options')">
+                        <label for="servicio-corte" class="service-title">Servicios de Corte y Estética</label>
+                    </div>
+
+                    <div id="corte-options" class="service-options" style="display: none;">
+                        <div class="options-grid">
+                            <div class="option-card">
+                                <input type="checkbox" id="corte-puntas" name="servicios-corte" value="puntas">
+                                <label for="corte-puntas" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Corte de Puntas</h4>
+                                        <p>Recorte ligero para mantener la forma</p>
+                                        <span class="precio">$8.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="option-card">
+                                <input type="checkbox" id="corte-completo" name="servicios-corte" value="completo">
+                                <label for="corte-completo" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Corte Completo</h4>
+                                        <p>Corte profesional según la raza y preferencias</p>
+                                        <span class="precio">$20.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+
+                            <div class="option-card">
+                                <input type="checkbox" id="corte-unas" name="servicios-corte" value="unas">
+                                <label for="corte-unas" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Corte de Uñas</h4>
+                                        <p>Recorte profesional y limado</p>
+                                        <span class="precio">$8.000</span>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <div class="option-card">
+                                <input type="checkbox" id="limpieza-oidos" name="servicios-corte" value="oidos">
+                                <label for="limpieza-oidos" class="option-label">
+                                    <div class="option-content">
+                                        <h4>Limpieza de Oídos</h4>
+                                        <p>Limpieza profunda y desinfección</p>
+                                        <span class="precio">$5.000</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sección de fecha y comentarios -->
+                <div class="form-section">
+                    <h3>Detalles de la Cita</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fecha-cita">Fecha preferida:</label>
+                            <input type="date" id="fecha-cita" name="fecha-cita" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hora-cita">Hora preferida:</label>
+                            <select id="hora-cita" name="hora-cita" required>
+                                <option value="">Seleccionar hora</option>
+                                <option value="08:00">8:00 AM</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comentarios">Comentarios especiales:</label>
+                        <textarea id="comentarios" name="comentarios" placeholder="Instrucciones especiales, preferencias de corte, etc..." rows="4"></textarea>
+                    </div>
+                </div>
+
+           
+                <div class="total-section">
+                    <div class="total-card">
+                        <h3> Total</h3>
+                        <div id="total-precio" class="total-precio">$0</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-reservar">Reservar Cita</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
+            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>  
+        </div>
+    </footer>
+
+    <!-- Modales (iguales que en otras páginas) -->
+    <div id="modal-privacidad" class="modal">
+        <div class="modal-contenido"> 
+          <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
+          <h2>Política de Privacidad</h2>
+          <p>🛡️ Última actualización: abril de 2025
+
+            <p> En MilenzoPet, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
+               
+                <p> ¿Qué información recopilamos?
+                    <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
+                    <p>*Información sobre tus mascotas (nombre, especie, edad).
+                    <p>*Historial de citas y servicios utilizados.
+                    <p>*Datos de navegación y uso de la plataforma (cookies y análisis estadístico).
+               
+                 <p>¿Cómo usamos tus datos?
+                    <p>*Para agendar y gestionar citas veterinarias y servicios relacionados.
+                    <p>*Para personalizar tu experiencia en la plataforma.
+                    <p>*Para contactar contigo en relación con tus solicitudes o servicios.
+                    <p>*Para fines estadísticos y de mejora continua del servicio.
+               
+                <p>¿Con quién compartimos tus datos?
+                    <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
+            Tus derechos
+                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@milenzopet.com.</p>
+        </div>
+      </div>
+      
+      <div id="modal-terminos" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
+          <h2>Términos y Condiciones</h2>
+          <p>📜Bienvenido a MilenzoPet
+          <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
+           
+          <p> Uso de la plataforma:
+
+            <p> *El usuario se compromete a brindar información veraz y actualizada.
+            
+            <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
+            
+            <p></p>*MilenzoPet se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
+            
+            <p> Servicios:
+            
+                <p></p>*MilenzoPet facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
+            
+                <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
+            
+            <p>Propiedad intelectual: 
+            
+                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de MilenzoPet y no pueden ser utilizados sin autorización previa.
+           
+            <p> Modificaciones:
+            
+                <p>* MilenzoPet puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
+        </div>
+      </div>
+      
+      <div id="modal-contacto" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
+          <h2>Contacto</h2>
+          <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
+
+            <p> *Email: contacto@milenzopet.com
+            <p> *Teléfono: +52 305 4846421
+            <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
+            <p> *Redes sociales:
+            <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
+        </div>
+      </div>
+
+    <script>
+        
+        const precios = {
+            'normal': 25000,
+            'medicado': 40000,
+            'antipulgas': 30000,
+            'sensible': 42000,
+            'puntas': 8000,
+            'raza': 20000,
+            'unas': 8000,
+            'oidos': 5000
+        };
+
+        
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const checkbox = event.target;
+            
+            if (checkbox.checked) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = 'none';
+                
+                const inputs = section.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+                inputs.forEach(input => input.checked = false);
+            }
+            calcularTotal();
+        }
+
+        
+        function calcularTotal() {
+            let total = 0;
+            
+            const banoSeleccionado = document.querySelector('input[name="tipo-bano"]:checked');
+            if (banoSeleccionado) {
+                total += precios[banoSeleccionado.value];
+            }
+            
+            const cortesSeleccionados = document.querySelectorAll('input[name="servicios-corte"]:checked');
+            cortesSeleccionados.forEach(corte => {
+                total += precios[corte.value];
+            });
+            
+            
+            document.getElementById('total-precio').textContent = '$' + total.toLocaleString();
+        }
+
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const radioButtons = document.querySelectorAll('input[name="tipo-bano"]');
+            const checkboxes = document.querySelectorAll('input[name="servicios-corte"]');
+            
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', calcularTotal);
+            });
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', calcularTotal);
+            });
+        });
+
+        
+        function abrirModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+       
+        window.onclick = function(event) {
+            const modales = document.querySelectorAll('.modal');
+            modales.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

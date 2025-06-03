@@ -28,122 +28,17 @@
     <div class="cascada">
         <h2>Elige uno de nuestros Servicios:</h2>
 
-        <button class="elemento" data-modal="modal-bano">
-            <img src="../static/images/Baño1.png" alt="Baño" class="elemento-icon">
-            <span>Baño</span>
+        <a href="/bano" class="elemento" >
+            <img src="../static/images/Baño1.png" alt="Bano" class="elemento-icon">
+            <span>Baño y corte</span>
         </button>
-        <div class="modal" id="modal-bano">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal('modal-bano')">&times;</span>
-                <h3>Servicio de Baño</h3>
-                <p>Descripción del servicio de baño.</p>
-                <form class="modal-form">
-                    <label for="opcion-bano">Selecciona una opción:</label>
-                    <select id="opcion-bano" name="opcion-bano">
-                        <option value="">-- Selecciona una opción --</option>
-                        <option value="espuma">Baño con espuma</option>
-                        <option value="medicado">Baño medicado</option>
-                        <option value="antipulgas">Baño antipulgas</option>
-                    </select>
-                    <label for="comentarios-bano">Comentarios o recomendaciones:</label>
-                    <textarea id="comentarios-bano" name="comentarios-bano" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn-enviar" onclick="manejarBotonEnviar('modal-bano')">Enviar</button>
-                    <button type="button" class="btn-aceptar" onclick="cerrarModal('modal-bano')">Aceptar</button>
-                </div>
-            </div>
-        </div>
-
-        <button class="elemento" data-modal="modal-peluqueria">
-            <img src="../static/images/Peluqueria1.png" alt="Peluquería" class="elemento-icon">
-            <span>Corte</span>
-        </button>
-        <div class="modal" id="modal-peluqueria">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal('modal-peluqueria')">&times;</span>
-                <h3>Servicio de Peluquería</h3>
-                <p>Descripción del servicio de peluquería.</p>
-                <form class="modal-form">
-                    <label for="opcion-peluqueria">Selecciona una opción:</label>
-                    <select id="opcion-peluqueria" name="opcion-peluqueria">
-                        <option value="">-- Selecciona una opción --</option>
-                        <option value="corte-completo">Corte completo</option>
-                        <option value="higienico">Corte higiénico</option>
-                        <option value="estilizado">Corte estilizado</option>
-                    </select>
-                    <label for="comentarios-peluqueria">Comentarios o recomendaciones:</label>
-                    <textarea id="comentarios-peluqueria" name="comentarios-peluqueria" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn-enviar" onclick="manejarBotonEnviar('modal-peluqueria')">Enviar</button>
-                    <button type="button" class="btn-aceptar" onclick="cerrarModal('modal-peluqueria')">Aceptar</button>
-                </div>
-            </div>
-        </div>
-
-        <button class="elemento" data-modal="modal-consulta">
-            <img src="../static/images/Consulta1.png" alt="Consulta" class="elemento-icon">
-            <span>Consulta</span>
-        </button>
-        <div id="modal-consulta" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModal('modal-consulta')">&times;</span>
-                <h3>Consulta Veterinaria</h3>
-                <p>Descripción del servicio de consulta.</p>
-                <form class="modal-form">
-                    <label for="opcion-consulta">Tipo de consulta:</label>
-                    <select id="opcion-consulta" name="opcion-consulta">
-                        <option value="">-- Selecciona una opción --</option>
-                        <option value="general">Consulta general</option>
-                        <option value="especialista">Consulta con especialista</option>
-                        <option value="emergencia">Emergencia</option>
-                    </select>
-                    <label for="comentarios-consulta">Comentarios o recomendaciones:</label>
-                    <textarea id="comentarios-consulta" name="comentarios-consulta" rows="4" placeholder="Escribe aquí tus comentarios..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button class="btn-aceptar" onclick="cerrarModal('modal-consulta')">Aceptar</button>
-                    <button class="btn-enviar" onclick="manejarBotonEnviar('modal-consulta')">Enviar</button>
-                </div>
-            </div>
-        </div>
+   
 
         <a href="/control" class="elemento">
             <img src="../static/images/Control1.png" alt="Control" class="elemento-icon">
             <span>Control</span>
         </a>
    
-
-        <button class="elemento" data-modal="modal-historial">
-            <img src="../static/images/Historial1.png" alt="Historial" class="elemento-icon">
-            <span>Historial</span>
-        </button>
-        <div id="modal-historial" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('modal-historial')">&times;</span>
-                <h2>Historial Médico</h2>
-                <p>Consulta el historial médico de tu mascota y agrega detalles adicionales si es necesario.</p>
-                <form class="modal-form">
-                    <label for="historial-mascota">Seleccionar mascota</label>
-                    <select id="historial-mascota">
-                        <option value="mascota1">Mascota 1</option>
-                        <option value="mascota2">Mascota 2</option>
-                        <option value="mascota3">Mascota 3</option>
-                    </select>
-                    <label for="historial-comentarios">Comentarios adicionales</label>
-                    <textarea id="historial-comentarios" rows="3" placeholder="Escribe detalles sobre el historial aquí..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button class="btn-enviar" onclick="manejarBotonEnviar('modal-historial')">Enviar</button>
-                    <button class="btn-aceptar" onclick="cerrarModal('modal-historial')">Aceptar</button>
-                </div>
-            </div>
-        </div>
 
         <button class="elemento" data-modal="modal-veterinarios">
             <img src="../static/images/Veterinarios1.png" alt="veterinarios" class="elemento-icon">
@@ -186,33 +81,15 @@
 
             </div>               
         </div> 
-        <button class="elemento" data-modal="modal-guarderia">
-            <img src="../static/images/Guarderia.png" alt="Guarderia" class="elemento-icon">
-            <span>Guarderia</span>
-        </button>
-        <div id="modal-guarderia" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal('modal-guarderia')">&times;</span>
-                <h2>Guardería</h2>
-                <p>Descripción del servicio de guardería.</p>
-                <form class="modal-form">
-                    <label for="guarderia-hora">Seleccionar hora</label>
-                    <select id="guarderia-hora">
-                        <option value="9am">9:00 AM</option>
-                        <option value="10am">10:00 AM</option>
-                        <option value="11am">11:00 AM</option>
-                    </select>
-                    <label for="guarderia-notas">Notas adicionales</label>
-                    <textarea id="guarderia-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
-                </form>
-                <div class="modal-confirmacion"></div>
-                <div class="modal-buttons">
-                    <button class="btn-enviar" onclick="manejarBotonEnviar('modal-guarderia')">Enviar</button>
-                    <button class="btn-aceptar" onclick="cerrarModal('modal-guarderia')">Aceptar</button>
-                </div>
-            </div>
-        </div>
+
+   
+       
     </div>
+     /* -------------------------------------------------------------------  Guarderia boton --------------------------------------------------------------------*\
+        <a href="/guarderia" class="elemento">
+            <img src="../static/images/Guarderia.png"alt="Guarderia" class="elemento-icon">
+            <span>Guarderia</span>
+        </a>
 
     <a href="/transporte" class="elemento">
         <img src="../static/images/Transporte1.png" alt="Transporte" class="elemento-icon">

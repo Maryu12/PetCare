@@ -120,10 +120,17 @@ async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
             "user_role": user_role
         }
     )
+@app.get("/bano", response_class=HTMLResponse)
+async def bano_view(request: Request):
+    return templates.TemplateResponse("bano.html", {"request": request})
 
 @app.get("/control", response_class=HTMLResponse)
 async def control_view(request: Request):
     return templates.TemplateResponse("control.html", {"request": request})
+
+@app.get("/guarderia", response_class=HTMLResponse)
+async def guarderia_view(request: Request):
+    return templates.TemplateResponse("guarderia.html", {"request": request})
 
 @app.get("/getVetProfile")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
