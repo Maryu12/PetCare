@@ -27,43 +27,66 @@
 
     <div class="cascada">
         <h2>Elige uno de nuestros Servicios:</h2>
+
+        <a href="/bano" class="elemento" >
+            <img src="../static/images/Baño1.webp" alt="Bano" class="elemento-icon">
+            <span>Baño y corte</span>
+        </button>
+   
+
+        <a href="/control" class="elemento">
+            <img src="../static/images/Control1.webp" alt="Control" class="elemento-icon">
+            <span>Control</span>
+        </a>
+   
+
+        <button class="elemento" data-modal="modal-veterinarios">
+            <img src="../static/images/Veterinarios1.webp" alt="veterinarios" class="elemento-icon">
+            <span>veterinarios</span>
+        </button>
+        <div id="modal-veterinarios" class="modal">
+            <div class="modal-content">
+                <h2>Veterinarios</h2>
+                <p>Selecciona un veterinario y agrega tus preguntas o notas.</p>
+                <div class="modal-form">
+                    <label for="veterinarios-preferido">Seleccionar veterinario</label>
+                    <select id="veterinarios-preferido">
+                        <option value="" hidden selected>Seleccionar una opcion</option>                       
+                         <option value="1">Veterinario 1</option>
+                        <option value="2">Veterinario 2</option>
+                        <option value="3">Veterinario 3</option>
+                    </select>
+                    <label for="veterinarios-notas">Notas o preguntas</label>
+                    <textarea id="veterinarios-notas" rows="3" placeholder="Escribe tus notas aquí..."></textarea>
+                </div>
+                <div id="veterinarios-confirmacion"></div>
+                <div class="modal-buttons">
+                    <button class="btn-aceptar" onclick="cerrarModal('modal-veterinarios')">Aceptar</button>
+                    <button class="btn-enviar" onclick="mostrarDetalleVeterinario(document.getElementById('veterinarios-preferido').value)">Ver Detalle</button>
+                </div>
+                
+               
+                <div id="modal-detalle-veterinario" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <h2>Información del Veterinario</h2>
+                       
+                        <div id="detalle-vet">
+                        <!-- Vacío por ahora -->
+                        </div>
+                        <div class="modal-buttons">
+                            <button class="btn-aceptar" onclick="document.getElementById('modal-detalle-veterinario').style.display = 'none';">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>               
+        </div>     
     </div>
-    <a href="/baño" class="elemento">
-            <img src="../static/images/Baño1.webp"alt="Baño" class="elemento-icon">
-            <span>Baño</span>
-    </a>
-    <br>
+        <a href="/guarderia" class="elemento">
+            <img src="../static/images/Guarderia.webp"alt="Guarderia" class="elemento-icon">
+            <span>Guarderia</span>
+        </a>
 
-    <a href="/corte" class="elemento">
-        <img src="../static/images/Corte.png" alt="Corte" class="elemento-icon">
-        <span>Corte</span>
-    </a>
-
-    <a href="/consulta" class="elemento">
-        <img src="../static/images/Consulta1.png" alt="Consulta" class="elemento-icon">
-        <span>Consulta</span>
-    </a>
-    
-    <a href="/control" class="elemento">
-        <img src="../static/images/Control1.png" alt="Control" class="elemento-icon">
-        <span>Control</span>
-    </a>
-
-    <a href="/historial" class="elemento">
-        <img src="../static/images/Historial1.png" alt="Historial" class="elemento-icon">
-        <span>Historial</span>
-    </a>
-
-    <a href="/veterinarios" class="elemento">
-        <img src="../static/images/Veterinarios1.png" alt="Veterinarios" class="elemento-icon">
-        <span>Veterinarios</span>
-    </a>
-
-    <a href="/guarderia" class="elemento">
-        <img src="../static/images/Guarderia.png" alt="Guarderia" class="elemento-icon">
-        <span>Guardería</span>
-    </a>
-    
     <a href="/transporte" class="elemento">
         <img src="../static/images/Transporte1.webp" alt="Transporte" class="elemento-icon">
         <span>Transporte</span>
