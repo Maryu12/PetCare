@@ -84,27 +84,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="nombre-mascota">Nombre de la mascota:</label>
-                            <input type="text" id="nombre-mascota" name="nombre-mascota" placeholder="Ej: Enzo" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="raza">Raza:</label>
-                            <input type="text" id="raza" name="raza" placeholder="Ej: Lobito" required>
+                            <select id ="petSelect" id="mascota"  required>
+                                <option value = "" >Elegir mascota</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
-                            <label for="edad">Edad:</label>
-                            <select id="edad" name="edad" required>
-                                <option value="">Seleccionar edad</option>
-                                <option value="cachorro">Cachorro (0-1 año)</option>
-                                <option value="joven">Joven (1-3 años)</option>
-                                <option value="adulto">Adulto (3-7 años)</option>
-                                <option value="senior">Senior (7+ años)</option>
-                            </select>
-                        </div>
-
                         <div class="form-group">
                             <label for="agresivo">¿Es agresivo durante el grooming?</label>
                             <select id="agresivo" name="agresivo" required>
@@ -413,7 +399,7 @@
             'antipulgas': 30000,
             'sensible': 42000,
             'puntas': 8000,
-            'raza': 20000,
+            'completo': 20000,
             'unas': 8000,
             'oidos': 5000
         };
@@ -485,44 +471,55 @@
             });
         }
 
-        // ...existing code...
+        //Funcion para llenar el select de "seleccionar mascota"
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Mascotas
+            try {
+                const response = await fetch("/getMyPets");
+                if (response.ok) {
+                    const pets = await response.json();
+                    const petSelect = document.getElementById("petSelect");
+                    petSelect.innerHTML = '<option value="">Elegir una mascota</option>';
+                    pets.forEach(pet => {
+                        const option = document.createElement("option");
+                        option.value = pet.id_pet;
+                        option.textContent = `${pet.pet_name} - ${pet.species}`;
+                        petSelect.appendChild(option);
+                    });
+                } else {
+                    console.warn("No se pudo obtener la lista de mascotas.");
+                }
+            } catch (error) {
+                console.error("Error al cargar la lista de mascotas:", error);
+            }
+        });
 
-document.querySelector('.formulario-spa').addEventListener('submit', function(e) {
-    e.preventDefault();
+    document.querySelector('.formulario-spa').addEventListener('submit', function(e) {
+        e.preventDefault();
 
-    // Recoge los datos del formulario
-    const nombreMascota = document.getElementById('nombre-mascota').value;
-    const raza = document.getElementById('raza').value;
-    const edad = document.getElementById('edad').value;
-    const agresivo = document.getElementById('agresivo').value;
-    const alergias = document.getElementById('alergias').value;
-    const fechaCita = document.getElementById('fecha-cita').value;
-    const horaCita = document.getElementById('hora-cita').value;
-    const comentarios = document.getElementById('comentarios').value;
+        // Opciones seleccionadas
+        let servicios = [];
+        const bano = document.querySelector('input[name="tipo-bano"]:checked');
+        if (bano) servicios.push('Baño: ' + bano.labels[0].innerText.trim());
+        document.querySelectorAll('input[name="servicios-corte"]:checked').forEach(corte => {
+            servicios.push('Corte: ' + corte.labels[0].innerText.trim());
+        });
 
-    // Opciones seleccionadas
-    let servicios = [];
-    const bano = document.querySelector('input[name="tipo-bano"]:checked');
-    if (bano) servicios.push('Baño: ' + bano.labels[0].innerText.trim());
-    document.querySelectorAll('input[name="servicios-corte"]:checked').forEach(corte => {
-        servicios.push('Corte: ' + corte.labels[0].innerText.trim());
+        // Mensaje de notificación
+        let mensaje = `¡Cita de Spa reservada!\nMascota: ${nombreMascota}\nRaza: ${raza}\nEdad: ${edad}\nAgresivo: ${agresivo}\nAlergias: ${alergias}\nServicios: ${servicios.join(', ')}\nFecha: ${fechaCita}\nHora: ${horaCita}\nComentarios: ${comentarios}`;
+
+        mostrarToast(mensaje.replace(/\n/g, '<br>'));
     });
 
-    // Mensaje de notificación
-    let mensaje = `¡Cita de Spa reservada!\nMascota: ${nombreMascota}\nRaza: ${raza}\nEdad: ${edad}\nAgresivo: ${agresivo}\nAlergias: ${alergias}\nServicios: ${servicios.join(', ')}\nFecha: ${fechaCita}\nHora: ${horaCita}\nComentarios: ${comentarios}`;
+    function mostrarToast(mensaje) {
+        const toast = document.getElementById('toast');
+        toast.textContent = mensaje;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 4000);
+    }
 
-    mostrarToast(mensaje.replace(/\n/g, '<br>'));
-});
-
-
-function mostrarToast(mensaje) {
-    const toast = document.getElementById('toast');
-    toast.textContent = mensaje;
-    toast.style.display = 'block';
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 4000);
-}
     </script>
 </body>
 </html>
