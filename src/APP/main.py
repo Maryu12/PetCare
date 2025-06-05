@@ -75,9 +75,37 @@ async def suscripcion(request: Request, plan: str = Query(None)):
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
+@app.get("/baño")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_baño.html", {"request": request})
+
+@app.get("/corte")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_corte.html", {"request": request})
+
+@app.get("/consulta")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_consulta.html", {"request": request})
+
+@app.get("/control")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_control.html", {"request": request})
+
+@app.get("/historial")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_historial.html", {"request": request})
+
+@app.get("/veterinarios")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_veterinarios.html", {"request": request})
+
+@app.get("/guarderia")
+async def get_transporte(request: Request):
+    return templates.TemplateResponse("servicio_guarderia.html", {"request": request})
+
 @app.get("/transporte")
 async def get_transporte(request: Request):
-    return templates.TemplateResponse("transporte.html", {"request": request})
+    return templates.TemplateResponse("servicio_transporte.html", {"request": request})
 
 @app.get("/perf_vet")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -185,6 +213,117 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
         pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+@app.post("api/bano")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_bano(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=1,  # ID del servicio de baño
+        id_veterinarian=1,  # No aplica veterinario para baño
+        date_hour_status=data.get("hora_bano"),  # Hora del baño
+        fecha_rec=data.get("fecha_bano"),  # Fecha del baño
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"success": True, "message": "Solicitud de baño registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+@app.post("/api/corte")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_corte(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=3,  # ID del servicio de corte
+        id_veterinarian=1,  # No aplica veterinario para corte
+        date_hour_status=data.get("hora_corte"),  # Hora del corte
+        fecha_rec=data.get("fecha_corte"),  # Fecha del corte
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"success": True, "message": "Solicitud de corte registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+@app.post("/api/consulta")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_consulta(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=4,  # ID del servicio de consulta
+        id_veterinarian=data.get("id_veterinarian"),  # ID del veterinario seleccionado
+        date_hour_status=data.get("hora_consulta"),  # Hora de la consulta
+        fecha_rec=data.get("fecha_consulta"),  # Fecha de la consulta
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"success": True, "message": "Solicitud de consulta registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+@app.post("/api/control")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_control(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=6,  # ID del servicio de control
+        id_veterinarian=data.get("id_veterinarian"),  # ID del veterinario seleccionado
+        date_hour_status=data.get("hora_control"),  # Hora del control
+        fecha_rec=data.get("fecha_control"),  # Fecha del control
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"success": True, "message": "Solicitud de control registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+@app.post("/api/guarderia")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_guarderia(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=7,  # ID del servicio de guardería
+        id_veterinarian=1,  # No aplica veterinario para guardería
+        date_hour_status=data.get("hora_guarderia"),  # Hora de la guardería
+        fecha_rec=data.get("fecha_guarderia"),  # Fecha de la guardería
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    return {"success": True, "message": "Solicitud de guardería registrada correctamente", "appointment_id": nueva_cita.id_appointment}
 
 @app.post("/api/transporte")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])

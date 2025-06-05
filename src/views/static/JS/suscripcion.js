@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const planColors = {
     'premium': '#d4af37',
     'estandar': '#66A6A6',
-    'basico': '#A2E0DC'
+    'basico': '#A2E0DC',
+    'vet_pro': '#66A6A6'
   };
 
   // Mostrar información del plan seleccionado
@@ -17,7 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const planNames = {
       'premium': 'Premium',
       'estandar': 'Estándar',
-      'basico': 'Básico'
+      'basico': 'Básico',
+      'vet_pro':'Veterinario Pro',
     };
 
     // Nombre del plan
