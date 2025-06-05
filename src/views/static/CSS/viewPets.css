@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -6,17 +8,14 @@
 }
 
 body {
-    background-color: #c9d6ff;
-    background: linear-gradient(to right, #e2e2e2, #c9d6ff);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    background: linear-gradient(135deg, #c9d6ff 0%, #e2e2e2 50%, #A2E0DC 100%);
     min-height: 100vh;
-    padding-top: 100px;
+    padding-top: 80px;
     padding-bottom: 120px;
     color: #333;
 }
 
+/* Header */
 header.container {
     background-color: #166E6E;
     color: white;
@@ -79,7 +78,7 @@ nav {
     color: #6A9492;
 }
 
-.login-button {
+.login-button, .logout-button {
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -91,135 +90,299 @@ nav {
     font-size: 16px;
 }
 
-.login-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
-.logout-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.logout-button:hover {
+.login-button:hover, .logout-button:hover {
     background-color: #ffffff;
     color: #6A9492;
 }
 
-.footer {
-    background-color: #166E6E;
-    color: white;
+/* Banner Hero */
+.hero-banner {
+    background: linear-gradient(rgba(22, 110, 110, 0.8), rgba(22, 110, 110, 0.8)), url('/placeholder.svg?height=400&width=1200');
+    background-size: cover;
+    background-position: center;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 20px 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin-bottom: 3rem;
 }
 
+.hero-content {
+    max-width: 800px;
+    padding: 0 2rem;
+}
 
+.hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-description {
+    font-size: 1.3rem;
+    font-weight: 400;
+    line-height: 1.6;
+}
 
 /* Contenedor principal */
 .main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
     display: flex;
-    background-color: #6ecde0;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    gap: 30px;
-    margin-top:100px;
+    gap: 3rem;
 }
-.form-group {
-    display: flex;
-    align-items: center; 
-    gap: 10px; 
-    justify-content: center; 
+
+/* Consejos de cuidado */
+.pet-care-tips {
+    margin-bottom: 2rem;
 }
-.form-group label {
+
+.tips-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tips-container h2 {
+    font-size: 2rem;
+    color: #166E6E;
+    text-align: center;
+    margin-bottom: 2rem;
     font-family: 'Poppins', sans-serif;
-    font-size: 20px; 
-    font-weight: bold;
-    color: #444;
-    margin-bottom: 10px;
-    display: block;
 }
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.tip-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.tip-card:hover {
+    transform: translateY(-5px);
+}
+
+.tip-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.tip-card h3 {
+    font-size: 1.3rem;
+    color: #166E6E;
+    margin-bottom: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.tip-card p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
 /* Contenedor de mascotas */
-.pets-container, .pets-list {
-    background-color: white;
-    padding: 60px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 1000px;
-    min-height: 600px; 
+.pets-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
-.pets-container h2, .pets-list h2 {
-    margin-bottom: 60px;
-    margin-top: 40px;
+.section-title {
+    font-size: 2rem;
+    color: #166E6E;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Lista de mascotas */
-#petsList {
+.section-description {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #166E6E;
+    margin-bottom: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.form-group select,
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    border: 2px solid #e1e5e9;
+    border-radius: 12px;
+    background-color: #fff;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23166E6E' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.2rem;
+    cursor: pointer;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #166E6E;
+    box-shadow: 0 0 0 3px rgba(22, 110, 110, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-actions {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.action-button {
+    background: linear-gradient(135deg, #166E6E 0%, #6A9492 100%);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(22, 110, 110, 0.3);
+}
+
+.action-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(22, 110, 110, 0.4);
+    background: linear-gradient(135deg, #0f5a5a 0%, #5a8280 100%);
+}
+
+.action-button:active {
+    transform: translateY(0);
+}
+
+.save-button {
+    background: linear-gradient(135deg, #4ECDC4 0%, #2BAE66 100%);
+}
+
+.save-button:hover {
+    background: linear-gradient(135deg, #3DAA9D 0%, #229A57 100%);
+}
+
+/* Historial médico */
+.history-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.history-header h2 {
+    font-size: 2rem;
+    color: #166E6E;
+    font-family: 'Poppins', sans-serif;
+}
+
+.pet-profile {
+    background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
+    padding: 1rem;
+    border-radius: 12px;
+    min-width: 250px;
+}
+
+.history-records {
+    margin-bottom: 2.5rem;
+}
+
+.history-records h3 {
+    font-size: 1.5rem;
+    color: #166E6E;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.history-list {
     list-style-type: none;
     padding: 0;
 }
 
-#petsList li {
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+.history-list li {
+    background: #f8f9fa;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    border-left: 4px solid #166E6E;
 }
 
-#petsList li:last-child {
-    border-bottom: none;
+/* Actualizar información */
+.update-section {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
 }
 
-/* flechita de mascotas */
-#petSelect {
-    font-family: 'Arial', sans-serif; 
-    font-size:16px; 
-    color: #6A9492;     
-    padding: 8px 12px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.update-section h3 {
+    font-size: 1.5rem;
+    color: #166E6E;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
 }
 
-.form-actions {
-    display: flex;
-    justify-content: center;
-    margin-top: 80px;
-}
-/* Botones */
-.action-button {
-    background-color: #6A9492;
-    color: white;
-    padding: 20px 20px;
-    border: none;
-    border-radius: 10px;
-    padding: 1.0rem 4rem;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-decoration: none; /* Quita subrayado de los enlaces */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.action-button:hover {
-    background-color: #4d6f6d;
-}
-
-/*--------------------------------------------------------------- pie de pagina------------------------------------------------------------------- */
-
+/* Footer */
 .footer {
     background-color: #166E6E;
     color: white;
@@ -230,26 +393,32 @@ nav {
     width: 100%;
     box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .footer p {
     margin: 0;
     font-size: 14px;
 }
+
 .footer-links {
     margin-top: 10px;
     display: flex;
     justify-content: center;
     gap: 15px;
 }
+
 .footer-links a {
     color: white;
     text-decoration: none;
     font-size: 14px;
     transition: color 0.3s ease;
 }
+
 .footer-links a:hover {
     color: #c9d6ff;
 }
-.modal{
+
+/* Modales */
+.modal {
     display: none;
     position: fixed;
     z-index: 999;
@@ -261,11 +430,11 @@ nav {
     overflow: auto;
     background-color: rgba(0,0,0,0.5);
 }
-  
+
 .modal-contenido {
     background-color: #fff;
     margin: auto;
-    padding: 20px;
+    padding: 30px;
     border-radius: 15px;
     width: 60%;
     max-width: 600px;
@@ -275,22 +444,66 @@ nav {
     line-height: 1.6;     
     margin-bottom: 15px;   
     text-align: justify; 
-    padding: 30px; 
 }
-  
+
 .cerrar {
-color: #aaa;
-float: right;
-font-size: 28px;
-font-weight: bold;
-cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
-  
+
 .cerrar:hover {
     color: black;
 }
-  
+
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity: 1;}
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1.1rem;
+    }
+    
+    .tips-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .history-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .modal-contenido {
+        width: 90%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .pets-container, .history-container {
+        padding: 1.5rem;
+    }
 }
