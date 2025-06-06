@@ -128,6 +128,10 @@ async def bano_view(request: Request):
 async def control_view(request: Request):
     return templates.TemplateResponse("control.html", {"request": request})
 
+@app.get("/vet", response_class=HTMLResponse)
+async def vet_view(request: Request):
+    return templates.TemplateResponse("vet.html", {"request": request})
+
 @app.get("/guarderia", response_class=HTMLResponse)
 async def guarderia_view(request: Request):
     return templates.TemplateResponse("guarderia.html", {"request": request})
@@ -196,6 +200,29 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
         pets = db.query(Pet).filter(Pet.id_owner == user_id).all()
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+@app.get("/getVeterinarians")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_veterinarians(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    # Si el usuario es Veterinario o Administrador, devolver todos los veterinarios
+    if user_role in ["Veterinario", "Administrador de la tienda"]:
+        veterinarians = db.query(Veterinarian).all()
+    else:
+        # Si el usuario es Cliente, devolver solo los veterinarios disponibles
+        veterinarians = db.query(Veterinarian).filter(Veterinarian.state == "Activo").all()
+    return [
+        {
+            "id_veterinarian": vet.id_veterinarian,
+            "name_vet": vet.name_vet,
+            "last_name": vet.last_name,
+            "telefono": vet.telefono,
+            "email": vet.email,
+            "state": vet.state,
+            "description": vet.description
+        } for vet in veterinarians
+    ]
 
 @app.post("/api/transporte")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
