@@ -69,28 +69,14 @@
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nombre-mascota">Nombre de la mascota:</label>
-                            <input type="text" id="nombre-mascota" name="nombre-mascota" placeholder="Ej: Milú" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="raza">Raza:</label>
-                            <input type="text" id="raza" name="raza" placeholder="Ej: Doberman, Mestizo" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="edad">Edad:</label>
-                            <select id="edad" name="edad" required>
-                                <option value="">Seleccionar edad</option>
-                                <option value="cachorro">Cachorro (0-1 año)</option>
-                                <option value="joven">Joven (1-3 años)</option>
-                                <option value="adulto">Adulto (3-7 años)</option>
-                                <option value="senior">Senior (7+ años)</option>
+                            <label for="nombre-mascota">¿Qué mascota desea llevar a la guarderia</label>
+                            <select id ="petSelect" name="mascota" required>
+                                <option value = "" >Elegir una mascota</option>
                             </select>
                         </div>
-
+                    </div>
+                
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="convive-animales">¿Convive con otros animales?</label>
                             <select id="convive-animales" name="convive-animales" required>
