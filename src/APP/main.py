@@ -128,6 +128,10 @@ async def bano_view(request: Request):
 async def control_view(request: Request):
     return templates.TemplateResponse("control.html", {"request": request})
 
+@app.get("/vet", response_class=HTMLResponse)
+async def vet_view(request: Request):
+    return templates.TemplateResponse("vet.html", {"request": request})
+
 @app.get("/guarderia", response_class=HTMLResponse)
 async def guarderia_view(request: Request):
     return templates.TemplateResponse("guarderia.html", {"request": request})

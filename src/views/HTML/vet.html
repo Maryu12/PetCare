@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/vet.css">
+    <title>Veterinarios </title>
+</head>
+<body>  
+    <header class="container">
+        <nav> 
+            <a href="/" class="nav-logo">
+                <img src="../static/images/milen-2.webp" alt="Logo Milenzo">
+            </a>
+           
+            <div class="nav-buttons">
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            <a href="/logout" class="logout-button">Cerrar Sesión</a>
+        </nav>
+    </header> 
+
+    <div class="hero-section">
+        <img src="../static/images/vet.webp" alt="Veterinarios Milenzo">
+        <div class="overlay-text">¡Los Mejores Veterinarios!</div>
+    </div>
+
+    <section class="frase-publicitaria">
+        <p>"Cuidado profesional para tu mejor amigo"</p>
+    </section>
+
+    <main>
+        <div class="titulo-principal">
+            <h2>Nuestro Equipo de Profesionales</h2>
+            <p>Contamos con los veterinarios más calificados y experimentados. Cada uno especializado en diferentes áreas para brindar el mejor cuidado a tu mascota.</p>
+        </div>
+
+        <div class="publicidad-adicional">
+            <h3>¡Atención de Primera Calidad!</h3>
+            <p>En Milenzo encontrarás a los veterinarios más confiables y profesionales. ¡Tu mascota merece lo mejor y nosotros se lo damos!</p>
+        </div>
+
+        <div class="mensaje-veterinario-section">
+            <div class="mensaje-container">
+                <h3>💬 Envía un mensaje a nuestros veterinarios</h3>
+                <p>Selecciona un veterinario y envía tu consulta directamente</p>
+                
+                <form id="form-mensaje-veterinario" class="mensaje-form">
+                    <div class="form-row">
+                        <div class="form-group-inline">
+                            <label for="select-veterinario">Seleccionar Veterinario:</label>
+                            <select id="select-veterinario" name="veterinario" required>
+                                <option value="">Elige un veterinario</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group-inline">
+                            <label for="nombre-usuario">Tu nombre:</label>
+                            <input type="text" id="nombre-usuario" name="nombre" placeholder="Ingresa tu nombre" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-full">
+                        <label for="mensaje-texto">Tu mensaje:</label>
+                        <textarea id="mensaje-texto" name="mensaje" placeholder="Escribe tu consulta o mensaje aquí..." rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-enviar-mensaje" disabled>
+                        📤 Enviar Mensaje
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="catalogo-titulo">
+            <h3>📋 Catálogo de Veterinarios</h3>
+            <p>Conoce a nuestro equipo profesional</p>
+        </div>
+
+        <div class="veterinarios-grid">
+            <div class="veterinario-card">
+                <div class="card-header">
+                    <h3 class="vet-nombre">Stefan Salvatore</h3>
+                    <span class="estado-badge disponible">Muertado</span>
+                </div>
+                <div class="card-content">
+                    <div class="vet-info">
+                        <div class="info-item">
+                            <span class="icono-telefono">📞</span>
+                            <span>+57 305 483 4567</span>
+                        </div>
+                    </div>
+                    <p class="vet-descripcion">Algo</p>
+                </div>
+            </div>
+
+            <div class="veterinario-card">
+                <div class="card-header">
+                    <h3 class="vet-nombre"> Sabrina Spellman </h3>  
+                    <span class="estado-badge ocupado"> Embrujada </span>
+                </div>
+                <div class="card-content">
+                    <div class="vet-info">
+                        <div class="info-item">
+                            <span class="icono-telefono">📞</span>
+                            <span>+57 305 234 5678</span>
+                        </div>
+                    </div>
+                    <p class="vet-descripcion">Algo x2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="publicidad-final">
+            <h3>¿Por qué elegir Milenzo?</h3>
+            <div class="beneficios-grid">
+                <div class="beneficio">
+                    <div class="beneficio-icono">🏆</div>
+                    <h4>Profesionales Certificados</h4>
+                    <p>Todos nuestros veterinarios están certificados y en constante actualización</p>
+                </div>
+                <div class="beneficio">
+                    <div class="beneficio-icono">❤️</div>
+                    <h4>Atención Personalizada</h4>
+                    <p>Cada mascota recibe cuidado individualizado según sus necesidades</p>
+                </div>
+                <div class="beneficio">
+                    <div class="beneficio-icono">⚡</div>
+                    <h4>Respuesta Rápida</h4>
+                    <p>Atención de emergencia y respuestas inmediatas a tus consultas</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
+            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>     
+        </div>
+    </footer>
+
+    <div id="modal-privacidad" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
+            <h2>Política de Privacidad</h2>
+            <p>🛡️ Última actualización: abril de 2025</p>
+            <p>En MilenzoPet, tu privacidad es muy importante para nosotros...</p>
+        </div>
+    </div>
+
+    <div id="modal-terminos" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
+            <h2>Términos y Condiciones</h2>
+            <p>📜Bienvenido a MilenzoPet</p>
+            <p>Estos términos regulan el uso de nuestra plataforma...</p>
+        </div>
+    </div>
+
+    <div id="modal-contacto" class="modal">
+        <div class="modal-contenido">
+            <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
+            <h2>Contacto</h2>
+            <p>📬 ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!</p>
+            <p>Email: contacto@milenzopet.com</p>
+            <p>Teléfono: +52 305 4846421</p>
+        </div>
+    </div>
+<script src="vet.js"></script>
+</body>
+</html>
