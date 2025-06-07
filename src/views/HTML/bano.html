@@ -84,10 +84,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="nombre-mascota">Nombre de la mascota:</label>
-                            <select id ="petSelect" id="mascota"  required>
-                                <option value = "" >Elegir mascota</option>
-                            </select>
-                            <select id ="petSelect" id="mascota"  required>
+                            <select id ="petSelect" id="id_pet"  required>
                                 <option value = "" >Elegir mascota</option>
                             </select>
                         </div>
@@ -96,7 +93,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="agresivo">¿Es agresivo durante el grooming?</label>
-                            <select id="agresivo" name="agresivo" required>
+                            <select id="temperamento" name="agresivo" required>
                                 <option value="">Seleccionar</option>
                                 <option value="no">No, es muy tranquilo</option>
                                 <option value="poco">Un poco nervioso</option>
@@ -231,22 +228,12 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fecha-cita">Fecha preferida:</label>
-                            <input type="date" id="fecha-cita" name="fecha-cita" required>
+                            <input type="date" id="fecha-cita" name="fecha_cita" required>
                         </div>
 
                         <div class="form-group">
                             <label for="hora-cita">Hora preferida:</label>
-                            <select id="hora-cita" name="hora-cita" required>
-                                <option value="">Seleccionar hora</option>
-                                <option value="08:00">8:00 AM</option>
-                                <option value="09:00">9:00 AM</option>
-                                <option value="10:00">10:00 AM</option>
-                                <option value="11:00">11:00 AM</option>
-                                <option value="14:00">2:00 PM</option>
-                                <option value="15:00">3:00 PM</option>
-                                <option value="16:00">4:00 PM</option>
-                                <option value="17:00">5:00 PM</option>
-                            </select>
+                            <input type="time" id="hora-cita" name="hora_cita" required>
                         </div>
                     </div>
 
@@ -264,7 +251,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-reservar">Reservar Cita</button>
+                <button type="button" class="btn-reservar" id="btn-reservar">Reservar Cita</button>
             </form>
         </div>
     </main>

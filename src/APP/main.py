@@ -201,6 +201,7 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
+# Obtener veterinarios disponibles
 @app.get("/getVeterinarians")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def get_veterinarians(request: Request, db: Session = Depends(get_db)):
@@ -224,6 +225,84 @@ async def get_veterinarians(request: Request, db: Session = Depends(get_db)):
         } for vet in veterinarians
     ]
 
+# Solicitar baño o corte
+@app.post("/api/banoCorte")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_bano(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    print("Datos recibidos en /api/banoCorte:", data)
+    user_id = request.cookies.get("user_id")
+    # Mapeo de tipos de servicio a sus IDs
+    TIPOS_SERVICIO = {
+        "bano-normal": 7,
+        "bano-medicado": 8,
+        "bano-antipulgas": 9,
+        "bano-sensible": 10,
+        "corte-puntas": 11,
+        "corte-completo": 12,
+        "corte-unas": 13,
+        "corte-oidos": 14
+    }
+
+    # Obtención del tipo de servicio correctamente
+    tipo_servicio = data.get("tipo-bano") or data.get("servicios-corte")
+    id_service = TIPOS_SERVICIO.get(tipo_servicio)
+
+    if not id_service:
+        raise HTTPException(status_code=400, detail="Tipo de servicio inválido")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service= id_service,  # ID del servicio de baño
+        id_veterinarian=1,  # No aplica veterinario para baño
+        date_hour_status=data.get("hora_cita"),  # Hora del baño
+        fecha_rec=data.get("fecha_cita"),  # Fecha del baño
+        comentario=data.get("comentarios"),  # Comentarios adicionales
+        temperament_grooming=data.get("temperamento"),  # Temperamento del grooming
+        allergies_sensitivities=data.get("alergias")  # Alergias o sensibilidades
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de baño registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+# Solicitar guardería 
+@app.post("/api/guarderia")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_guarderia(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=1,  # ID del servicio de guardería
+        id_veterinarian=1,  # No aplica veterinario para guardería
+        date_hour_status=data.get("hora_salida"),  # Hora de salida
+        fecha_rec=data.get("fecha_salida"),  # Fecha de salida
+        comentario=data.get("comentarios"),  # Comentarios adicionales
+        allergies_sensitivities=data.get("alergias"),  # Alergias o sensibilidades
+        fecha_salida=data.get("fecha_salida"),  # Fecha de salida  
+        date_hour_salida=data.get("hora_salida")  # Hora de salida
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de guardería registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+
+# Solicitar transporte
 @app.post("/api/transporte")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def solicitar_transporte(
@@ -671,7 +750,7 @@ if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
 #Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
-#Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
+#Ya la mierda quiere funcionar pero igual malas cosas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
 #Ya tengo demasiadas decepciones, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
 #Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025

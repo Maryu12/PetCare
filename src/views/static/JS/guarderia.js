@@ -14,6 +14,29 @@ function toggleAlergiaInput() {
   }
 }
 
+//Funcion para llenar el select de "seleccionar mascota"
+document.addEventListener("DOMContentLoaded", async () => {
+  // Mascotas
+  try {
+    const response = await fetch("/getMyPets");
+    if (response.ok) {
+      const pets = await response.json();
+      const petSelect = document.getElementById("petSelect");
+      petSelect.innerHTML = '<option value="">Elegir una mascota</option>';
+      pets.forEach((pet) => {
+        const option = document.createElement("option");
+        option.value = pet.id_pet;
+        option.textContent = `${pet.pet_name} - ${pet.species}`;
+        petSelect.appendChild(option);
+      });
+    } else {
+      console.warn("No se pudo obtener la lista de mascotas.");
+    }
+  } catch (error) {
+    console.error("Error al cargar la lista de mascotas:", error);
+  }
+});
+
 // Funciones para modales (mismas que en otras páginas)
 function abrirModal(modalId) {
   document.getElementById(modalId).style.display = "block";
@@ -23,7 +46,6 @@ function cerrarModal(modalId) {
   document.getElementById(modalId).style.display = "none";
 }
 
-// Cerrar modal al hacer clic fuera de él
 window.onclick = function (event) {
   const modales = document.querySelectorAll(".modal");
   modales.forEach((modal) => {
