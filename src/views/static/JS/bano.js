@@ -188,35 +188,3 @@ async function agendarSpa() {
     document.getElementById("total-precio").textContent = "$0";
   }
 }
-
-/*document
-  .querySelector(".formulario-spa")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    // Opciones seleccionadas
-    let servicios = [];
-    const bano = document.querySelector('input[name="tipo-bano"]:checked');
-    if (bano) servicios.push("Baño: " + bano.labels[0].innerText.trim());
-    document
-      .querySelectorAll('input[name="servicios-corte"]:checked')
-      .forEach((corte) => {
-        servicios.push("Corte: " + corte.labels[0].innerText.trim());
-      });
-
-    // Mensaje de notificación
-    let mensaje = `¡Cita de Spa reservada!\nMascota: ${nombreMascota}\nRaza: ${raza}\nEdad: ${edad}\nAgresivo: ${alergico}\nAlergias: ${alergias}\nServicios: ${servicios.join(
-      ", "
-    )}\nFecha: ${fechaCita}\nHora: ${horaCita}\nComentarios: ${comentarios}`;
-
-    mostrarToast(mensaje.replace(/\n/g, "<br>"));
-  });
-
-function mostrarToast(mensaje) {
-  const toast = document.getElementById("toast");
-  toast.textContent = mensaje;
-  toast.style.display = "block";
-  setTimeout(() => {
-    toast.style.display = "none";
-  }, 4000);
-}*/

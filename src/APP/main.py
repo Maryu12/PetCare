@@ -272,6 +272,32 @@ async def solicitar_bano(
     
     return {"success": True, "message": "Solicitud de baño registrada correctamente", "appointment_id": nueva_cita.id_appointment}
 
+# Solicitar control veterinario
+@app.post("/api/control")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_control(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=6,  # ID del servicio de control veterinario
+        id_veterinarian=data.get("id_veterinarian"),  # ID del veterinario asignado
+        date_hour_status=data.get("hora_cita"),  # Hora de la cita
+        fecha_rec=data.get("fecha_cita"),  # Fecha de la cita
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de control veterinario registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
 # Solicitar guardería 
 @app.post("/api/guarderia")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
