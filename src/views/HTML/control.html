@@ -38,14 +38,14 @@
             <form class="formulario-control" action="/control-veterinario" method="post">
                 <div class="form-group">
                     <label for="mascota">Seleccionar la mascota:</label>
-                    <select id="petSelect" name="mascota" required>
+                    <select id="petSelect" id ="id_pet" name="mascota" required>
                         <option value="">Elegir una mascota</option>
                     </select>
-                </div>
+                </div> 
 
                 <div class="form-group">
                     <label for="veterinario">Seleccionar veterinario:</label>
-                    <select id="vetSelect" name="veterinario" required>
+                    <select id="vetSelect" id="id_veterinarian" name="veterinario" required>
                         <option value="">Elegir un veterinario</option>
                     </select>
                 </div>
@@ -53,21 +53,21 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fecha">Fecha:</label>
-                        <input type="date" id="fecha" name="fecha" required>
+                        <input type="date" id="fecha-cita" name="fecha_cita" required>
                     </div>
 
                     <div class="form-group">
                         <label for="hora">Hora:</label>
-                        <input type="time" id="hora" name="hora" required>
+                        <input type="time" id="hora-cita" name="hora_cita" required>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="comentario">Comentarios:</label>
-                    <textarea id="comentario" name="comentario" placeholder="Describe los síntomas o motivo de la consulta..." rows="4"></textarea>
+                    <textarea id="comentarios" name="comentarios" placeholder="Describe los síntomas o motivo de la consulta..." rows="4"></textarea>
                 </div>
 
-                <button type="submit" class="btn-agendar">Agendar Cita</button>
+                <button type="button" class="btn-agendar" id="btn-agendar">Agendar Cita</button>
             </form>
         </div>
     </main>
@@ -155,48 +155,6 @@
       </div>
 
 
-    <script>
-document.addEventListener("DOMContentLoaded", async () => {
-    // Mascotas
-    try {
-        const response = await fetch("/getMyPets");
-        if (response.ok) {
-            const pets = await response.json();
-            const petSelect = document.getElementById("petSelect");
-            petSelect.innerHTML = '<option value="">Elegir una mascota</option>';
-            pets.forEach(pet => {
-                const option = document.createElement("option");
-                option.value = pet.id_pet;
-                option.textContent = `${pet.pet_name} - ${pet.species}`;
-                petSelect.appendChild(option);
-            });
-        } else {
-            console.warn("No se pudo obtener la lista de mascotas.");
-        }
-    } catch (error) {
-        console.error("Error al cargar la lista de mascotas:", error);
-    }
-
-    // Veterinarios
-    try {
-        const response = await fetch("/getVeterinarians");
-        if (response.ok) {
-            const vets = await response.json();
-            const vetSelect = document.getElementById("vetSelect");
-            vetSelect.innerHTML = '<option value="">Elegir un veterinario</option>';
-            vets.forEach(vet => {
-                const option = document.createElement("option");
-                option.value = vet.id_veterinarian;
-                option.textContent = `${vet.name_vet} ${vet.last_name} - ${vet.description}`;
-                vetSelect.appendChild(option);
-            });
-        } else {
-            console.warn("No se pudo obtener la lista de veterinarios.");
-        }
-    } catch (error) {
-        console.error("Error al cargar la lista de veterinarios:", error);
-    }
-});
-</script>
+    <script src="../static/JS/control.js"></script>
 </body>
 </html>

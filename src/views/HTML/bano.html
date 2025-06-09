@@ -84,30 +84,16 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="nombre-mascota">Nombre de la mascota:</label>
-                            <input type="text" id="nombre-mascota" name="nombre-mascota" placeholder="Ej: Enzo" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="raza">Raza:</label>
-                            <input type="text" id="raza" name="raza" placeholder="Ej: Lobito" required>
+                            <select id ="petSelect" id="id_pet"  required>
+                                <option value = "" >Elegir mascota</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="edad">Edad:</label>
-                            <select id="edad" name="edad" required>
-                                <option value="">Seleccionar edad</option>
-                                <option value="cachorro">Cachorro (0-1 año)</option>
-                                <option value="joven">Joven (1-3 años)</option>
-                                <option value="adulto">Adulto (3-7 años)</option>
-                                <option value="senior">Senior (7+ años)</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
                             <label for="agresivo">¿Es agresivo durante el grooming?</label>
-                            <select id="agresivo" name="agresivo" required>
+                            <select id="temperamento" name="agresivo" required>
                                 <option value="">Seleccionar</option>
                                 <option value="no">No, es muy tranquilo</option>
                                 <option value="poco">Un poco nervioso</option>
@@ -242,22 +228,12 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fecha-cita">Fecha preferida:</label>
-                            <input type="date" id="fecha-cita" name="fecha-cita" required>
+                            <input type="date" id="fecha-cita" name="fecha_cita" required>
                         </div>
 
                         <div class="form-group">
                             <label for="hora-cita">Hora preferida:</label>
-                            <select id="hora-cita" name="hora-cita" required>
-                                <option value="">Seleccionar hora</option>
-                                <option value="08:00">8:00 AM</option>
-                                <option value="09:00">9:00 AM</option>
-                                <option value="10:00">10:00 AM</option>
-                                <option value="11:00">11:00 AM</option>
-                                <option value="14:00">2:00 PM</option>
-                                <option value="15:00">3:00 PM</option>
-                                <option value="16:00">4:00 PM</option>
-                                <option value="17:00">5:00 PM</option>
-                            </select>
+                            <input type="time" id="hora-cita" name="hora_cita" required>
                         </div>
                     </div>
 
@@ -275,7 +251,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-reservar">Reservar Cita</button>
+                <button type="button" class="btn-reservar" id="btn-reservar">Reservar Cita</button>
             </form>
         </div>
     </main>
@@ -405,124 +381,6 @@
     " title="Cerrar">&times;</span>
 </div>
 
-    <script>
-        
-        const precios = {
-            'normal': 25000,
-            'medicado': 40000,
-            'antipulgas': 30000,
-            'sensible': 42000,
-            'puntas': 8000,
-            'raza': 20000,
-            'unas': 8000,
-            'oidos': 5000
-        };
-
-        
-        function toggleSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            const checkbox = event.target;
-            
-            if (checkbox.checked) {
-                section.style.display = 'block';
-            } else {
-                section.style.display = 'none';
-                
-                const inputs = section.querySelectorAll('input[type="radio"], input[type="checkbox"]');
-                inputs.forEach(input => input.checked = false);
-            }
-            calcularTotal();
-        }
-
-        
-        function calcularTotal() {
-            let total = 0;
-            
-            const banoSeleccionado = document.querySelector('input[name="tipo-bano"]:checked');
-            if (banoSeleccionado) {
-                total += precios[banoSeleccionado.value];
-            }
-            
-            const cortesSeleccionados = document.querySelectorAll('input[name="servicios-corte"]:checked');
-            cortesSeleccionados.forEach(corte => {
-                total += precios[corte.value];
-            });
-            
-            
-            document.getElementById('total-precio').textContent = '$' + total.toLocaleString();
-        }
-
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const radioButtons = document.querySelectorAll('input[name="tipo-bano"]');
-            const checkboxes = document.querySelectorAll('input[name="servicios-corte"]');
-            
-            radioButtons.forEach(radio => {
-                radio.addEventListener('change', calcularTotal);
-            });
-            
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', calcularTotal);
-            });
-        });
-
-        
-        function abrirModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function cerrarModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-       
-        window.onclick = function(event) {
-            const modales = document.querySelectorAll('.modal');
-            modales.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-
-        // ...existing code...
-
-document.querySelector('.formulario-spa').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    // Recoge los datos del formulario
-    const nombreMascota = document.getElementById('nombre-mascota').value;
-    const raza = document.getElementById('raza').value;
-    const edad = document.getElementById('edad').value;
-    const agresivo = document.getElementById('agresivo').value;
-    const alergias = document.getElementById('alergias').value;
-    const fechaCita = document.getElementById('fecha-cita').value;
-    const horaCita = document.getElementById('hora-cita').value;
-    const comentarios = document.getElementById('comentarios').value;
-
-    // Opciones seleccionadas
-    let servicios = [];
-    const bano = document.querySelector('input[name="tipo-bano"]:checked');
-    if (bano) servicios.push('Baño: ' + bano.labels[0].innerText.trim());
-    document.querySelectorAll('input[name="servicios-corte"]:checked').forEach(corte => {
-        servicios.push('Corte: ' + corte.labels[0].innerText.trim());
-    });
-
-    // Mensaje de notificación
-    let mensaje = `¡Cita de Spa reservada!\nMascota: ${nombreMascota}\nRaza: ${raza}\nEdad: ${edad}\nAgresivo: ${agresivo}\nAlergias: ${alergias}\nServicios: ${servicios.join(', ')}\nFecha: ${fechaCita}\nHora: ${horaCita}\nComentarios: ${comentarios}`;
-
-    mostrarToast(mensaje.replace(/\n/g, '<br>'));
-});
-
-
-function mostrarToast(mensaje) {
-    const toast = document.getElementById('toast');
-    toast.textContent = mensaje;
-    toast.style.display = 'block';
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 4000);
-}
-    </script>
+<script src="../static/JS/bano.js"></script>
 </body>
 </html>

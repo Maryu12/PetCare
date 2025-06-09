@@ -12,7 +12,7 @@ h1 {
 }
 
 body{
-    background-image: url('../images/Back.jpg');
+    background-image: url('../images/Back.webp');
     background-size: cover;
     display: flex;
     align-items: center;

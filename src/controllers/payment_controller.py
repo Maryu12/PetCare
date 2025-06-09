@@ -20,7 +20,8 @@ stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_AMOUNTS = {
     "premium":49900,
     "estandar" : 29900,
-    "basico" :18900
+    "basico" :18900,
+    "vet_pro" : 79900,
 }
 
 @router.post("/process-subscription")

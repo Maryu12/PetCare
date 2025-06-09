@@ -91,17 +91,17 @@
         <div class="planes-suscripcion">
             <h2>Planes para profesionales veterinarios</h2>
             <div class="tarjetas-suscripcion">
-                <div class="tarjeta-plan premium">
+                <div class="tarjeta-plan vet_pro">
                     <h3>Plan Vet Pro</h3>
                     <p class="detalle">Optimiza tu consultorio con Milenzo</p>
-                    <p><strong>$ 79.900</strong> / mes</p>
+                    <p id="plan-vet_pro"><strong>$ 79.900</strong> / mes</p>
                     <ul>
                         <li>Gestión de citas avanzada</li>
                         <li>Visibilidad para nuevos clientes</li>
                         <li>Soporte técnico especializado</li>
                         <li>Acceso a historial de pacientes</li>
                     </ul>
-                    <a href="/suscripcion?plan=vetpro&precio=79900" class="boton-plan">Seleccionar</a>
+                    <a href="/suscripcion?plan=vet_pro&precio=79900" class="boton-plan">Seleccionar</a>
                 </div>
             </div>
         </div>
@@ -150,13 +150,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="tajerta-plan vet pro">
+            <div class="tajerta-plan vet_pro">
               <h2>Planes especiales para profesionales veterinarios</h2>
               <div class="tarjetas-suscripcion">
-                <div class="tarjeta-plan premium">
+                <div class="tarjeta-plan vet_pro">
                     <h3>Plan Vet Pro</h3>
                     <p class="detalle">Optimiza tu consultorio con Milenzo</p>
-                    <p><strong>$ 79.900</strong> / mes</p>
+                    <p id="plan-vet_pro" ><strong>$ 79.900</strong> / mes</p>
                     <ul>
                         <li>Gestión de citas avanzada</li>
                         <li>Visibilidad para nuevos clientes</li>
@@ -327,7 +327,10 @@
                 precio = document.getElementById('plan-estandar').innerText;
             } else if (plan === 'basico') {
                 precio = document.getElementById('plan-basico').innerText;
+            }else if (plan === 'vet_pro') {
+                precio = document.getElementById('plan-vet_pro').innerText;
             }
+
             localStorage.setItem('precioPlan', precio);
             window.location.href = this.getAttribute('href');
           });

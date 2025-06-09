@@ -63,37 +63,23 @@
                 <p>Completa la información para brindarle el mejor cuidado</p>
             </div>
 
-            <form class="formulario-guarderia">
+            <form class="formulario-guarderia" action="/guarderia-service" method="post">
                 <div class="form-section">
                     <h3>📋 Información de la Mascota</h3>
                     
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="nombre-mascota">Nombre de la mascota:</label>
-                            <input type="text" id="nombre-mascota" name="nombre-mascota" placeholder="Ej: Milú" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="raza">Raza:</label>
-                            <input type="text" id="raza" name="raza" placeholder="Ej: Doberman, Mestizo" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="edad">Edad:</label>
-                            <select id="edad" name="edad" required>
-                                <option value="">Seleccionar edad</option>
-                                <option value="cachorro">Cachorro (0-1 año)</option>
-                                <option value="joven">Joven (1-3 años)</option>
-                                <option value="adulto">Adulto (3-7 años)</option>
-                                <option value="senior">Senior (7+ años)</option>
+                            <label for="nombre-mascota">¿Qué mascota desea llevar a la guarderia</label>
+                            <select id="petSelect" name="mascota" required>
+                                <option value="">Elegir una mascota</option>
                             </select>
                         </div>
-
+                    </div>
+                
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="convive-animales">¿Convive con otros animales?</label>
-                            <select id="convive-animales" name="convive-animales" required>
+                            <select id="convive-animales" name="convive_animales" required>
                                 <option value="">Seleccionar</option>
                                 <option value="si">Sí</option>
                                 <option value="no">No</option>
@@ -104,7 +90,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="convive-gatos">¿Convive con gatos?</label>
-                            <select id="convive-gatos" name="convive-gatos" required>
+                            <select id="convive-gatos" name="convive_gatos" required>
                                 <option value="">Seleccionar</option>
                                 <option value="si">Sí</option>
                                 <option value="no">No</option>
@@ -123,7 +109,7 @@
 
                     <div class="form-group" id="alergia-detalle" style="display: none;">
                         <label for="detalle-alergia">Especificar alergia:</label>
-                        <textarea id="detalle-alergia" name="detalle-alergia" placeholder="Describe las alergias de tu mascota..." rows="3"></textarea>
+                        <textarea id="detalle-alergia" name="detalle_alergia" placeholder="Describe las alergias de tu mascota..." rows="3"></textarea>
                     </div>
                 </div>
 
@@ -133,37 +119,36 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fecha-llegada">Fecha de llegada:</label>
-                            <input type="date" id="fecha-llegada" name="fecha-llegada" required>
+                            <input type="date" id="fecha-llegada" name="fecha_llegada" required>
                         </div>
 
                         <div class="form-group">
                             <label for="hora-llegada">Hora de llegada:</label>
-                            <input type="time" id="hora-llegada" name="hora-llegada" required>
+                            <input type="time" id="hora-llegada" name="hora_llegada" required>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label for="fecha-salida">Fecha de salida:</label>
-                            <input type="date" id="fecha-salida" name="fecha-salida" required>
+                            <input type="date" id="fecha-salida" name="fecha_salida" required>
                         </div>
 
                         <div class="form-group">
                             <label for="hora-salida">Hora de salida:</label>
-                            <input type="time" id="hora-salida" name="hora-salida" required>
+                            <input type="time" id="hora-salida" name="hora_salida" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="comentarios-adicionales">Comentarios adicionales:</label>
-                    <textarea id="comentarios-adicionales" name="comentarios-adicionales" placeholder="Información especial sobre tu mascota, medicamentos, rutinas, etc..." rows="4"></textarea>
+                    <textarea id="comentarios-adicionales" name="comentarios_adicionales" placeholder="Información especial sobre tu mascota, medicamentos, rutinas, etc..." rows="4"></textarea>
                 </div>
 
                 <button type="submit" class="btn-reservar">Reservar Hospedaje</button>
             </form>
         </div>
-    </main>
 
     <footer class="footer">
         <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
@@ -247,41 +232,6 @@
         </div>
       </div>
 
-    <script>
-        // Función para mostrar/ocultar el campo de detalle de alergia
-        function toggleAlergiaInput() {
-            const alergiaSelect = document.getElementById('alergias');
-            const alergiaDetalle = document.getElementById('alergia-detalle');
-            const detalleInput = document.getElementById('detalle-alergia');
-            
-            if (alergiaSelect.value === 'si') {
-                alergiaDetalle.style.display = 'block';
-                detalleInput.required = true;
-            } else {
-                alergiaDetalle.style.display = 'none';
-                detalleInput.required = false;
-                detalleInput.value = '';
-            }
-        }
-
-        // Funciones para modales (mismas que en otras páginas)
-        function abrirModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-        }
-
-        function cerrarModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Cerrar modal al hacer clic fuera de él
-        window.onclick = function(event) {
-            const modales = document.querySelectorAll('.modal');
-            modales.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        }
-    </script>
+    <script src="../static/JS/guarderia.js"></script>
 </body>
 </html>

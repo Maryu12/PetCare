@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException, Body, status
+from fastapi import FastAPI, Request, Cookie, Form, Depends, HTTPException, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -128,6 +128,10 @@ async def bano_view(request: Request):
 async def control_view(request: Request):
     return templates.TemplateResponse("control.html", {"request": request})
 
+@app.get("/vet", response_class=HTMLResponse)
+async def vet_view(request: Request):
+    return templates.TemplateResponse("vet.html", {"request": request})
+
 @app.get("/guarderia", response_class=HTMLResponse)
 async def guarderia_view(request: Request):
     return templates.TemplateResponse("guarderia.html", {"request": request})
@@ -145,17 +149,6 @@ async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
         return JSONResponse(content={}, status_code=200)  # Retorna un objeto vacío si no existe el perfil
 
     return vet_profile
-
-
-@app.get("/getVeterinarians")
-async def get_veterinarians(db: Session = Depends(get_db)):
-    vets = db.query(Veterinarian).all()
-    return JSONResponse(content=[{
-        "id_veterinarian": vet.id_veterinarian,
-        "name_vet": vet.name_vet,
-        "last_name": vet.last_name,
-        "description": vet.description
-    } for vet in vets])
 
 @app.get("/modifyHistory")
 @role_required(["Veterinario", "Administrador de la tienda"])  
@@ -208,6 +201,134 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
+# Obtener veterinarios disponibles
+@app.get("/getVeterinarians")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_veterinarians(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    # Si el usuario es Veterinario o Administrador, devolver todos los veterinarios
+    if user_role in ["Veterinario", "Administrador de la tienda"]:
+        veterinarians = db.query(Veterinarian).all()
+    else:
+        # Si el usuario es Cliente, devolver solo los veterinarios disponibles
+        veterinarians = db.query(Veterinarian).filter(Veterinarian.state == "Activo").all()
+    return [
+        {
+            "id_veterinarian": vet.id_veterinarian,
+            "name_vet": vet.name_vet,
+            "last_name": vet.last_name,
+            "telefono": vet.telefono,
+            "email": vet.email,
+            "state": vet.state,
+            "description": vet.description
+        } for vet in veterinarians
+    ]
+
+# Solicitar baño o corte
+@app.post("/api/banoCorte")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_bano(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    print("Datos recibidos en /api/banoCorte:", data)
+    user_id = request.cookies.get("user_id")
+    # Mapeo de tipos de servicio a sus IDs
+    TIPOS_SERVICIO = {
+        "bano-normal": 7,
+        "bano-medicado": 8,
+        "bano-antipulgas": 9,
+        "bano-sensible": 10,
+        "corte-puntas": 11,
+        "corte-completo": 12,
+        "corte-unas": 13,
+        "corte-oidos": 14
+    }
+
+    # Obtención del tipo de servicio correctamente
+    tipo_servicio = data.get("tipo-bano") or data.get("servicios-corte")
+    id_service = TIPOS_SERVICIO.get(tipo_servicio)
+
+    if not id_service:
+        raise HTTPException(status_code=400, detail="Tipo de servicio inválido")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service= id_service,  # ID del servicio de baño
+        id_veterinarian=1,  # No aplica veterinario para baño
+        date_hour_status=data.get("hora_cita"),  # Hora del baño
+        fecha_rec=data.get("fecha_cita"),  # Fecha del baño
+        comentario=data.get("comentarios"),  # Comentarios adicionales
+        temperament_grooming=data.get("temperamento"),  # Temperamento del grooming
+        allergies_sensitivities=data.get("alergias")  # Alergias o sensibilidades
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de baño registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+# Solicitar control veterinario
+@app.post("/api/control")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_control(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=6,  # ID del servicio de control veterinario
+        id_veterinarian=data.get("id_veterinarian"),  # ID del veterinario asignado
+        date_hour_status=data.get("hora_cita"),  # Hora de la cita
+        fecha_rec=data.get("fecha_cita"),  # Fecha de la cita
+        comentario=data.get("comentarios")  # Comentarios adicionales
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de control veterinario registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+# Solicitar guardería 
+@app.post("/api/guarderia")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def solicitar_guarderia(
+    request: Request,
+    data: dict = Body(...),
+    db: Session = Depends(get_db)
+):
+    user_id = request.cookies.get("user_id")
+    
+    # Crear nuevo registro en la tabla appointment
+    nueva_cita = Appointment(
+        id_pet=data.get("id_pet"),
+        id_service=1,  # ID del servicio de guardería
+        id_veterinarian=1,  # No aplica veterinario para guardería
+        date_hour_status=data.get("hora_salida"),  # Hora de salida
+        fecha_rec=data.get("fecha_salida"),  # Fecha de salida
+        comentario=data.get("comentarios"),  # Comentarios adicionales
+        allergies_sensitivities=data.get("alergias"),  # Alergias o sensibilidades
+        fecha_salida=data.get("fecha_salida"),  # Fecha de salida  
+        date_hour_salida=data.get("hora_salida")  # Hora de salida
+    )
+    
+    db.add(nueva_cita)
+    db.commit()
+    db.refresh(nueva_cita)
+    
+    return {"success": True, "message": "Solicitud de guardería registrada correctamente", "appointment_id": nueva_cita.id_appointment}
+
+
+# Solicitar transporte
 @app.post("/api/transporte")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def solicitar_transporte(
@@ -421,6 +542,57 @@ async def assign_role(
         logging.error(f"Error al asignar rol: {str(e)}")
         db.rollback()
         raise HTTPException(status_code=500, detail="Error al asignar rol")
+    
+
+@app.post("/guarderia-service")
+async def reservar_guarderia(
+    request: Request,
+    mascota: int = Form(...),  # id_pet
+    convive_animales: str = Form(...),      # "si" o "no"
+    convive_gatos: str = Form(...),         # "si" o "no"
+    alergias: str = Form(...),              # "si" o "no"
+    detalle_alergia: str = Form(""),        # texto libre
+    fecha_llegada: str = Form(...),         # fecha_rec
+    hora_llegada: str = Form(...),          # date_hour_status
+    fecha_salida: str = Form(...),          # fecha_salida
+    hora_salida: str = Form(...),           # date_hour_salida
+    comentarios_adicionales: str = Form(""),# comentario
+    db: Session = Depends(get_db)
+):
+    id_service = 1
+
+    # Generar mensaje de temperamento
+    if convive_animales == "si" and convive_gatos == "si":
+        temperamento = "Convive bien con otros animales y gatos."
+    elif convive_animales == "si" and convive_gatos == "no":
+        temperamento = "Convive con otros animales, pero no con gatos."
+    elif convive_animales == "no" and convive_gatos == "si":
+        temperamento = "No convive con otros animales, pero sí con gatos."
+    else:
+        temperamento = "No convive con otros animales ni gatos."
+
+    # Mensaje de alergias
+    if alergias == "si":
+        alergias_msg = detalle_alergia
+    else:
+        alergias_msg = "No tiene alergias"
+
+    nueva_reserva = Appointment(
+        id_pet=mascota,
+        id_service=id_service,
+        id_veterinarian=1,
+        fecha_rec=fecha_llegada,
+        date_hour_status=hora_llegada,
+        fecha_salida=fecha_salida,
+        date_hour_salida=hora_salida,
+        temperament_grooming=temperamento,
+        allergies_sensitivities=alergias_msg,
+        comentario=comentarios_adicionales
+    )
+    db.add(nueva_reserva)
+    db.commit()
+    db.refresh(nueva_reserva)
+    return RedirectResponse(url="/guarderia?success=1", status_code=303)
 
 
 
@@ -634,53 +806,6 @@ async def modify_pet_history(
 
     return {"message": "Historial médico guardado exitosamente"}
 
-#Metodos novos
-@app.post("/control-veterinario", status_code=status.HTTP_201_CREATED)
-async def registrar_control_veterinario(
-    request: Request,
-    mascota: int = Form(...),
-    veterinario: int = Form(...),
-    fecha: str = Form(...),
-    hora: str = Form(...),
-    comentario: str = Form(""),
-    db: Session = Depends(get_db),
-    user_id: int = Cookie(None)
-):
-    # Validar usuario autenticado
-    if not user_id:
-        raise HTTPException(status_code=401, detail="No autenticado")
-
-    # id_pet y id_veterinarian llegan del formulario
-    id_pet = mascota
-    id_veterinarian = veterinario
-    id_service = 6  # Fijo para control veterinario
-
-    # Guardar en la tabla Appointment (ajusta si tienes otra tabla)
-    nueva_cita = Appointment(
-        id_pet=id_pet,
-        id_service=id_service,
-        id_veterinarian=id_veterinarian,
-        fecha_rec=fecha,
-        date_hour_status=hora,
-        comentario=comentario
-    )
-    db.add(nueva_cita)
-    db.commit()
-    db.refresh(nueva_cita)
-    return {"message": "Control veterinario registrado correctamente", "id_appointment": nueva_cita.id_appointment}
-
-@app.get("/control")
-async def control_veterinario(request: Request, db: Session = Depends(get_db), user_id: int = Cookie(None)):
-    if not user_id:
-        return RedirectResponse(url="/login")
-    mascotas = db.query(Pet).filter(Pet.id_owner == user_id).all()
-    veterinarios = db.query(Veterinarian).all()
-    return templates.TemplateResponse("control.html", {
-        "request": request,
-        "mascotas": mascotas,
-        "veterinarios": veterinarios
-    })
-
 # Por favor no tocar esto :)
 
 #Request del registro.html para generar las entradas de Mascota
@@ -702,7 +827,7 @@ if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
 #Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
-#Ya la mierda quiere funcionar pero igual malas cosas malas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
+#Ya la mierda quiere funcionar pero igual malas cosas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
 #Ya tengo demasiadas decepciones, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
 #Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
 #Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
@@ -710,4 +835,3 @@ if __name__ == "__main__":
 #Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
 #estar triste es malo, no estes triste
 #Malditas esto es solo pa mi, no toque mi leyenda att: el programador/TRIVI 21/4/2025 🔫🔫🔫
-
