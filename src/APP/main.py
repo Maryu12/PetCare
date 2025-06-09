@@ -542,6 +542,57 @@ async def assign_role(
         logging.error(f"Error al asignar rol: {str(e)}")
         db.rollback()
         raise HTTPException(status_code=500, detail="Error al asignar rol")
+    
+
+@app.post("/guarderia-service")
+async def reservar_guarderia(
+    request: Request,
+    mascota: int = Form(...),  # id_pet
+    convive_animales: str = Form(...),      # "si" o "no"
+    convive_gatos: str = Form(...),         # "si" o "no"
+    alergias: str = Form(...),              # "si" o "no"
+    detalle_alergia: str = Form(""),        # texto libre
+    fecha_llegada: str = Form(...),         # fecha_rec
+    hora_llegada: str = Form(...),          # date_hour_status
+    fecha_salida: str = Form(...),          # fecha_salida
+    hora_salida: str = Form(...),           # date_hour_salida
+    comentarios_adicionales: str = Form(""),# comentario
+    db: Session = Depends(get_db)
+):
+    id_service = 1
+
+    # Generar mensaje de temperamento
+    if convive_animales == "si" and convive_gatos == "si":
+        temperamento = "Convive bien con otros animales y gatos."
+    elif convive_animales == "si" and convive_gatos == "no":
+        temperamento = "Convive con otros animales, pero no con gatos."
+    elif convive_animales == "no" and convive_gatos == "si":
+        temperamento = "No convive con otros animales, pero sí con gatos."
+    else:
+        temperamento = "No convive con otros animales ni gatos."
+
+    # Mensaje de alergias
+    if alergias == "si":
+        alergias_msg = detalle_alergia
+    else:
+        alergias_msg = "No tiene alergias"
+
+    nueva_reserva = Appointment(
+        id_pet=mascota,
+        id_service=id_service,
+        id_veterinarian=1,
+        fecha_rec=fecha_llegada,
+        date_hour_status=hora_llegada,
+        fecha_salida=fecha_salida,
+        date_hour_salida=hora_salida,
+        temperament_grooming=temperamento,
+        allergies_sensitivities=alergias_msg,
+        comentario=comentarios_adicionales
+    )
+    db.add(nueva_reserva)
+    db.commit()
+    db.refresh(nueva_reserva)
+    return RedirectResponse(url="/guarderia?success=1", status_code=303)
 
 
 
