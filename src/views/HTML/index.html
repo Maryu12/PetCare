@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/CSS/styles.css">
-    <title>Milenzo</title>
+    <title>PetCare</title>
 </head>
 <body>  
     <header class="container">
         <nav> 
-            
-            <a href="/" class="nav-logo"> <img src="../static/images/milen-2.webp" alt="Logo Milenzo"></a>
-           
+
+            <a href="/" class="nav-logo"> <img src="../static/images/logocare1.webp" alt="Logo PetCare"></a>
+
             <div class="nav-buttons">
-                <a href="/myPets" class="nav-button">Mis Mascotas</a>
-                <a href="/serv" class="nav-button">Servicios</a>
-                <a href="/about" class="nav-button">Nosotros</a>
+                <a href="#" class="nav-button">Mis Mascotas</a> <!-- href="/myPets" -->
+                <a href="#" class="nav-button">Servicios</a> <!-- href="/serv" -->
+                <a href="#" class="nav-button">Nosotros</a> <!-- href="/about" -->
 
                 {% if user_role == 'Administrador de la tienda' %}
                     <a href="/manage_users" class="nav-button">Ch Rol</a>
@@ -41,7 +41,7 @@
     <main>
         <section class="frase-carrusel">
             <div class="frase-slide" id="frase-slide">
-              <p>“Bienvenido a Milenzo: Cuidado profesional.”</p>
+              <p>“Bienvenido a PetCare: Cuidado profesional.”</p>
               <p>“Porque tu peludo merece lo mejor.”</p>
               <p>“Tu mascota feliz, tú feliz.”</p>
               <p>“Amor, cuidado y ternura en cada visita.”</p>
@@ -93,7 +93,7 @@
             <div class="tarjetas-suscripcion">
                 <div class="tarjeta-plan vet_pro">
                     <h3>Plan Vet Pro</h3>
-                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
+                    <p class="detalle">Optimiza tu consultorio con PetCare</p>
                     <p id="plan-vet_pro"><strong>$ 79.900</strong> / mes</p>
                     <ul>
                         <li>Gestión de citas avanzada</li>
@@ -120,7 +120,7 @@
                       <li>Atención veterinaria 24/7</li>
                       <li>Transporte incluido</li>
                       <li>Acceso a guardería y grooming</li>
-                      <li>Descuentos en servicios Milenzo</li>
+                      <li>Descuentos en servicios PetCare</li>
                       <li>Soporte personalizado</li>
                       <li>Acceso al historial medico</li>
                     </ul>
@@ -140,7 +140,7 @@
 
                 <div class="tarjeta-plan basico">
                     <h3>Básico</h3>
-                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
+                    <p class="detalle">Acceso esencial a servicios PetCare</p>
                     <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
                     <ul>
                       <li>Acceso a veterinarios por cita</li>
@@ -155,7 +155,7 @@
               <div class="tarjetas-suscripcion">
                 <div class="tarjeta-plan vet_pro">
                     <h3>Plan Vet Pro</h3>
-                    <p class="detalle">Optimiza tu consultorio con Milenzo</p>
+                    <p class="detalle">Optimiza tu consultorio con PetCare</p>
                     <p id="plan-vet_pro" ><strong>$ 79.900</strong> / mes</p>
                     <ul>
                         <li>Gestión de citas avanzada</li>
@@ -180,7 +180,7 @@
                       <li>Atención veterinaria 24/7</li>
                       <li>Transporte incluido</li>
                       <li>Acceso a guardería y grooming</li>
-                      <li>Descuentos en servicios Milenzo</li>
+                      <li>Descuentos en servicios PetCare</li>
                       <li>Soporte personalizado</li>
                       <li>Acceso al historial medico</li>
                     </ul>
@@ -202,7 +202,7 @@
 
                 <div class="tarjeta-plan basico">
                     <h3>Básico</h3>
-                    <p class="detalle">Acceso esencial a servicios Milenzo</p>
+                    <p class="detalle">Acceso esencial a servicios PetCare</p>
                     <p id="plan-basico"><strong>$ 18.900</strong> / mes</p>
                     <ul>
                       <li>Acceso a veterinarios por cita</li>
@@ -219,7 +219,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
         <div class="footer-links">
             <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
             <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
@@ -247,7 +247,7 @@
           <h2>Política de Privacidad</h2>
           <p>🛡️ Última actualización: abril de 2025
 
-            <p> En MilenzoPet, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
+            <p> En PetCarePet, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
                
                 <p> ¿Qué información recopilamos?
                     <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
@@ -264,7 +264,7 @@
                 <p>¿Con quién compartimos tus datos?
                     <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
             Tus derechos
-                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@milenzopet.com.</p>
+                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@PetCarepet.com.</p>
         </div>
       </div>
       
@@ -272,7 +272,7 @@
         <div class="modal-contenido">
           <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
           <h2>Términos y Condiciones</h2>
-          <p>📜Bienvenido a MilenzoPet
+          <p>📜Bienvenido a PetCarePet
           <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
            
           <p> Uso de la plataforma:
@@ -281,21 +281,21 @@
             
             <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
             
-            <p></p>*MilenzoPet se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
+            <p></p>*PetCarePet se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
             
             <p> Servicios:
             
-                <p></p>*MilenzoPet facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
+                <p></p>*PetCarePet facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
             
                 <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
             
             <p>Propiedad intelectual: 
             
-                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de MilenzoPet y no pueden ser utilizados sin autorización previa.
+                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de PetCarePet y no pueden ser utilizados sin autorización previa.
            
             <p> Modificaciones:
             
-                <p>* MilenzoPet puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
+                <p>* PetCarePet puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
         </div>
       </div>
       
@@ -305,11 +305,11 @@
           <h2>Contacto</h2>
           <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
 
-            <p> *Email: contacto@milenzopet.com
+            <p> *Email: contacto@PetCarepet.com
             <p> *Teléfono: +52 305 4846421
             <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
             <p> *Redes sociales:
-            <p> *Instagram / Facebook / Twitter: @MilenzoPetShop</p>
+            <p> *Instagram / Facebook / Twitter: @PetCarePetShop</p>
         </div>
       </div>
       

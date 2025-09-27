@@ -1,0 +1,24 @@
+Collecting stripe
+  Downloading stripe-12.5.1-py2.py3-none-any.whl.metadata (2.9 kB)
+Requirement already satisfied: typing_extensions>=4.5.0 in c:\python312\lib\site-packages (from stripe) (4.15.0)
+Collecting requests>=2.20 (from stripe)
+  Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+Collecting charset_normalizer<4,>=2 (from requests>=2.20->stripe)
+  Downloading charset_normalizer-3.4.3-cp312-cp312-win_amd64.whl.metadata (37 kB)
+Requirement already satisfied: idna<4,>=2.5 in c:\python312\lib\site-packages (from requests>=2.20->stripe) (3.10)
+Collecting urllib3<3,>=1.21.1 (from requests>=2.20->stripe)
+  Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+Collecting certifi>=2017.4.17 (from requests>=2.20->stripe)
+  Downloading certifi-2025.8.3-py3-none-any.whl.metadata (2.4 kB)
+Downloading stripe-12.5.1-py2.py3-none-any.whl (1.7 MB)
+   ---------------------------------------- 1.7/1.7 MB 5.6 MB/s eta 0:00:00
+Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+   ---------------------------------------- 64.7/64.7 kB 1.2 MB/s eta 0:00:00
+Downloading certifi-2025.8.3-py3-none-any.whl (161 kB)
+   ---------------------------------------- 161.2/161.2 kB 1.4 MB/s eta 0:00:00
+Downloading charset_normalizer-3.4.3-cp312-cp312-win_amd64.whl (107 kB)
+   ---------------------------------------- 107.5/107.5 kB 6.5 MB/s eta 0:00:00
+Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+   -------------------------------------- 129.8/129.8 kB 956.4 kB/s eta 0:00:00
+Installing collected packages: urllib3, charset_normalizer, certifi, requests, stripe
+Successfully installed certifi-2025.8.3 charset_normalizer-3.4.3 requests-2.32.5 stripe-12.5.1 urllib3-2.5.0

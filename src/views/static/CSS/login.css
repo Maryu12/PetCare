@@ -32,21 +32,19 @@ body {
 
 .logo-container {
     position: absolute;
-    top: 100px; /* Ajusta este valor según sea necesario */
+    top: 100px;
     left: 50%;
     transform: translateX(-62%);
-    width: 200px; /* Ajusta el tamaño del contenedor según sea necesario */
-    height: 34%;
+    width: 300px;   /* controla el tamaño del logo */
+    height: auto;   /* 🔹 se ajusta automáticamente */
     z-index: 10;
 }
 
 .logo-container img {
     width: 100%;
-    height: 90%;
-    max-width: 100%; 
+    height: auto;  /* mantiene proporción */
     display: block;
     object-fit: contain;
-    
 }
 
 
