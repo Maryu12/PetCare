@@ -2,7 +2,7 @@
 
 ## 📄 Descripción General
 
-**Milenzo** es una aplicación web integral diseñada para la gestión de clínicas veterinarias y tiendas de mascotas.  
+**PetCare** es una aplicación web integral diseñada para la gestión de clínicas veterinarias y tiendas de mascotas.  
 La plataforma permite administrar eficientemente registros de mascotas, historiales médicos, clientes y servicios veterinarios con una interfaz intuitiva y funcional.
 
 ---
