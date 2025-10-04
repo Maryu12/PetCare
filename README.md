@@ -1,4 +1,4 @@
-# Milenzo - Sistema de Gestión Veterinaria
+# PetCare - Sistema de Gestión Veterinaria
 
 ## 📄 Descripción General
 
@@ -51,7 +51,7 @@ La plataforma permite administrar eficientemente registros de mascotas, historia
 ## 📁 Estructura del Proyecto
 
 ```plaintext
-Milenzo/
+PetCare/
 ├── src/
 │   ├── APP/
 │   │   └── main.py           # Punto de entrada de la aplicación
