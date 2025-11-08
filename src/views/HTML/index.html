@@ -10,12 +10,17 @@
     <header class="container">
         <nav> 
 
-            <a href="/" class="nav-logo"> <img src="../static/images/logocare1.webp" alt="Logo PetCare"></a>
+            <a href="/" class="nav-logo"> 
+                <img src="../static/images/logocare1.webp" alt="Logo PetCare"></a>
 
             <div class="nav-buttons">
-                <a href="#" class="nav-button">Mis Mascotas</a> <!-- href="/myPets" -->
-                <a href="#" class="nav-button">Servicios</a> <!-- href="/serv" -->
-                <a href="#" class="nav-button">Nosotros</a> <!-- href="/about" -->
+                {% if is_logged_in %}
+                <a href="/myPets" class="nav-button">Mis Mascotas</a> <!-- href="/myPets" -->
+                 <!-- href="/serv" -->
+                 <!-- href="/about" -->
+                {% endif %}
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
 
                 {% if user_role == 'Administrador de la tienda' %}
                     <a href="/manage_users" class="nav-button">Ch Rol</a>

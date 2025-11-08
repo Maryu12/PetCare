@@ -24,6 +24,14 @@
         ¡Registro exitoso! Por favor inicia sesión.
     </div>
     {% endif %}
+
+    {% if request.query_params.get('change_success') %}
+        <div class="alert success">
+            ¡Cambio exitoso! Por favor inicia sesión.
+        </div>
+    {% endif %}
+
+    
     <div class="logo-container">
         <img src="../static/images/logopet2.webp" alt="logo-container" >
     </div>
@@ -35,7 +43,11 @@
             <form action="/register" method="post">
                 <h1>Crea tu Cuenta</h1>
                 <input type="text" name="name" placeholder="Name" required>
-                <input type="email" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" 
+                required 
+                pattern="^[^\s@]+@[^\s@]+\.com$" 
+                oninvalid="this.setCustomValidity('Por favor ingresa un correo válido que incluya @ y termine en .com')" 
+                oninput="this.setCustomValidity('')">
                 <input type="password" name="password" placeholder="Password" 
                 required 
                 pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$"
@@ -52,7 +64,7 @@
                 <h1>Ingresa</h1>
                 <input type="email" name="email" placeholder="Email" required>
                 <input type="password" name="password" placeholder="Password" required>
-                <a href="#">¿Olvidaste la Contraseña?</a>
+                <a href="/recoveryPassword" class="nav-button">¿Olvidaste la Contraseña?</a>
                 <button type="submit">Ingresa</button>
             </form>
         </div>

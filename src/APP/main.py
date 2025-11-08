@@ -65,7 +65,7 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
 
     return templates.TemplateResponse(
         "index.html",
-        {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name})
+        {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name, "user_id": user_id})
 ## suscripción lalalala
 @app.get("/suscripcion", response_class=HTMLResponse)
 async def suscripcion(request: Request, plan: str = Query(None)):
@@ -714,6 +714,68 @@ async def register_user(
                 "show_register": True
             }
         )
+
+
+@app.get("/recoveryPassword")
+async def get_recovery_password(request: Request):
+    """Renderiza el formulario de recuperación de contraseña (acceso por GET)."""
+    return templates.TemplateResponse("recoveryPassword.html", {"request": request})
+
+
+@app.post("/recoveryPassword")
+async def recovery_password(
+    request: Request,
+    email: str = Form(...),
+    new_password: str = Form(...),
+    confirm_password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    try:
+        user = db.query(User).filter(User.email == email).first()
+        if not user:
+            return templates.TemplateResponse(
+                "recoveryPassword.html",
+                {
+                    "request": request,
+                    "register_error": "El correo no está registrado",
+                    "show_register": True
+                }
+            )
+        # 1) Validar que las contraseñas coincidan
+        if new_password != confirm_password:
+            return templates.TemplateResponse(
+                "recoveryPassword.html",
+                {
+                    "request": request, 
+                    "register_error": "Las contraseñas no coinciden.",
+                    "show_register": True
+                }
+            )
+
+
+        # 4) Normalizar y hashear la nueva contraseña
+        new_password_clean = new_password.encode('latin-1').decode('utf-8', 'ignore')
+        hashed_password = pwd_context.hash(new_password_clean)
+        user.password_hashed = hashed_password
+        db.commit()
+
+        return RedirectResponse(
+            url="/login?change_success=1",
+            status_code=303
+        )
+    except Exception as e:
+        logging.error(f"Error en recuperación de contraseña: {str(e)}")
+        db.rollback()
+        return templates.TemplateResponse(
+            "recoveryPassword.html",
+            {
+                "request": request,
+                "register_error": "Error al procesar la solicitud. Intente nuevamente.",
+                "show_register": True
+            },
+            status_code=500
+        )
+    
     
 from fastapi import Form
 
@@ -826,12 +888,4 @@ async def post_registro(request: Request, Mascota1: str = Form(...), Mascota2: s
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000, reload=True)
 
-#Esta mierda no quiere servir. Matenme, si esto no funciona pronto cosas malas sucederan att: el programador/TRIVI
-#Ya la mierda quiere funcionar pero igual malas cosas sucederan a este ritmo att: el programador/TRIVI 18/4/2025
-#Ya tengo demasiadas decepciones, como para que no me funcione esto att: el programador/TRIVI 18/4/2025 😭😢
-#Maldita sea, tras de que no he terminado esto, las decepciones solo aumentan, lo lakers pierden el primer partido
-#Que alguien me desviva por favor att: el programador/TRIVI 19/4/2025
-#Yo que le hice a la vida?, cada dia mas triste y aburrido. att: el programador/TRIVI 21/4/2025
-#Esta mierda funciona por obra y gracia del espiritu santo. att: La loca de Karen
-#estar triste es malo, no estes triste
-#Malditas esto es solo pa mi, no toque mi leyenda att: el programador/TRIVI 21/4/2025 🔫🔫🔫
+

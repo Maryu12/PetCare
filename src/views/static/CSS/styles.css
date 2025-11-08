@@ -24,7 +24,7 @@ body {
 
 /* Header y navegación */
 header.container {
-    background-color: #166E6E;
+    background-color: #29a7a2;
     color: white;
     padding: 10px 20px;
     width: 100%;
@@ -86,10 +86,10 @@ nav {
 }
 
 .nav-button {
-    color: white;
+    color: #0e7974;
     text-decoration: none;
     font-weight: bold;
-    background-color: #6A9492;
+    background-color: #e0e1e4;
     padding: 10px 20px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -102,10 +102,10 @@ nav {
 }
 
 .login-button {
-    color: white;
+    color: #0e7974;
     text-decoration: none;
     font-weight: bold;
-    background-color: #6A9492;
+    background-color: #e0e1e4;
     padding: 10px 20px;
     border-radius: 5px;
     margin-left: auto;
@@ -156,12 +156,12 @@ nav {
     text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
     text-align: center;
     padding: 10px 20px;
-    background: rgba(22, 110, 110, 0.5); 
+    background: rgb(123 208 224 / 62%);
     border-radius: 20px;
 }
 
 .footer {
-    background-color: #166E6E;
+    background-color: #29a7a2;
     color: white;
     text-align: center;
     padding: 20px 10px;
@@ -269,7 +269,7 @@ h2 {
     color: #000;
 }
 .servicios-card {
-    background: rgba(91, 154, 154, 0.5); /* semitransparente para destacar */
+    background: rgb(130 213 239 / 36%); /* semitransparente para destacar */
     border-radius: 25px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     padding: 40px;
@@ -279,7 +279,7 @@ h2 {
 }
 .frase-carrusel {
     width: 100vw; /* ancho de toda la ventana */
-    background: rgba(22, 110, 110, 0.5); /* semitransparente para destacar */
+    background: rgb(40 199 199 / 42%); /* semitransparente para destacar */
     padding: 30px 10px;
     overflow: hidden;
     display: flex;
@@ -365,7 +365,7 @@ h2 {
     margin: 50px auto;
     padding: 40px 20px;
     text-align: center;
-    background: rgba(91, 154, 154, 0.1);
+    background: rgb(202 237 255);
     border-radius: 20px;
   }
   

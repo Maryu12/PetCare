@@ -18,7 +18,7 @@ body {
 }
 
 header.container {
-    background-color: #166E6E;
+    background-color: #29a7a2;
     color: white;
     padding: 10px 20px;
     width: 100%;
@@ -64,10 +64,10 @@ nav {
 }
 
 .nav-button {
-    color: white;
+    color: #0e7974;
     text-decoration: none;
     font-weight: bold;
-    background-color: #6A9492;
+    background-color: #dfe1e6;
     padding: 10px 20px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
@@ -80,10 +80,10 @@ nav {
 }
 
 .login-button {
-    color: white;
+    color: #0e7974;
     text-decoration: none;
     font-weight: bold;
-    background-color: #6A9492;
+    background-color: #e0e1e4;
     padding: 10px 20px;
     border-radius: 5px;
     margin-left: auto;
@@ -131,7 +131,7 @@ h3 {
     color: #333;
 }
 .form-card {
-    background-color:#d4d7d7;
+    background-color: #ffffff;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -200,6 +200,30 @@ h3 {
     text-decoration: none;
 }
 
+/* Alertas */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    z-index: 10000;
+    animation: fadeIn 0.5s;
+}
+
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
 /* Lista de mascotas */
 #petsList {
     list-style: none;
@@ -219,7 +243,7 @@ h3 {
 }
 
 .action-button {
-    background-color: #6A9492;
+    background-color: #46b5b0;
     color: white;
     padding: 20px 20px;
     border: none;
@@ -237,12 +261,12 @@ h3 {
 }
 
 .action-button:hover {
-    background-color: #4d6f6d;
+    background-color: #166e6e;
     transform: scale(1.05); /* Agranda suavemente el botón */
 }
 /*--------------------------------------------------------------- pie de pagina------------------------------------------------------------------- */
 .footer {
-    background-color: #166E6E;
+    background-color: #29a7a2;
     color: white;
     text-align: center;
     padding: 20px 10px;

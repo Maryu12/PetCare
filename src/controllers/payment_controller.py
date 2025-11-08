@@ -108,7 +108,7 @@ async def send_confirmation_email(email: str, name: str, plan: str, amount: floa
         message = MIMEMultipart()
         message["From"] = os.getenv("EMAIL_FROM")
         message["To"] = email
-        message["Subject"] = "Confirmación de pago MilenzoPet"
+        message["Subject"] = "Confirmación de pago PetCare"
 
         # Cuerpo del email
         html = f"""
@@ -135,10 +135,10 @@ async def send_confirmation_email(email: str, name: str, plan: str, amount: floa
                         <td style="padding: 8px 0; color:#222;"><b>{payment_id}</b></td>
                     </tr>
                     </table>
-                    <p style="font-size: 1em; color:#555;">Si tienes alguna duda, contáctanos.<br>¡Gracias por confiar en MilenzoPet!</p>
+                    <p style="font-size: 1em; color:#555;">Si tienes alguna duda, contáctanos.<br>¡Gracias por confiar en PetCare!</p>
                 </div>
                 <div style="background: #f0f0f0; color: #888; text-align: center; padding: 12px 0; font-size: 0.95em;">
-                    © 2025 MilenzoPet
+                    © 2025 PetCare.
                 </div>
                 </div>
             </body>
