@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/CSS/vet.css">
+    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
     <title>Veterinarios </title>
 </head>
 <body>  
@@ -14,11 +15,17 @@
             </a>
            
             <div class="nav-buttons">
+                {% if is_logged_in %}
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                {% endif %}
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
-            <a href="/logout" class="logout-button">Cerrar Sesión</a>
+            {% if is_logged_in %}
+                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
         </nav>
     </header> 
 

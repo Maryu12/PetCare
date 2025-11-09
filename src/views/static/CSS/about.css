@@ -19,19 +19,6 @@ body {
     color: #333;
 }
 
-header.container {
-    background-color: #166E6E;
-    color: white;
-    padding: 10px 20px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;  
-    z-index: 1000;
-}
-
 nav {
     display: flex;
     justify-content: flex-start;
@@ -65,55 +52,6 @@ nav {
     align-items: center;
 }
 
-.nav-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-}
-
-.nav-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
-
-.login-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.login-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
-.logout-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.logout-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
-
 .logoC {
     position: fixed;
     top: 10px;
@@ -143,9 +81,9 @@ h2 {
 }
 
 .nosotros-section {
-    padding: 50px 20px;
+    padding: 10px 20px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 .cards-container {
@@ -216,16 +154,6 @@ h2 {
 }
 
 /*--------------------------------------------------------------- pie de pagina------------------------------------------------------------------- */
-.footer {
-    background-color: #166E6E;
-    color: white;
-    text-align: center;
-    padding: 20px 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
-}
 
 .footer p {
     margin: 0;
