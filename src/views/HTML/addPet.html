@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
 </head>
 <body>
+
+    {% if register_error %}
+    <div class="alert error">
+        {{ register_error }}
+    </div>
+    {% endif %}
+
+    {% if request.query_params.get('register_success') %}
+        <div class="alert success">
+            ¡Creación exitosa! Por favor revisa la sección Mis Mascotas.
+        </div>
+    {% endif %}
+    
 <header class="container">
     <nav> 
         <!-- Logo -->
@@ -29,7 +42,7 @@
 </header> 
 <div class="form-card">
     <div class="form-container">
-        <form id="formPatient" method="POST" action="/addPet">
+        <form id="formPatient" method="post" action="/addPet">
             <div class="form-header">
                 <img src="../static/images/AgregarMascota-1.webp" alt="Imagen AgregarMascota">
                 <h3>Datos del Paciente:</h3>
@@ -38,7 +51,11 @@
                 <input type="text" id="pet_name" name="pet_name" placeholder="Nombre de la mascota" required>
             </div>
             <div class="form-group">
-                <input type="text" id="sexo" name="sexo" placeholder="Sexo" required>
+                <select id="sexo" name="sexo" class="form-select" required aria-label="Sexo de la mascota">
+                    <option value="">Seleccione sexo</option>
+                    <option value="M">Macho</option>
+                    <option value="F">Hembra</option>
+                </select>
             </div>
             <div class="form-group">
                 <input type="text" id="especie" name="especie" placeholder="Especie" required>
@@ -52,9 +69,7 @@
             <div class="form-group">
                 <textarea id="descripcion" name="descripcion" placeholder="Descripción"></textarea>
             </div>
-            <form action="/guardar" method="post">
                 <button type="submit" class="action-button">Guardar</button>
-            </form>
         </form>
     </div>
 </div>

@@ -98,8 +98,9 @@ nav {
 }
 
 
-.form-group input, 
-.form-group textarea {
+.form-group input,
+.form-group textarea,
+.form-group select {
     width: 100%;
     padding: 0.5rem 0.8rem;
     border: 1px solid #ddd;
@@ -149,6 +150,30 @@ nav {
 .action-button:hover {
     background-color: #4d6f6d;
     transform: scale(1.05); /* Agranda suavemente el botón */
+}
+
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    z-index: 10000;
+    animation: fadeIn 0.5s;
+}
+
+
+.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef9a9a;
+}
+
+.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
 }
 
 button.submit-btn:hover {

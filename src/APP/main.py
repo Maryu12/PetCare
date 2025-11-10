@@ -13,6 +13,7 @@ from ..models.database import get_db
 from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory, Appointment
 from passlib.context import CryptContext
 import logging
+import os
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi import Query
@@ -162,8 +163,21 @@ async def get_view_pets(request: Request, db: Session = Depends(get_db)):
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
 async def get_vet_profile(request: Request, db: Session = Depends(get_db)):
     user_id = request.cookies.get("user_id")
+    # Si no hay cookie, redirigir al login (UX para formularios web)
     if not user_id:
-        raise HTTPException(status_code=401, detail="No autenticado")
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Convertir a entero y manejar cookie inválida
+    try:
+        user_id_int = int(user_id)
+    except (TypeError, ValueError):
+        logging.warning("add_pet: cookie user_id inválida: %r", user_id)
+        resp = RedirectResponse(url="/login", status_code=303)
+        resp.delete_cookie("user_id")
+        resp.delete_cookie("user_role")
+        return resp
+
+    # logging de depuración removido para evitar falsos positivos del analizador
 
     # Buscar el perfil del veterinario en la base de datos
     vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
@@ -505,12 +519,24 @@ async def add_pet(
     db: Session = Depends(get_db)
 ):
     user_id = request.cookies.get("user_id")
+    # Si no hay cookie, redirigir al login (UX para formularios web)
     if not user_id:
-        raise HTTPException(status_code=401, detail="No autenticado")
+        return RedirectResponse(url="/login", status_code=303)
+
+    # Convertir a entero y manejar cookie inválida
+    try:
+        user_id_int = int(user_id)
+    except (TypeError, ValueError):
+        logging.warning("add_pet: cookie user_id inválida: %r", user_id)
+        resp = RedirectResponse(url="/login", status_code=303)
+        resp.delete_cookie("user_id")
+        resp.delete_cookie("user_role")
+        return resp
     
     try:
+        
         new_pet = Pet(
-            id_owner=user_id,
+            id_owner=user_id_int,
             pet_name=pet_name,
             species=especie,
             birthdate=birthdate,
@@ -521,17 +547,21 @@ async def add_pet(
         db.add(new_pet)
         db.commit()
         db.refresh(new_pet)
-        return RedirectResponse(url="/myPets", status_code=303)
+        return RedirectResponse(
+            url="/addPet?register_success=1", 
+            status_code=303)
+    
     except Exception as e:
-        logging.error(f"Error al registrar mascota: {str(e)}")
+        # Log full traceback to server logs for diagnosis
+        logging.exception("Error al registrar mascota")
         db.rollback()
-        return templates.TemplateResponse(
-            "addPet.html",
-            {
-                "request": request,
-                "error": "Error al registrar la mascota. Intente nuevamente."
-            }
-        )
+
+        # In development, surface the error detail to the template to aid debugging
+        ctx = {"request": request, "register_error": "Error al registrar la mascota. Intente nuevamente."}
+        if os.getenv("DEBUG") == "1":
+            ctx["register_error_detail"] = str(e)
+
+        return templates.TemplateResponse("addPet.html", ctx)
     
 #Post para obtener los datos de las mascotas del usuario
 @app.get("/myPetsData")
