@@ -23,18 +23,6 @@ body {
 }
 
 /* Header y navegación */
-header.container {
-    background-color: #166E6E;
-    color: white;
-    padding: 10px 20px;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;  
-    z-index: 1000;
-}
 
 nav {
     position: relative;
@@ -101,38 +89,6 @@ nav {
     color: #6A9492;
 }
 
-.login-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.login-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
-.logout-button {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    background-color: #6A9492;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin-left: auto;
-    margin-right: 10px;
-    font-size: 16px;
-}
-
-.logout-button:hover {
-    background-color: #ffffff;
-    color: #6A9492;
-}
 .full-width-image {
     width: 100%;
     margin-top: 0px; 
@@ -158,17 +114,6 @@ nav {
     padding: 10px 20px;
     background: rgba(22, 110, 110, 0.5); 
     border-radius: 20px;
-}
-
-.footer {
-    background-color: #166E6E;
-    color: white;
-    text-align: center;
-    padding: 20px 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .footer p {
@@ -492,7 +437,7 @@ h2 {
 /* Suscripción CSS */
 .subscription-container {
   max-width: 500px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 2rem;
   font-family: "Segoe UI", Roboto, sans-serif;
   border-radius: 8px;

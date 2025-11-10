@@ -46,6 +46,24 @@ templates = Jinja2Templates(directory="src/views/HTML")
 #Schema 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+def _build_template_context(request: Request, extra: dict | None = None, db: Session | None = None):
+    ctx = {"request": request}
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    is_logged_in = user_id is not None
+    ctx.update({"is_logged_in": is_logged_in, "user_role": user_role, "user_id": user_id})
+    if is_logged_in and db is not None:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if user:
+            ctx["user_name"] = user.u_name
+    if extra:
+        ctx.update(extra)
+    return ctx
+
+def render_template(request, template_name, extra=None, db=None, status_code=None):
+    ctx = _build_template_context(request, extra=extra, db=db)
+    return templates.TemplateResponse(template_name, ctx, status_code=status_code) if status_code else templates.TemplateResponse(template_name, ctx)
+
 @app.post("/")
 async def read_root(request: Request, name: str = Form(...), email: str = Form(...), password: str = Form(...)):
     return templates.TemplateResponse("index.html", {"request": request, "name": name, "email": email})
@@ -68,16 +86,16 @@ async def read_root(request: Request, db: Session = Depends(get_db)):
         {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name, "user_id": user_id})
 ## suscripción lalalala
 @app.get("/suscripcion", response_class=HTMLResponse)
-async def suscripcion(request: Request, plan: str = Query(None)):
-    return templates.TemplateResponse("suscripcion.html", {"request": request, "plan": plan})
+async def get_suscripcion(request: Request, plan: str = Query(None), db: Session = Depends(get_db)):
+    return render_template(request, "suscripcion.html", extra={"plan": plan}, db=db)
 
 @app.get("/login")
 async def get_login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 @app.get("/transporte")
-async def get_transporte(request: Request):
-    return templates.TemplateResponse("transporte.html", {"request": request})
+async def get_transporte(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "transporte.html", db=db)
 
 @app.get("/perf_vet")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -121,20 +139,24 @@ async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
         }
     )
 @app.get("/bano", response_class=HTMLResponse)
-async def bano_view(request: Request):
-    return templates.TemplateResponse("bano.html", {"request": request})
+async def get_bano(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "bano.html", db=db)
 
 @app.get("/control", response_class=HTMLResponse)
-async def control_view(request: Request):
-    return templates.TemplateResponse("control.html", {"request": request})
+async def get_control(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "control.html", db=db)
 
 @app.get("/vet", response_class=HTMLResponse)
-async def vet_view(request: Request):
-    return templates.TemplateResponse("vet.html", {"request": request})
+async def get_vet(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "vet.html", db=db)
 
 @app.get("/guarderia", response_class=HTMLResponse)
-async def guarderia_view(request: Request):
-    return templates.TemplateResponse("guarderia.html", {"request": request})
+async def get_guarderia(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "guarderia.html", db=db)
+
+@app.get("/viewPets", response_class=HTMLResponse)
+async def get_view_pets(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "viewPets.html", db=db)
 
 @app.get("/getVetProfile")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -181,9 +203,20 @@ async def get_view_pets(request: Request, db: Session = Depends(get_db)):
     if not user_id:
         return RedirectResponse(url="/login", status_code=303)
 
+    user_role = request.cookies.get("user_role")
+    is_logged_in = True
+    # try to fetch user name
+    user_name = None
+    try:
+        user = db.query(User).filter(User.id_user == user_id).first()
+        if user:
+            user_name = user.u_name
+    except Exception:
+        pass
+
     return templates.TemplateResponse(
         "viewPets.html",
-        {"request": request}
+        {"request": request, "is_logged_in": is_logged_in, "user_role": user_role, "user_name": user_name, "user_id": user_id}
     )
 
 @app.get("/getMyPets")
@@ -435,21 +468,21 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
 @app.get("/serv")
-async def get_serv(request: Request):
-    return templates.TemplateResponse("serv.html", {"request": request})
+async def get_serv(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "serv.html", db=db)
 
 @app.get("/about")
-async def get_about(request: Request):
-    return templates.TemplateResponse("about.html", {"request": request})
+async def get_about(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "about.html", db=db)
 
 @app.get("/myPets")
-async def get_my_pets(request: Request):
-    return templates.TemplateResponse("myPets.html", {"request": request})
+async def get_my_pets(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "myPets.html", db=db)
 
 @app.get("/addPet")
 @role_required(["Cliente", "Administrador de la tienda"])
-async def get_add_pet(request: Request):
-    return templates.TemplateResponse("addPet.html", {"request": request})
+async def get_add_pet(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "addPet.html", db=db)
 
 @app.post("/guardar")
 async def guardar_datos(nombre: str = Form(...)):
