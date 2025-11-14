@@ -62,7 +62,7 @@ h2 {
 .cascada {
     display: flex;
     flex-direction: column;
-    gap: 22px; /* ← CAMBIO (más espacio entre tarjetas) */
+    gap: 30px;
     padding: 30px;
     width: 100%;
     max-width: 1200px;
@@ -74,15 +74,15 @@ h2 {
     border-radius: 25px;
     display: flex;
     align-items: center;
-    padding: 15px 25px; /* ← CAMBIO (menos padding lateral) */
+    padding: 20px 30px;
     width: 100%;
-    max-width: 820px; /* ← CAMBIO (más delgado) */
-    height: 150px; /* ← CAMBIO (menos alto) */
+    max-width: 1000px;
+    height: 180px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     text-align: left;
-    gap: 20px; /* ← CAMBIO (menos separación interna) */
+    gap: 30px;
     border: none;
 }
 
@@ -92,8 +92,8 @@ h2 {
 }
 
 .elemento-icon {
-    width: 110px; /* ← CAMBIO (icono más pequeño) */
-    height: 110px; /* ← CAMBIO */
+    width: 140px;
+    height: 140px;
     object-fit: cover;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -101,12 +101,10 @@ h2 {
 }
 
 .elemento span {
-    font-size: 22px; /* ← más acorde al tamaño delgado */
+    font-size: 24px;
     font-weight: bold;
     color: #000;
 }
-
-/* ------------------ MODALES ------------------ */
 
 .modal {
     display: none;
@@ -127,7 +125,7 @@ h2 {
     border-radius: 10px;
     width: 80%;
     max-width: 500px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     position: relative;
 }
 
@@ -225,7 +223,6 @@ h2 {
 resize: none;
 }
 
-/* Segunda definición del modal */
 .modal{
 display: none;
 position: fixed;
@@ -238,7 +235,7 @@ height: 100%;
 overflow: auto;
 background-color: rgba(0,0,0,0.5);
 }
-
+  
 .modal-contenido {
 background-color: #fff;
 margin: auto;
@@ -247,14 +244,14 @@ border-radius: 15px;
 width: 60%;
 max-width: 600px;
 animation: fadeIn 0.3s;
-max-height: 70vh;
-overflow-y: auto;
-line-height: 1.6;
-margin-bottom: 15px;
-text-align: justify;
-padding: 30px;
+max-height: 70vh; 
+overflow-y: auto; 
+line-height: 1.6;     
+margin-bottom: 15px;   
+text-align: justify; 
+padding: 30px; 
 }
-
+  
 .cerrar {
 color: #aaa;
 float: right;
@@ -262,7 +259,7 @@ font-size: 28px;
 font-weight: bold;
 cursor: pointer;
 }
-
+  
 .cerrar:hover {
 color: black;
 }
@@ -272,16 +269,17 @@ from {opacity: 0;}
 to {opacity: 1;}
 }
 
+
 #veterinarios-confirmacion {
     display: none;
     margin-top: 20px;
     padding: 15px;
     border-radius: 8px;
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
     font-weight: bold;
     font-size: 16px;
-    border: 1px solid #c3e6cb;
+    border: 1px solid #c3e6cb; /* Borde verde */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: left;
     line-height: 1.5;
@@ -292,17 +290,17 @@ to {opacity: 1;}
     margin-top: 20px;
     padding: 15px;
     border-radius: 8px;
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #d4edda; /* Verde claro */
+    color: #155724; /* Verde oscuro */
     font-weight: bold;
     font-size: 16px;
-    border: 1px solid #c3e6cb;
+    border: 1px solid #c3e6cb; /* Borde verde */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: left;
     line-height: 1.5;
 }
 
-/* Modal de detalle veterinario */
+/* Estilo para el modal de detalle del veterinario */
 #modal-detalle-veterinario .modal-content {
     max-width: 500px;
     margin: auto;
@@ -310,6 +308,7 @@ to {opacity: 1;}
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
 }
 
 #modal-detalle-veterinario h2 {
@@ -336,23 +335,31 @@ to {opacity: 1;}
 #modal-detalle-veterinario .btn-aceptar {
     background-color: #4CAF50;
     color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-/* Sección transporte */
+#modal-detalle-veterinario .btn-aceptar:hover {
+    background-color: #45a049;
+}
+
 #transporte {
     background-color: #A2E0DC;
     border-radius: 25px;
     display: flex;
     align-items: center;
-    padding: 15px 25px; /* ← CAMBIO */
+    padding: 20px 30px;
     width: 100%;
-    max-width: 820px; /* ← CAMBIO */
-    height: 150px; /* ← CAMBIO */
+    max-width: 1000px;
+    height: 180px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.15);
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     text-align: left;
-    gap: 20px; /* ← CAMBIO */
+    gap: 30px;
     border: none;
 }
 
@@ -362,16 +369,21 @@ to {opacity: 1;}
 }
 
 #transporte img {
-    width: 110px; /* ← CAMBIO */
-    height: 110px; /* ← CAMBIO */
+    width: 140px;
+    height: 140px;
     object-fit: cover;
     border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 
 #transporte span {
-    font-size: 22px; /* ← CAMBIO */
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
 }
 
+/* Estilos para los campos de fecha y hora */
 input[type="date"],
 input[type="time"] {
     width: 100%;
@@ -382,6 +394,7 @@ input[type="time"] {
     font-size: 14px;
 }
 
+/* Contenedor para los campos adicionales */
 #transporte-vuelta-container {
     padding: 10px;
     margin: 10px 0;
@@ -389,20 +402,20 @@ input[type="time"] {
     background-color: #f9f9f9;
 }
 
+/* Estilos para mejorar la visualización en móviles */
 @media screen and (max-width: 600px) {
     .modal-content {
         width: 95%;
     }
-
+    
     input[type="date"],
     input[type="time"],
     input[type="text"],
     select,
     textarea {
-        font-size: 16px;
+        font-size: 16px; /* Evita el zoom en iOS al enfocar campos */
     }
-}
-.carousel {
+}.carousel {
     width: 100%;
     height: 320px; /* aquí ajustas el tamaño */
     margin-top: 60px;
@@ -423,4 +436,38 @@ input[type="time"] {
     flex-shrink: 0;
     object-fit: cover;
     object-position: center;
+}
+.grid-servicios {
+    display: flex;
+    justify-content: center;
+    gap: 180px;   /* AUMENTA ESTE NÚMERO PARA MÁS SEPARACIÓN */
+    margin-top: 20px;
+}
+
+.columna {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* Botones más delgados */
+.elemento {
+    width: 180px;
+    padding: 8px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.elemento:hover {
+    transform: scale(1.05);
+}
+
+.elemento-icon {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 12px;
 }
