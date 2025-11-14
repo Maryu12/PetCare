@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/CSS/transporte.css">
-    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
+    <link rel="stylesheet" href="../static/CSS/_theme.css">
     <title>Servicio de Transporte</title>
 </head>
+
 <body>
+    <!-- HEADER -->
     <header class="container">
         <nav>
             <a href="/" class="nav-logo">
@@ -20,70 +22,120 @@
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
             </div>
+
             {% if is_logged_in %}
-                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+            <a href="/logout" class="nav-button">Cerrar Sesion</a>
             {% else %}
-                <a href="/login" class="login-button">Login</a>
+            <a href="/login" class="login-button">Login</a>
             {% endif %}
         </nav>
     </header>
 
+    
     <main>
-        <h1>Servicio de Transporte</h1>
-        <section class="form-section">
-            <h2>Agendar Transporte</h2>
-            <form id="transporte-form">
-                <label for="transporte-mascota">Seleccionar mascota</label>
-                <select id="transporte-mascota" name="id_pet" required>
-                    <option value="">-- Selecciona una mascota --</option>
-                </select>
+        <div class="form-wrapper">
+            <h1 class="title">Servicio de Transporte</h1>
 
-                <label for="transporte-tipo">Tipo de transporte</label>
-                <select id="transporte-tipo" name="tipo_transporte" required>
-                    <option value="">-- Selecciona una opción --</option>
-                    <option value="ida">Solo ida</option>
-                    <option value="ida-vuelta">Ida y vuelta</option>
-                </select>
+           
+            <section class="form-section">
 
-                <label for="transporte-fecha">Fecha de recogida</label>
-                <input type="date" id="transporte-fecha" name="fecha_recogida" required>
+             
+    <div class="car-border">
+    <img src="https://cdn-icons-png.flaticon.com/512/776/776588.png"
+         class="car"
+         alt="camion de transporte">
+</div>
 
-                <label for="transporte-hora">Hora de recogida</label>
-                <input type="time" id="transporte-hora" name="hora_recogida" required>
+                <h2>Agendar Transporte</h2>
 
-                <label for="transporte-comentarios">Dirección</label>
-                <textarea id="transporte-comentarios" name="comentarios" rows="3" placeholder="Ingresa tu direccion detalladamente..."></textarea>
+                <!-- INFO DEL SERVICIO -->
+                <div class="side-info">
+                    <h3>¿Qué incluye el servicio?</h3>
+                    <ul>
+                        <li>✔ Traslado seguro y monitoreado</li>
+                        <li>✔ Conductores certificados</li>
+                        <li>✔ Comodidad para tu mascota</li>
+                        <li>✔ Confirmación automática</li>
+                    </ul>
 
-                <button type="button" id="agendar-transporte">Agendar Transporte</button>
-            </form>
-        </section>
+                    <div class="pet-illustration">
+                        <img src="https://cdn-icons-png.flaticon.com/512/620/620851.png" alt="Pet car">
+                    </div>
+                </div>
 
-        <section class="table-section">
-            <h2>Servicios Agendados</h2>
-            <table id="tabla-servicios">
-                <thead>
-                    <tr>
-                        <th>Mascota</th>
-                        <th>Tipo</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Direccion</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Los servicios se llenarán dinámicamente -->
-                </tbody>
-            </table>
-        </section>
+                <!--CAMBIOS EN FORMULARIO -->
+                <form id="transporte-form">
+
+                    <div class="input-group">
+                        <label for="transporte-mascota">Seleccionar mascota</label>
+                        <select id="transporte-mascota" name="id_pet" required></select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="transporte-tipo">Tipo de transporte</label>
+                        <select id="transporte-tipo" name="tipo_transporte" required>
+                            <option value="">-- Selecciona una opción --</option>
+                            <option value="ida">Solo ida</option>
+                            <option value="ida-vuelta">Ida y vuelta</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="input-group">
+                            <label for="transporte-fecha">Fecha de recogida</label>
+                            <input type="date" id="transporte-fecha" name="fecha_recogida" required>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="transporte-hora">Hora de recogida</label>
+                            <input type="time" id="transporte-hora" name="hora_recogida" required>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="transporte-comentarios">Dirección</label>
+                        <textarea id="transporte-comentarios" name="comentarios" rows="3"
+                            placeholder="Ingresa tu dirección..."></textarea>
+                    </div>
+
+                    <button type="button" id="agendar-transporte" class="btn-primary">
+                        Agendar Transporte
+                    </button>
+                </form>
+
+            </section>
+
+            <!-- TABLA DE SELECCION-->
+            <section class="table-section">
+                <h2>Servicios Agendados</h2>
+
+                <div class="table-wrapper">
+                    <table id="tabla-servicios">
+                        <thead>
+                            <tr>
+                                <th>Mascota</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Dirección</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+
+        </div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="footer">
         <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
         <div class="footer-links">
             <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
             <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
-            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>  
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>
         </div>
     </footer>
 
