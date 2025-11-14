@@ -7,9 +7,18 @@
     <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
     <title>PetCare Servicios</title>
 </head>
+
 <body>
+    <div class="carousel">
+    <div class="carrusel-imagenes">
+        <img src="../static/images/baños.jpeg" alt="">
+        <img src="../static/images/baños2.jpg" alt="">
+        <img src="../static/images/baños3.jpg" alt="">
+    </div>
+</div>
     <header class="container">
         <nav>
+            
             <a href="/" class="nav-logo">
                 <img src="../static/images/logocare1.webp" alt="Logo Milenzo">
             </a>
@@ -31,34 +40,34 @@
     <div class="cascada">
         <h2>Elige uno de nuestros Servicios:</h2>
 
-        <a href="/bano" class="elemento" >
-            <img src="../static/images/Baño1.webp" alt="Bano" class="elemento-icon">
-            <span>Baño y corte</span>
-        </button>
-   
+         <div class="grid-servicios">
+
+        <a href="/bano" class="elemento">
+            <img src="../static/images/Baño1.webp" class="elemento-icon" alt="Baño y Corte">
+            <span>Baño y Corte</span>
+        </a>
 
         <a href="/control" class="elemento">
-            <img src="../static/images/Control1.webp" alt="Control" class="elemento-icon">
+            <img src="../static/images/Control1.webp" class="elemento-icon" alt="Control">
             <span>Control</span>
         </a>
-   
+
         <a href="/vet" class="elemento">
-            <img src="../static/images/Veterinarios1.webp" alt="Vet" class="elemento-icon">
+            <img src="../static/images/Veterinarios1.webp" class="elemento-icon" alt="Veterinarios">
             <span>Veterinarios</span>
         </a>
-                  
-           
-    </div>
+
         <a href="/guarderia" class="elemento">
-            <img src="../static/images/Guarderia.webp"alt="Guarderia" class="elemento-icon">
-            <span>Guarderia</span>
+            <img src="../static/images/Guarderia.webp" class="elemento-icon" alt="Guardería">
+            <span>Guardería</span>
         </a>
-        <br>
-        
-    <a href="/transporte" class="elemento">
-        <img src="../static/images/Transporte1.webp" alt="Transporte" class="elemento-icon">
-        <span>Transporte</span>
-    </a>
+
+        <a href="/transporte" class="elemento">
+            <img src="../static/images/Transporte1.webp" class="elemento-icon" alt="Transporte">
+            <span>Transporte</span>
+        </a>
+
+    </div>
 
 <footer class="footer">
     <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
