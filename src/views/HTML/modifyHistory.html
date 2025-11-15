@@ -5,28 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Historial Médico</title>
     <link rel="stylesheet" href="../static/CSS/modifyHistory.css"> <!-- Enlace al archivo CSS -->
+    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
 </head>
 <body>
     <header class="container">
         <nav> 
             <!-- Logo -->
             <a href="/" class="nav-logo">
-                <img src="../static/images/milen-2.webp" alt="Logo Milenzo">
+                <img src="../static/images/logocare1.webp" alt="Logo PetCare">
             </a>
             <!-- Botones principales -->
             <div class="nav-buttons">
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
+                <a href="/serv_vet" class="nav-button">Vet</a>
             </div>
             {% if is_logged_in %}
-                    <a href="/logout" class="nav-button" >Cerrar Sesion</a>
+                <a href="/logout" class="logout-button" >Cerrar Sesion</a>
             {% else %}
                 <a href="/login" class="login-button">Login</a>
             {% endif %}
-            </div>
         </nav>
-    </header>
+    </header> 
     <main class="main-container">
         <form id="modifyHistoryForm" method="POST" action="/modifyPetHistory">
             <div class="form-group">
@@ -53,7 +54,7 @@
         </form>
     </main>
     <footer class="footer">
-        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
     </footer>
     <script src="../static/JS/modifyHistory.js"></script> <!-- Enlace al archivo JS -->
 </body>

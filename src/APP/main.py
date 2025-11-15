@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from src.controllers.auth import role_required
 import uvicorn
 from ..models.database import get_db
-from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory, Appointment
+from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory, Appointment, Services
 from passlib.context import CryptContext
 import logging
 import os
@@ -118,6 +118,7 @@ async def get_perf_vet(request: Request, db: Session = Depends(get_db)):
             "is_logged_in": is_logged_in,
             "user_role": user_role,
             "vet_profile": vet_profile
+            
         }
     )
 
@@ -139,6 +140,15 @@ async def get_serv_vet(request: Request, db: Session = Depends(get_db)):
             "user_role": user_role
         }
     )
+
+@app.get("/conf", response_class=HTMLResponse)
+async def get_conf(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "conf.html", db=db)
+
+@app.get("/user", response_class=HTMLResponse)
+async def get_user(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "user.html", db=db)
+
 @app.get("/bano", response_class=HTMLResponse)
 async def get_bano(request: Request, db: Session = Depends(get_db)):
     return render_template(request, "bano.html", db=db)
@@ -158,6 +168,10 @@ async def get_guarderia(request: Request, db: Session = Depends(get_db)):
 @app.get("/viewPets", response_class=HTMLResponse)
 async def get_view_pets(request: Request, db: Session = Depends(get_db)):
     return render_template(request, "viewPets.html", db=db)
+
+@app.get("/viewService", response_class=HTMLResponse)
+async def get_view_services(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "viewService.html", db=db)
 
 @app.get("/getVetProfile")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
@@ -270,6 +284,24 @@ async def get_veterinarians(request: Request, db: Session = Depends(get_db)):
             "state": vet.state,
             "description": vet.description
         } for vet in veterinarians
+    ]
+
+@app.get("/user")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_user(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+    user_role = request.cookies.get("user_role")
+    # Si el usuario es Veterinario o Administrador, devolver todos los usuarios
+    if user_role in ["Veterinario", "Administrador de la tienda"]:
+        users = db.query(User).all()
+    return [
+        {
+            "id_users": user.id_user,
+            "id_rol": user.id_rol,
+            "u_name": user.u_name,
+            "telefono": user.telefono,
+            "email": user.email
+        } for user in users
     ]
 
 # Solicitar baño o corte
@@ -462,6 +494,22 @@ async def view_pet_history(id_pet: int, request: Request, db: Session = Depends(
         } for record in history
     ])
 
+@app.get("/viewService/{id_pet}")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def view_pet_service(id_pet: int, request: Request, db: Session = Depends(get_db)):
+    print(f"Consultando historial de servicios para mascota con id {id_pet}")
+    service = db.query(Appointment).filter(Appointment.id_pet == id_pet).all()
+    
+    return jsonable_encoder([
+        {
+            "service_name": record.service.type_service if getattr(record, 'service', None) is not None else None,
+            "fecha_rec": record.fecha_rec,
+            "date": record.date_hour_status,
+            "description": record.comentario,
+            "veterinarian": f"{record.veterinarian.name_vet} {record.veterinarian.last_name}" if getattr(record, 'veterinarian', None) is not None else None
+        } for record in service
+    ])
+
 @app.get("/getMyPets")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def get_my_pets(request: Request, db: Session = Depends(get_db)):
@@ -480,6 +528,8 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
     print("MASCOTAS:", pets)
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
+
+
 
 @app.get("/serv")
 async def get_serv(request: Request, db: Session = Depends(get_db)):
@@ -575,15 +625,33 @@ async def get_my_pets_data(request: Request, db: Session = Depends(get_db)):
     return [{"pet_name": pet.pet_name, "species": pet.species, "edad": pet.edad} for pet in pets]
 
 @app.get("/manage_users")
-@role_required(["Administrador de la tienda", "Cliente"])
+@role_required(["Administrador de la tienda", "Veterinario"])
 async def get_manage_users(request: Request, db: Session = Depends(get_db)):
+    
     users = db.query(User).all()
-    return templates.TemplateResponse("manage_users.html", {"request": request, "users": users})
+    return render_template(request, "manage_users.html", extra={"users": users}, db=db)
+
+@app.get("/api/users")
+@role_required(["Administrador de la tienda", "Cliente"])
+async def api_get_users(request: Request, db: Session = Depends(get_db)):
+    """Devuelve la lista de usuarios en formato JSON (incluye rol si existe)."""
+    users = db.query(User).all()
+    result = []
+    for u in users:
+        result.append({
+            "id_user": u.id_user,
+            "u_name": u.u_name,
+            "email": u.email,
+            "telefono": u.telefono,
+            "rol": {"id_rol": u.rol.id_rol, "description": u.rol.description} if getattr(u, 'rol', None) else None
+        })
+
+    return JSONResponse(content=jsonable_encoder(result))
 
 # Por favor no tocar esto :)
 
 @app.post("/admin/users/assign-role")
-@role_required(["Administrador de la tienda", "Cliente"])
+@role_required(["Administrador de la tienda", "Veterinario"])
 async def assign_role(
     request: Request,
     user_id: int = Form(...),
@@ -600,11 +668,22 @@ async def assign_role(
         db.commit()
         db.refresh(user)
         
-        return {"message": "Rol asignado correctamente"}
+        return RedirectResponse(
+            url="/manage_users?register_success=1",
+            status_code=303
+        )
     except Exception as e:
         logging.error(f"Error al asignar rol: {str(e)}")
         db.rollback()
-        raise HTTPException(status_code=500, detail="Error al asignar rol")
+        return templates.TemplateResponse(
+            "recoveryPassword.html",
+            {
+                "request": request,
+                "register_error": "Error al asignar el rol",
+                "show_register": True
+            },
+            status_code=500
+        )
     
 
 @app.post("/guarderia-service")
@@ -886,7 +965,10 @@ async def create_or_update_vet_profile(
     db.commit()
     db.refresh(vet_profile)
 
-    return {"message": "Perfil guardado exitosamente"}
+    return RedirectResponse(
+            url="/serv_vet?register_success=1",
+            status_code=303
+        )
 
 @app.post("/modifyPetHistory")
 @role_required(["Veterinario"])  # Asegura que solo los veterinarios puedan acceder

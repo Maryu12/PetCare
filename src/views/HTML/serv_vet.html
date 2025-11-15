@@ -4,23 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Servicios Veterinarios</title>
+    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
     <link rel="stylesheet" href="../static/CSS/serv_vet.css"> <!-- Enlace a un archivo CSS para estilos -->
 </head>
 <body>
+
+    {% if request.query_params.get('register_success') %}
+    <div class="alert success">
+        ¡Registro exitoso!.
+    </div>
+    {% endif %}
+
     <header class="container">
         <nav> 
-            
-            <a href="/" class="nav-logo"> <img src="../static/images/milen-2.webp" alt="Logo Milenzo"></a>
-           
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/logocare1.webp" alt="Logo PetCare">
+            </a>
+            <!-- Botones principales -->
             <div class="nav-buttons">
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
-                <a href="/manage_users" class="nav-button">Ch Rol</a>
                 <a href="/serv_vet" class="nav-button">Vet</a>
             </div>
             {% if is_logged_in %}
-                        <a href="/logout" class="logout-button" >Cerrar Sesion</a>
+                <a href="/logout" class="logout-button" >Cerrar Sesion</a>
             {% else %}
                 <a href="/login" class="login-button">Login</a>
             {% endif %}
@@ -37,7 +46,7 @@
         </div>
     </main>
     <footer class="footer">
-        <p>&copy; 2025 Milenzo. Todos los derechos reservados.</p>
+        <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
         <div class="footer-links">
             <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
             <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
@@ -50,7 +59,7 @@
           <h2>Política de Privacidad</h2>
           <p>🛡️ Última actualización: abril de 2025
 
-            <p> En MilenzoPet, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
+            <p> En PetCare, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
                
                 <p> ¿Qué información recopilamos?
                     <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
@@ -67,7 +76,7 @@
                 <p>¿Con quién compartimos tus datos?
                     <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
             Tus derechos
-                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@milenzopet.com.</p>
+                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@PetCare.com.</p>
         </div>
       </div>
       
@@ -75,7 +84,7 @@
         <div class="modal-contenido">
           <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
           <h2>Términos y Condiciones</h2>
-          <p>📜Bienvenido a MilenzoPet
+          <p>📜Bienvenido a PetCare
           <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
            
           <p> Uso de la plataforma:
@@ -84,21 +93,21 @@
             
             <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
             
-            <p></p>*MilenzoPet se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
+            <p></p>*PetCare se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
             
             <p> Servicios:
             
-                <p></p>*MilenzoPet facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
+                <p></p>*PetCare facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
             
                 <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
             
             <p>Propiedad intelectual: 
             
-                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de MilenzoPet y no pueden ser utilizados sin autorización previa.
+                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de PetCare y no pueden ser utilizados sin autorización previa.
            
             <p> Modificaciones:
             
-                <p>* MilenzoPet puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
+                <p>* PetCare puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
         </div>
       </div>
       
@@ -108,11 +117,11 @@
           <h2>Contacto</h2>
           <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
 
-            <p> *Email: contacto@milenzopet.com
+            <p> *Email: contacto@PetCare.com
             <p> *Teléfono: +52 305 4846421
             <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
             <p> *Redes sociales:
-            <p> *Instagram / Facebook / Twitter: @MilenzoPet</p>
+            <p> *Instagram / Facebook / Twitter: @PetCare</p>
         </div>
       </div>
 <script src="../static/JS/ser_vet.js"></script>
