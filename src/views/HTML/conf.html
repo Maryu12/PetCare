@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/CSS/myPets.css">
+    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
+    <title>Configuración</title>
+</head>
+
+<body>  
+ 
+    <header class="container">
+        <nav> 
+            <!-- Logo -->
+            <a href="/" class="nav-logo">
+                <img src="../static/images/logocare1.webp" alt="Logo PetCare">
+            </a>
+            <!-- Botones principales -->
+            <div class="nav-buttons">
+                {% if is_logged_in %}
+                <a href="/myPets" class="nav-button">Mis Mascotas</a>
+                {% endif %}
+                <a href="/serv" class="nav-button">Servicios</a>
+                <a href="/about" class="nav-button">Nosotros</a>
+            </div>
+            {% if is_logged_in %}
+                    <a href="/logout" class="logout-button" >Cerrar Sesion</a>
+            {% else %}
+                <a href="/login" class="login-button">Login</a>
+            {% endif %}
+        </nav>
+    </header> 
+
+    <div class="form-card">
+        <div class="form-header">
+            <h3>Configuracion</h3>
+            <div class="form-actions">
+                <a href="/manage_users" class="action-button">Usuarios</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
+        <div class="footer-links">
+            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
+            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>  
+        </div>
+    </footer>
+    
+    <div id="modal-privacidad" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
+          <h2>Política de Privacidad</h2>
+          <p>🛡️ Última actualización: abril de 2025
+
+            <p> En PetCare, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
+               
+                <p> ¿Qué información recopilamos?
+                    <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
+                    <p>*Información sobre tus mascotas (nombre, especie, edad).
+                    <p>*Historial de citas y servicios utilizados.
+                    <p>*Datos de navegación y uso de la plataforma (cookies y análisis estadístico).
+               
+                 <p>¿Cómo usamos tus datos?
+                    <p>*Para agendar y gestionar citas veterinarias y servicios relacionados.
+                    <p>*Para personalizar tu experiencia en la plataforma.
+                    <p>*Para contactar contigo en relación con tus solicitudes o servicios.
+                    <p>*Para fines estadísticos y de mejora continua del servicio.
+               
+                <p>¿Con quién compartimos tus datos?
+                    <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
+            Tus derechos
+                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@PetCare.com.</p>
+        </div>
+      </div>
+      
+      <div id="modal-terminos" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
+          <h2>Términos y Condiciones</h2>
+          <p>📜Bienvenido a PetCare
+          <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
+           
+          <p> Uso de la plataforma:
+
+            <p> *El usuario se compromete a brindar información veraz y actualizada.
+            
+            <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
+            
+            <p></p>*PetCare se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
+            
+            <p> Servicios:
+            
+                <p></p>*PetCare facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
+            
+                <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
+            
+            <p>Propiedad intelectual: 
+            
+                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de PetCare y no pueden ser utilizados sin autorización previa.
+           
+            <p> Modificaciones:
+            
+                <p>* PetCare puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
+        </div>
+      </div>
+      
+      <div id="modal-contacto" class="modal">
+        <div class="modal-contenido">
+          <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
+          <h2>Contacto</h2>
+          <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
+
+            <p> *Email: contacto@PetCare.com
+            <p> *Teléfono: +52 305 4846421
+            <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
+            <p> *Redes sociales:
+            <p> *Instagram / Facebook / Twitter: @PetCare</p>
+        </div>
+      </div>      
+
+</body>
+</html>
