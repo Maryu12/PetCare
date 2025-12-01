@@ -20,6 +20,9 @@
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
+                {% if user_role == 'Veterinario' %}
+                    <a href="/serv_vet" class="nav-button">Vet</a>
+                {% endif %}
             </div>
             {% if is_logged_in %}
                 <a href="/logout" class="logout-button" >Cerrar Sesion</a>
@@ -30,36 +33,41 @@
     </header> 
 
     <!-- Selección de mascota -->
-        <section class="pets-container">
-            <h2 class="section-title">Consulta el Historial de Servicios</h2>
-            <p class="section-description">Selecciona una de tus mascotas registradas para ver su historial de servicios.</p>
-            
-            <div class="form-group">
-                <label for="petSelect">Seleccionar Mascota:</label>
-                <select id="petSelect" name="id_pet">
-                    <!-- Opciones llenadas dinámicamente -->
-                </select>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="action-button" id="viewService">Ver Historial</button>
-            </div>
-        </section>
+    <section class="pets-container">
+        <h2 class="section-title">Consulta el Historial de Servicios</h2>
+        <p class="section-description">Selecciona una de tus mascotas registradas para ver su historial de servicios.</p>
 
-        <section class="history-container" id="historyContainer" style="display: none;">
-            <div class="history-header">
-                <h2>Historial Servicios</h2>
-                <div class="pet-profile" id="petProfile">
-                    <!-- Información de la mascota seleccionada -->
-                </div>
+        <div class="form-group">
+            <label for="petSelect">Seleccionar Mascota:</label>
+            <select id="petSelect" name="id_pet">
+                <!-- Opciones llenadas dinámicamente -->
+            </select>
+        </div>
+        <div class="form-actions">
+            <button type="button" class="action-button" id="viewService">Ver Historial</button>
+        </div>
+    </section>
+
+    <!-- Historial: estructura similar a agendaVet -->
+    <section class="history-container" id="historyContainer" style="display: none;">
+        <div class="history-header">
+            <h2>Historial Servicios</h2>
+            <div class="pet-profile" id="petProfile">
+                <!-- Información de la mascota seleccionada -->
+            </div>
+        </div>
+
+        <div class="history-records">
+            <div id="historyList" class="history-list">
+                <!-- Aquí se llenará el historial (tabla) dinámicamente -->
             </div>
 
-            <div class="history-records">
-                <h3>Registros</h3>
-                <ul id="historyList" class="history-list">
-                    <!-- Aquí se llenará el historial médico dinámicamente -->
-                </ul>
+            <!-- Placeholder para el formulario de modificación (opcional) -->
+            <div id="modifyHistoryForm" style="display:none; margin-top:12px;">
+                <!-- El formulario para editar/agregar historial puede ir aquí -->
             </div>
-        </section>
+        </div>
+    </section>
 
 <script src="../static/JS/viewService.js"></script>
 </body>

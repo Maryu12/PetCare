@@ -8,6 +8,12 @@
     <title>PetCare - Guardería</title>
 </head>
 <body>  
+
+    {% if request.query_params.get('register_success') %}
+    <div class="alert success">
+        ¡Registro exitoso!.
+    </div>
+    {% endif %}
  
     <header class="container">
         <nav> 

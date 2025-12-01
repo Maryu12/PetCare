@@ -161,6 +161,23 @@ nav {
     cursor: pointer;
 }
 
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 25px;
+    border-radius: 5px;
+    z-index: 10000;
+    animation: fadeIn 0.5s;
+}
+
+.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
+}
+
 /* Botón */
 .btn-agendar {
     background: linear-gradient(135deg, #166E6E 0%, #6A9492 100%);

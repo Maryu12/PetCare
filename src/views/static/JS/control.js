@@ -79,8 +79,8 @@ async function AgendarCita() {
         });
 
         if (response.ok) {
-            alert("Cita agendada exitosamente.");
-            // Aquí podrías recargar la lista de citas o redirigir a otra página
+            // Redirigir a la página de control con parámetro para mostrar mensaje en plantilla
+            window.location.href = "/control?register_success=1";
         } else {
             console.error("Error al agendar la cita:", response.statusText);
             alert("No se pudo agendar la cita. Inténtalo de nuevo más tarde.");

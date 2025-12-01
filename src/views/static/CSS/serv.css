@@ -418,7 +418,7 @@ input[type="time"] {
 }.carousel {
     width: 100%;
     height: 320px; /* aquí ajustas el tamaño */
-    margin-top: 60px;
+    margin-top: 0px;
     overflow: hidden;
     position: relative;
 }
@@ -433,7 +433,7 @@ input[type="time"] {
 .carrusel-imagenes img {
     width: 100%;
     height: 100%;
-    flex-shrink: 0;
+    flex-shrink: 1;
     object-fit: cover;
     object-position: center;
 }

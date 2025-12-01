@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil Veterinario</title>
-    <link rel="stylesheet" href="../static/CSS/perf_vet.css"> <!-- Enlace al archivo CSS -->
+    <title>Servicios Veterinarios</title>
     <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
+    <link rel="stylesheet" href="../static/CSS/agendaVet.css"> <!-- Enlace a un archivo CSS para estilos -->
 </head>
+
 <body>
-    {% if register_error %}
-        <div class="alert error">
-            {{ register_error }}
-        </div>
+
+    {% if request.query_params.get('register_success') %}
+    <div class="alert success">
+        ¡Registro exitoso!.
+    </div>
     {% endif %}
+
     <header class="container">
         <nav> 
             <!-- Logo -->
@@ -24,9 +27,7 @@
                 <a href="/myPets" class="nav-button">Mis Mascotas</a>
                 <a href="/serv" class="nav-button">Servicios</a>
                 <a href="/about" class="nav-button">Nosotros</a>
-                {% if user_role == 'Veterinario' %}
-                    <a href="/serv_vet" class="nav-button">Vet</a>
-                {% endif %}
+                <a href="/serv_vet" class="nav-button">Vet</a>
             </div>
             {% if is_logged_in %}
                 <a href="/logout" class="logout-button" >Cerrar Sesion</a>
@@ -35,46 +36,33 @@
             {% endif %}
         </nav>
     </header> 
-    <main class="main-container">
-        <form id="vetProfileForm" method="POST" action="/createOrUpdateVetProfile">
-            <div class="form-group">
-                <label for="name_vet">Nombre:</label>
-                <input type="text" id="name_vet" name="name_vet" placeholder="Nombre" required>
+    
+    <section class="history-container">
+            <div class="history-header">
+                <h2>Agenda</h2>
+                <div class="pet-profile" id="petProfile">
+                    <!-- Información de la mascota seleccionada -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="last_name">Apellido:</label>
-                <input type="text" id="last_name" name="last_name" placeholder="Apellido" required>
+
+            <div class="history-records">
+                <div id="historyList" class="history-list">
+                    <!-- Aquí se llenará el historial (tabla) dinámicamente -->
+                </div>
+
+                <!-- Placeholder para el formulario de modificación (opcional) -->
+                <div id="modifyHistoryForm" style="display:none; margin-top:12px;">
+                    <!-- El formulario para editar/agregar historial puede ir aquí -->
+                </div>
             </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="text" id="telefono" name="telefono" placeholder="Teléfono" required>
-            </div>
-            <div class="form-group">
-                <label for="email">Correo Electrónico:</label>
-                <input type="email" id="email" name="email" placeholder="Correo Electrónico" required>
-            </div>
-            <div class="form-group">
-                <label for="state">¿Realiza Domicilios?</label>
-                <select id="state" name="state" required>
-                    <option value="Sí">Sí</option>
-                    <option value="No">No</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="description">Descripción Profesional:</label>
-                <textarea id="description" name="description" placeholder="Detalles profesionales" rows="4" required></textarea>
-            </div>
-            <div class="form-actions">
-                <button type="submit" class="action-button">Guardar Perfil</button>
-            </div>
-        </form>
-    </main>
+        </section>
+
     <footer class="footer">
         <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
         <div class="footer-links">
-            <a href="#">Política de Privacidad</a>
-            <a href="#">Términos y Condiciones</a>
-            <a href="#">Contacto</a>
+            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
+            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
+            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>  
         </div>
     </footer>
     <div id="modal-privacidad" class="modal">
@@ -82,7 +70,7 @@
           <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
           <h2>Política de Privacidad</h2>
           <p>🛡️ Última actualización: abril de 2025
-    
+
             <p> En PetCare, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
                
                 <p> ¿Qué información recopilamos?
@@ -103,6 +91,7 @@
                      <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@PetCare.com.</p>
         </div>
       </div>
+      
       <div id="modal-terminos" class="modal">
         <div class="modal-contenido">
           <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
@@ -111,7 +100,7 @@
           <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
            
           <p> Uso de la plataforma:
-    
+
             <p> *El usuario se compromete a brindar información veraz y actualizada.
             
             <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
@@ -139,7 +128,7 @@
           <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
           <h2>Contacto</h2>
           <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
-    
+
             <p> *Email: contacto@PetCare.com
             <p> *Teléfono: +52 305 4846421
             <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
@@ -147,6 +136,6 @@
             <p> *Instagram / Facebook / Twitter: @PetCare</p>
         </div>
       </div>
-    <script src="../static/JS/perf_vet.js"></script>
+<script src="../static/JS/agendaVet.js"></script>
 </body>
 </html>

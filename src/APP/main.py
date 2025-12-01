@@ -98,6 +98,10 @@ async def get_login(request: Request):
 async def get_transporte(request: Request, db: Session = Depends(get_db)):
     return render_template(request, "transporte.html", db=db)
 
+@app.get("/agendaVet")
+async def get_agenda_vet(request: Request, db: Session = Depends(get_db)):
+    return render_template(request, "agendaVet.html", db=db)
+
 @app.get("/perf_vet")
 @role_required(["Veterinario", "Administrador de la tienda"])  # Asegura que solo los veterinarios puedan acceder
 async def get_perf_vet(request: Request, db: Session = Depends(get_db)):
@@ -262,6 +266,54 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
 
     return [{"id_pet": pet.id_pet, "pet_name": pet.pet_name, "species": pet.species} for pet in pets]
 
+@app.get("/getAgendaVet")
+@role_required(["Veterinario"])
+async def get_agenda_vet_api(request: Request, db: Session = Depends(get_db)):
+    user_id = request.cookies.get("user_id")
+
+    if not user_id:
+        return JSONResponse(content=[], status_code=200)
+
+    vet = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+    if not vet:
+        return JSONResponse(content=[], status_code=200)
+
+    # Log which user is being recognized for debugging
+    try:
+        user_obj = db.query(User).filter(User.id_user == user_id).first()
+        user_name = user_obj.u_name if user_obj else None
+    except Exception:
+        user_name = None
+        logging.info(f"getAgendaVet: cookie user_id={user_id} -> user_name={user_name}; vet_id={getattr(vet,'id_veterinarian', None)}")
+        print(f"getAgendaVet: cookie user_id={user_id} -> user_name={user_name}; vet_id={getattr(vet,'id_veterinarian', None)}")
+
+    # Query appointments assigned to this veterinarian
+    appointments = db.query(Appointment).filter(Appointment.id_veterinarian == vet.id_veterinarian).all()
+
+    result = []
+    for a in appointments:
+        pet = db.query(Pet).filter(Pet.id_pet == a.id_pet).first() if a.id_pet else None
+        service = db.query(Services).filter(Services.id_service == a.id_service).first() if a.id_service else None
+        veterinarian_name = f"{vet.name_vet} {vet.last_name}" if getattr(vet, 'name_vet', None) else None
+
+        result.append({
+            "appointment_id": a.id_appointment,
+            "id_service": a.id_service,
+            "pet_id": a.id_pet,
+            "pet_name": pet.pet_name if pet else None,
+            "service_type": service.type_service if service else None,
+            "service_description": service.description if service else None,
+            "service_date": a.fecha_rec,
+            "service_time": a.date_hour_status,
+            "veterinarian_id": vet.id_veterinarian,
+            "veterinarian_name": veterinarian_name,
+            "description": a.comentario,
+            "allergies": a.allergies_sensitivities,
+            "temperament": a.temperament_grooming
+        })
+
+    return JSONResponse(content=jsonable_encoder(result))
+
 # Obtener veterinarios disponibles
 @app.get("/getVeterinarians")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
@@ -375,8 +427,7 @@ async def solicitar_control(
     db.commit()
     db.refresh(nueva_cita)
     
-    return {"success": True, "message": "Solicitud de control veterinario registrada correctamente", "appointment_id": nueva_cita.id_appointment}
-
+    return RedirectResponse(url="/control?register_success=1", status_code=303)
 # Solicitar guardería 
 @app.post("/api/guarderia")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
@@ -404,8 +455,7 @@ async def solicitar_guarderia(
     db.commit()
     db.refresh(nueva_cita)
     
-    return {"success": True, "message": "Solicitud de guardería registrada correctamente", "appointment_id": nueva_cita.id_appointment}
-
+    return RedirectResponse(url="/guarderia?register_success=1", status_code=303)
 
 # Solicitar transporte
 @app.post("/api/transporte")

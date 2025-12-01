@@ -170,7 +170,7 @@ async function agendarSpa() {
       });
       const result = await response.json();
       if (response.ok) {
-        alert(`¡Cita de Spa agendada exitosamente para ${data["tipo-bano"] || data["servicios-corte"]}!`);
+        window.location.href = "/bano?register_success=1";
       } else {  
         mostrarToast(result.detail || "Error al agendar el servicio.");
       }
@@ -181,9 +181,7 @@ async function agendarSpa() {
   }
 
   if (exito) {
-    mostrarToast(
-      `¡Cita de Spa reservada exitosamente!<br>Mascota: ${nombreMascota}<br>Fecha: ${fecha_cita}<br>Hora: ${hora_cita}`
-    );
+    
     document.querySelector(".formulario-spa").reset();
     document.getElementById("total-precio").textContent = "$0";
   }

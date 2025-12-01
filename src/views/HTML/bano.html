@@ -8,6 +8,12 @@
     <title>Baño y Corte</title>
 </head>
 <body>  
+
+    {% if request.query_params.get('register_success') %}
+    <div class="alert success">
+        ¡Cita de Spa agendada exitosamente!
+    </div>
+    {% endif %}
  
     <header class="container">
         <nav> 

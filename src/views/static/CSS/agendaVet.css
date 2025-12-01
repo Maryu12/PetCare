@@ -1,0 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #c9d6ff 0%, #e2e2e2 50%, #A2E0DC 100%);
+    min-height: 100vh;
+    padding-top: 80px;
+    padding-bottom: 120px;
+    color: #333;
+}
+nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin-right: 20px;
+}
+
+.nav-logo img {
+    width: auto;
+    height: 80px;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo img:hover {
+    transform: scale(1.1);
+}
+/* Historial médico */
+.history-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #e1e5e9;
+}
+
+.history-header h2 {
+    font-size: 2rem;
+    color: #166E6E;
+    font-family: 'Poppins', sans-serif;
+}
+
+.history-records {
+    margin-bottom: 2.5rem;
+}
+
+.history-records h3 {
+    font-size: 1.5rem;
+    color: #166E6E;
+    margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.history-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history-list li {
+    background: #f8f9fa;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+    border-radius: 8px;
+    border-left: 4px solid #166E6E;
+}
+
+/* Mensaje discreto cuando no hay citas */
+.empty-hint {
+    color: #6b7280; /* gris suave */
+    font-style: italic;
+    padding: 0.6rem 0.4rem;
+    background: rgba(0,0,0,0.02);
+    border-radius: 6px;
+}
+
+/* Estilos básicos para la tabla de agenda */
+.agenda-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.6rem;
+}
+.agenda-table th, .agenda-table td {
+    border: 1px solid #e6e6e6;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+.agenda-table thead th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+}
+.agenda-table tbody tr:nth-child(odd) {
+    background: #fff;
+}
+.agenda-table tbody tr:nth-child(even) {
+    background: #fbfcfd;
+}
+
+/* Botones de acciones en tablas (Atender / Cancelar) */
+.actions-cell .action-button {
+    padding: 0.35rem 0.6rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, opacity 0.12s ease;
+}
+
+.actions-cell .action-button.atender {
+    background: #16a34a; /* verde */
+    color: #fff;
+}
+
+.actions-cell .action-button.cancelar {
+    background: #dc2626; /* rojo */
+    color: #fff;
+}
+
+.actions-cell .action-button:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+.actions-cell .action-button + .action-button {
+    margin-left: 0.5rem;
+}
+
+/* Modales */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 120px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 60%;
+    max-width: 600px;
+    animation: fadeIn 0.3s;
+    max-height: 70vh; 
+    overflow-y: auto; 
+    line-height: 1.6;     
+    margin-bottom: 15px;   
+    text-align: justify; 
+}

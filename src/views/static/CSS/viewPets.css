@@ -277,7 +277,6 @@ nav {
     background: linear-gradient(135deg, #3DAA9D 0%, #229A57 100%);
 }
 
-/* Historial médico */
 .history-container {
     background: rgba(255, 255, 255, 0.9);
     padding: 2.5rem;
@@ -298,13 +297,6 @@ nav {
     font-size: 2rem;
     color: #166E6E;
     font-family: 'Poppins', sans-serif;
-}
-
-.pet-profile {
-    background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%);
-    padding: 1rem;
-    border-radius: 12px;
-    min-width: 250px;
 }
 
 .history-records {
@@ -329,6 +321,29 @@ nav {
     margin-bottom: 0.8rem;
     border-radius: 8px;
     border-left: 4px solid #166E6E;
+}
+
+/* Estilos básicos para la tabla de agenda */
+.agenda-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.6rem;
+}
+.agenda-table th, .agenda-table td {
+    border: 1px solid #e6e6e6;
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+}
+.agenda-table thead th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 600;
+}
+.agenda-table tbody tr:nth-child(odd) {
+    background: #fff;
+}
+.agenda-table tbody tr:nth-child(even) {
+    background: #fbfcfd;
 }
 
 /* Actualizar información */
