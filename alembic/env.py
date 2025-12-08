@@ -17,8 +17,14 @@ config = context.config
 # Carga la configuración del archivo alembic.ini
 fileConfig(config.config_file_name)
 
-# Obtén la URL de la base de datos desde alembic.ini
+# Obtén la URL de la base de datos desde alembic.ini, o desde la variable de entorno DATABASE_URL
 url = config.get_main_option("sqlalchemy.url")
+if not url:
+    import os
+    url = os.getenv('DATABASE_URL')
+
+if not url:
+    raise RuntimeError('No database URL found. Set sqlalchemy.url in alembic.ini or set DATABASE_URL environment variable')
 
 # Crea el motor de SQLAlchemy
 engine = create_engine(url)

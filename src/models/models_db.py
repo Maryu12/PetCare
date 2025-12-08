@@ -82,6 +82,7 @@ class Appointment(Base):
     date_hour_status = Column(String(100))
     fecha_rec = Column(String(200), nullable=True)  # Fecha de recogida
     comentario = Column(String(200), nullable=True)  # Comentario
+    status = Column(String(20), nullable=True)  # Estado: pending, attended, cancelled
     temperament_grooming = Column(String(50), nullable=True)  # Temperamento del grooming
     allergies_sensitivities = Column(String(150), nullable=True)  # Alergias o sensibilidades
     fecha_salida = Column(String(200), nullable=True)  # Fecha de salida

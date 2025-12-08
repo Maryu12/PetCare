@@ -14,6 +14,7 @@ from ..models.models_db import User, Rol, Pet, Veterinarian, MedicHistory, Appoi
 from passlib.context import CryptContext
 import logging
 import os
+from datetime import datetime
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi import Query
@@ -218,7 +219,7 @@ async def get_modify_history(request: Request, db: Session = Depends(get_db)):
     vet_profile = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
 
     return templates.TemplateResponse(
-        "modifyHistory.html",
+        "historiaClinica.html",
         {
             "request": request,
             "is_logged_in": is_logged_in,
@@ -309,7 +310,8 @@ async def get_agenda_vet_api(request: Request, db: Session = Depends(get_db)):
             "veterinarian_name": veterinarian_name,
             "description": a.comentario,
             "allergies": a.allergies_sensitivities,
-            "temperament": a.temperament_grooming
+            "temperament": a.temperament_grooming,
+            "status": a.status
         })
 
     return JSONResponse(content=jsonable_encoder(result))
@@ -500,8 +502,8 @@ async def cancelar_servicio(id_appointment: int, db: Session = Depends(get_db)):
     if not servicio:
         raise HTTPException(status_code=404, detail="Servicio no encontrado")
 
-    # Eliminar el servicio
-    db.delete(servicio)
+    # Marcar como cancelado en lugar de eliminar
+    servicio.status = "cancelled"
     db.commit()
 
     return {"success": True, "message": "Servicio cancelado con éxito"}
@@ -540,9 +542,41 @@ async def view_pet_history(id_pet: int, request: Request, db: Session = Depends(
     return jsonable_encoder([
         {
             "date": record.first_cons_date,
-            "description": record.observations
+            "description": record.observations,
+            "vaccines": record.vaccines
         } for record in history
     ])
+
+
+@app.get("/getAppointment/{id_appointment}")
+@role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
+async def get_appointment(id_appointment: int, request: Request, db: Session = Depends(get_db)):
+    # Buscar la cita por id
+    appointment = db.query(Appointment).filter(Appointment.id_appointment == id_appointment).first()
+    if not appointment:
+        return JSONResponse(content={}, status_code=404)
+
+    pet = appointment.pet
+    service = appointment.service
+    veterinarian = appointment.veterinarian
+
+    result = {
+        "id_appointment": appointment.id_appointment,
+        "id_pet": appointment.id_pet,
+        "pet_name": pet.pet_name if pet is not None else None,
+        "id_service": appointment.id_service,
+        "service_type": service.type_service if service is not None else None,
+        "service_description": service.description if service is not None else None,
+        "fecha_rec": appointment.fecha_rec,
+        "date_hour_status": appointment.date_hour_status,
+        "comentario": appointment.comentario,
+        "allergies": appointment.allergies_sensitivities,
+        "temperament": appointment.temperament_grooming,
+        "veterinarian_id": veterinarian.id_veterinarian if veterinarian is not None else None,
+        "veterinarian_name": f"{veterinarian.name_vet} {veterinarian.last_name}" if veterinarian is not None else None
+    }
+
+    return JSONResponse(content=jsonable_encoder(result))
 
 @app.get("/viewService/{id_pet}")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
@@ -1028,6 +1062,7 @@ async def modify_pet_history(
     vaccines: str = Form(...),
     observations: str = Form(...),
     first_cons_date: str = Form(...),
+    appointment_id: int = Form(None),
     db: Session = Depends(get_db)
 ):
     user_id = request.cookies.get("user_id")
@@ -1057,6 +1092,21 @@ async def modify_pet_history(
             first_cons_date=first_cons_date
         )
         db.add(medic_history)
+
+    # Si viene un appointment_id, actualizar la cita con fecha/hora de salida
+    if appointment_id:
+        logging.info(f"modifyPetHistory: Recibido appointment_id={appointment_id}")
+        appointment = db.query(Appointment).filter(Appointment.id_appointment == appointment_id).first()
+        if appointment:
+            now = datetime.now()
+            appointment.fecha_salida = now.strftime("%Y-%m-%d")
+            appointment.date_hour_salida = now.strftime("%Y-%m-%d %H:%M:%S")
+            appointment.status = "attended"
+            logging.info(f"modifyPetHistory: Cita {appointment_id} marcada como attended")
+        else:
+            logging.warning(f"modifyPetHistory: No se encontró cita con id={appointment_id}")
+    else:
+        logging.info("modifyPetHistory: No se recibió appointment_id")
 
     db.commit()
     db.refresh(medic_history)

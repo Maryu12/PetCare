@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Mascotas | PetCare</title>
-    <link rel="stylesheet" href="../static/CSS/viewPets.css">
+    <link rel="stylesheet" href="../static/CSS/historiaClinica.css">
     <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
 </head>
 <body>
-    <header class="container">
+<header class="container">
         <nav> 
             <!-- Logo -->
             <a href="/" class="nav-logo">
@@ -30,62 +30,8 @@
             {% endif %}
         </nav>
     </header> 
+<main class="main-container">
 
-    <!-- Banner principal -->
-    <div class="hero-banner">
-        <div class="hero-content">
-            <h1>Historial de Salud de tus Peludos </h1>
-            <p class="hero-description">Mantén al día toda la información médica de tus mascotas y asegura su bienestar</p>
-        </div>
-    </div>
-
-    <main class="main-container">
-        <!-- Consejos de cuidado -->
-        <section class="pet-care-tips">
-            <div class="tips-container">
-                <h2>Consejos para el cuidado de tus mascotas</h2>
-                <div class="tips-grid">
-                    <div class="tip-card">
-                        <div class="tip-icon">💉</div>
-                        <h3>Vacunación</h3>
-                        <p>Mantén al día el calendario de vacunas para prevenir enfermedades graves.</p>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">🍎</div>
-                        <h3>Alimentación</h3>
-                        <p>Una dieta balanceada es clave para la salud y longevidad de tu mascota.</p>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">🏃</div>
-                        <h3>Ejercicio</h3>
-                        <p>El ejercicio regular mantiene a tu mascota en forma y mentalmente estimulada.</p>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">🦷</div>
-                        <h3>Higiene Dental</h3>
-                        <p>El cuidado dental previene problemas de salud a largo plazo.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Selección de mascota -->
-        <section class="pets-container">
-            <h2 class="section-title">Consulta y Actualiza el Historial Médico</h2>
-            <p class="section-description">Selecciona una de tus mascotas registradas para ver su historial médico completo o actualizar su información de salud.</p>
-            
-            <div class="form-group">
-                <label for="petSelect">Seleccionar Mascota:</label>
-                <select id="petSelect" name="id_pet">
-                    <!-- Opciones llenadas dinámicamente -->
-                </select>
-            </div>
-            <div class="form-actions">
-                <button type="button" class="action-button" id="viewHistory">Ver Historial</button>
-            </div>
-        </section>
-
-        <!-- Historial médico -->
         <section class="history-container" id="historyContainer" style="display: none;">
             <div class="history-header">
                 <h2>Historial Médico</h2>
@@ -101,10 +47,61 @@
                 </ul>
             </div>
 
-            
+            <!-- Formulario para actualizar información -->
+            <div class="update-section">
+                <h3>Actualizar Información Médica</h3>
+                <form id="modifyHistoryForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vaccines">Última vacuna aplicada:</label>
+                            <input type="text" id="vaccines" name="vaccines" placeholder="Ej: Rabia, Parvovirus...">
+                        </div>
+                        <div class="form-group">
+                            <label for="vaccine_date">Fecha de vacunación:</label>
+                            <input type="date" id="vaccine_date" name="vaccine_date">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observations">Observaciones:</label>
+                        <textarea id="observations" name="observations" placeholder="Detalles importantes sobre la salud de tu mascota..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consult_reason">Motivo de la última consulta:</label>
+                            <select id="consult_reason" name="consult_reason" onchange="toggleOtherReason()">
+                                <option value="">Seleccionar motivo</option>
+                                <option value="rutina">Consulta de rutina</option>
+                                <option value="vacunacion">Vacunación</option>
+                                <option value="enfermedad">Enfermedad</option>
+                                <option value="lesion">Lesión/Herida</option>
+                                <option value="cirugia">Cirugía</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="otherReasonGroup" style="display: none;">
+                            <label for="other_reason">Especificar motivo:</label>
+                            <input type="text" id="other_reason" name="other_reason" placeholder="Describe el motivo de la consulta...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="consult_date">Fecha de la consulta:</label>
+                            <input type="date" id="consult_date" name="consult_date">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="action-button save-button">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
         </section>
     </main>
 
+    
     <footer class="footer">
         <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
         <div class="footer-links">
@@ -186,43 +183,6 @@
             <p> *Instagram / Facebook / Twitter: @PetCare</p>
         </div>
       </div>
-
-    <script>
-        // Función para mostrar/ocultar el campo de "otro motivo"
-        function toggleOtherReason() {
-            const consultReason = document.getElementById('consult_reason');
-            const otherReasonGroup = document.getElementById('otherReasonGroup');
-            const otherReasonInput = document.getElementById('other_reason');
-            
-            if (consultReason.value === 'otro') {
-                otherReasonGroup.style.display = 'block';
-                otherReasonInput.required = true;
-            } else {
-                otherReasonGroup.style.display = 'none';
-                otherReasonInput.required = false;
-                otherReasonInput.value = '';
-            }
-        }
-
-        // Funciones para modales
-        function abrirModal(id) {
-            document.getElementById(id).style.display = 'block';
-        }
-
-        function cerrarModal(id) {
-            document.getElementById(id).style.display = 'none';
-        }
-
-        // Cierra el modal si se hace clic fuera de él
-        window.onclick = function(event) {
-            const modales = document.getElementsByClassName('modal');
-            for (let i = 0; i < modales.length; i++) {
-                if (event.target === modales[i]) {
-                    modales[i].style.display = 'none';
-                }
-            }
-        };
-    </script>
-    <script src="../static/JS/viewPets.js"></script>
+    <script src="../static/JS/historiaClinica.js"></script>
 </body>
 </html>

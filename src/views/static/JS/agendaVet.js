@@ -55,6 +55,29 @@ document.addEventListener("DOMContentLoaded", async () => {
             const vet = it.veterinarian_name ?? "";
             const desc = it.description ?? "";
             const appointmentId = it.appointment_id ?? it.id_appointment ?? "";
+            const petId = it.pet_id ?? it.id_pet ?? "";
+            const status = it.status ?? "";
+
+            // Debug: mostrar el status de cada cita
+            console.log(`Cita ${appointmentId}: status="${status}"`);
+            console.log(`  petId=${petId}, appointmentId=${appointmentId}`);
+
+            // Aplicar estilos según el estado
+            if (status === "attended") {
+                tr.style.backgroundColor = "#d4edda"; // Verde claro
+            } else if (status === "cancelled") {
+                tr.style.backgroundColor = "#f8d7da"; // Rojo claro
+            }
+
+            // Construir HTML de la fila
+            let actionsHTML = '';
+            // Solo mostrar botones si no está atendida ni cancelada
+            if (status !== "attended" && status !== "cancelled") {
+                actionsHTML = `
+                    <button class="atender action-button" data-id="${escapeHtml(appointmentId)}">Atender</button>
+                    <button class="cancelar action-button" data-id="${escapeHtml(appointmentId)}">Cancelar</button>
+                `;
+            }
 
             tr.innerHTML = `
                 <td>${escapeHtml(date)}</td>
@@ -63,39 +86,30 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <td>${escapeHtml(service)}</td>
                 <td>${escapeHtml(vet)}</td>
                 <td>${escapeHtml(desc)}</td>
-                <td class="actions-cell">
-                    <button class="atender action-button" data-id="${escapeHtml(appointmentId)}">Atender</button>
-                    <button class="cancelar action-button" data-id="${escapeHtml(appointmentId)}">Cancelar</button>
-                </td>`;
+                <td class="actions-cell">${actionsHTML}</td>`;
 
             tbody.appendChild(tr);
 
-            // Añadir listeners para los botones (siempre después de append para asegurar el elemento en DOM)
+            // Añadir listeners para los botones solo si existen
             const btnAtender = tr.querySelector("button.atender");
             const btnCancelar = tr.querySelector("button.cancelar");
 
             if (btnAtender) {
-                btnAtender.addEventListener("click", async (e) => {
+                btnAtender.addEventListener("click", (e) => {
                     e.preventDefault();
                     const id = btnAtender.dataset.id;
+                    console.log(`Botón Atender clickeado: data-id="${id}"`);
                     if (!id) {
                         alert("ID de cita no disponible.");
                         return;
                     }
-                    try {
-                        const resp = await fetch(`/api/attendAppointment/${id}`, { method: "POST", credentials: "include" });
-                        if (resp.ok) {
-                            alert("Servicio marcado como atendido.");
-                            // refrescar la página o la lista
-                            location.reload();
-                        } else {
-                            const txt = await resp.text();
-                            console.error("Atender fallo:", resp.status, txt);
-                            alert("Error al marcar como atendido.");
-                        }
-                    } catch (err) {
-                        console.error("Error en atender:", err);
-                        alert("Error de red al intentar atender la cita.");
+                    // Redirigir con appointment_id
+                    if (id) {
+                        const url = `/modifyHistory?appointment_id=${encodeURIComponent(id)}`;
+                        console.log(`Redirigiendo a: ${url}`);
+                        location.href = url;
+                    } else {
+                        alert('No se dispone de identificador de la cita.');
                     }
                 });
             }

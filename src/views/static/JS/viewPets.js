@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     } else {
                         history.forEach(record => {
                             const listItem = document.createElement("li");
-                            listItem.textContent = `${record.date}: ${record.description}`;
+                            listItem.textContent = `${record.date}: ${record.description} - Vacunas: ${record.vaccines}`;
                             historyList.appendChild(listItem);
                         });
                         modifyHistoryForm.style.display = "block"; // Mostrar formulario para modificar historial
@@ -151,8 +151,8 @@ viewHistory.addEventListener("click", async () => {
                     history.forEach(record => {
                         const listItem = document.createElement("li");
                         listItem.innerHTML = `
-                            <strong>${record.date}</strong>: ${record.description}
-                            ${record.vaccines ? `<br><em>Vacunas: ${record.vaccines}</em>` : ''}
+                            <strong>${record.date}</strong>: ${record.description} - Vacunas: ${record.vaccines}
+                            
                         `;
                         historyList.appendChild(listItem);
                     });
