@@ -101,6 +101,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     prefillFromQuery();
     // If an appointment id is provided, fetch full appointment details (preferred over query params)
     if (qAppointmentId) {
+        // Mostrar el contenedor inmediatamente
+        showHistorySection();
         try {
             const resp = await fetch(`/getAppointment/${qAppointmentId}`, { credentials: 'include' });
             if (resp.ok) {
@@ -174,12 +176,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (resp.ok) {
                 const pets = await resp.json();
                 petSelect.innerHTML = '';
+                
+                // Agregar opción por defecto
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = 'Selecciona una mascota';
+                petSelect.appendChild(defaultOpt);
+                
                 pets.forEach(p => {
                     const opt = document.createElement('option');
                     opt.value = p.id_pet;
                     opt.textContent = `${p.pet_name} - ${p.species}`;
                     if (qPetId && String(p.id_pet) === String(qPetId)) opt.selected = true;
                     petSelect.appendChild(opt);
+                });
+                
+                // Si no hay parámetros pero sí hay mascotas disponibles, mostrar el formulario
+                if (!qPetId && !qAppointmentId && pets.length > 0) {
+                    showHistorySection();
+                }
+                
+                // Listener para cargar historial cuando se selecciona una mascota
+                petSelect.addEventListener('change', async (e) => {
+                    const selectedPetId = e.target.value;
+                    if (selectedPetId) {
+                        await loadMedicalHistory(selectedPetId);
+                        qPetId = selectedPetId; // Actualizar la variable global
+                    }
                 });
             }
         } catch (err) {
@@ -221,15 +244,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
 
                 if (response.ok) {
-                    alert('Historial médico actualizado correctamente.');
-                    if (qPetId) await loadMedicalHistory(qPetId);
+                    // Mostrar mensaje de éxito mejorado
+                    showSuccessMessage('✓ Historial médico actualizado correctamente');
+                    
+                    // Redirigir a agendaVet después de 2 segundos
+                    setTimeout(() => {
+                        window.location.href = '/agendaVet';
+                    }, 2000);
                 } else {
                     console.error('Error al actualizar el historial médico.');
-                    alert('Error al actualizar el historial médico.');
+                    showErrorMessage('Error al actualizar el historial médico.');
                 }
             } catch (err) {
                 console.error('Error al enviar los datos:', err);
-                alert('Error de red al intentar actualizar el historial.');
+                showErrorMessage('Error de red al intentar actualizar el historial.');
             }
         });
     }
@@ -243,6 +271,90 @@ function abrirModal(id) {
 function cerrarModal(id) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
+}
+
+// Función para mostrar mensaje de éxito mejorado
+function showSuccessMessage(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-message success';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #28a745;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        font-size: 16px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
+}
+
+// Función para mostrar mensaje de error mejorado
+function showErrorMessage(message) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-message error';
+    toast.textContent = message;
+    toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #dc3545;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        font-size: 16px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideIn 0.3s ease-out;
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// Agregar estilos de animación al documento si no existen
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(400px);
+            opacity: 0;
+        }
+    }
+`;
+if (!document.querySelector('style[data-toast-styles]')) {
+    style.setAttribute('data-toast-styles', 'true');
+    document.head.appendChild(style);
 }
 
 // Cierra el modal si se hace clic fuera de él

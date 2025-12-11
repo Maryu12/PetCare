@@ -77,6 +77,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <button class="atender action-button" data-id="${escapeHtml(appointmentId)}">Atender</button>
                     <button class="cancelar action-button" data-id="${escapeHtml(appointmentId)}">Cancelar</button>
                 `;
+            }else if(status === "attended"){
+                actionsHTML = `<button class="atender2 action-button" onclick="location.href='/viewPets'">Ver historias</button>`;
+            }else if(status === "cancelled"){
+                actionsHTML = `<span class="status-label cancelled">Cancelada</span>`;
             }
 
             tr.innerHTML = `

@@ -259,7 +259,22 @@ async def get_my_pets(request: Request, db: Session = Depends(get_db)):
     user_role = request.cookies.get("user_role")
 
     # Si el usuario es Veterinario o Administrador, devolver todas las mascotas
-    if user_role in ["Veterinario", "Administrador de la tienda"]:
+    if user_role == "Veterinario":
+        # Si es veterinario, traer solo las mascotas que ha atendido
+        vet = db.query(Veterinarian).filter(Veterinarian.id_user == user_id).first()
+        if not vet:
+            return []
+        
+        # Obtener IDs únicos de mascotas de las citas del veterinario
+        pet_ids = db.query(Appointment.id_pet).filter(
+            Appointment.id_veterinarian == vet.id_veterinarian,
+            Appointment.id_pet.isnot(None)
+        ).distinct().all()
+        
+        pet_ids = [pid[0] for pid in pet_ids]
+        pets = db.query(Pet).filter(Pet.id_pet.in_(pet_ids)).all() if pet_ids else []
+    elif user_role == "Administrador de la tienda":
+        # Si es administrador, devolver todas las mascotas
         pets = db.query(Pet).all()
     else:
         # Si el usuario es Cliente, devolver solo sus mascotas
@@ -508,6 +523,23 @@ async def cancelar_servicio(id_appointment: int, db: Session = Depends(get_db)):
 
     return {"success": True, "message": "Servicio cancelado con éxito"}
 
+@app.put("/api/completeAppointment/{id_appointment}")
+async def completar_servicio(id_appointment: int, db: Session = Depends(get_db)):
+    # Buscar el servicio en la base de datos
+    servicio = db.query(Appointment).filter(Appointment.id_appointment == id_appointment).first()
+
+    if not servicio:
+        raise HTTPException(status_code=404, detail="Servicio no encontrado")
+
+    # Marcar como atendido
+    now = datetime.now()
+    servicio.status = "attended"
+    servicio.fecha_salida = now.strftime("%Y-%m-%d")
+    servicio.date_hour_salida = now.strftime("%H:%M:%S")
+    db.commit()
+
+    return {"success": True, "message": "Servicio marcado como atendido"}
+
 @app.get("/api/getAppointments")
 @role_required(["Cliente", "Veterinario", "Administrador de la tienda"])
 async def get_appointments(request: Request, db: Session = Depends(get_db)):
@@ -586,11 +618,13 @@ async def view_pet_service(id_pet: int, request: Request, db: Session = Depends(
     
     return jsonable_encoder([
         {
+            "id_appointment": record.id_appointment,
             "service_name": record.service.type_service if getattr(record, 'service', None) is not None else None,
             "fecha_rec": record.fecha_rec,
             "date": record.date_hour_status,
             "description": record.comentario,
-            "veterinarian": f"{record.veterinarian.name_vet} {record.veterinarian.last_name}" if getattr(record, 'veterinarian', None) is not None else None
+            "veterinarian": f"{record.veterinarian.name_vet} {record.veterinarian.last_name}" if getattr(record, 'veterinarian', None) is not None else None,
+            "status": record.status
         } for record in service
     ])
 
@@ -1100,7 +1134,7 @@ async def modify_pet_history(
         if appointment:
             now = datetime.now()
             appointment.fecha_salida = now.strftime("%Y-%m-%d")
-            appointment.date_hour_salida = now.strftime("%Y-%m-%d %H:%M:%S")
+            appointment.date_hour_salida = now.strftime("%H:%M:%S")
             appointment.status = "attended"
             logging.info(f"modifyPetHistory: Cita {appointment_id} marcada como attended")
         else:
@@ -1110,6 +1144,10 @@ async def modify_pet_history(
 
     db.commit()
     db.refresh(medic_history)
+    
+    # Refrescar appointment solo si fue actualizado
+    if appointment_id and appointment:
+        db.refresh(appointment)
 
     return {"message": "Historial médico guardado exitosamente"}
 

@@ -87,19 +87,84 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <th>Servicio</th>
                     <th>Veterinario</th>
                     <th>Observaciones</th>
+                    <th>Estado</th>
                 </tr>`;
             table.appendChild(thead);
 
             const tbody = document.createElement("tbody");
             history.forEach(record => {
                 const tr = document.createElement("tr");
+                const appointmentId = record.id_appointment;
+                const status = record.status || "";
+                
+                // Aplicar color de fondo si ya está atendido
+                if (status === "attended") {
+                    tr.style.backgroundColor = "#d4edda"; // Verde claro
+                }
+                
+                // Determinar qué mostrar en la columna de estado
+                let actionsHTML = '';
+                if (status === "attended") {
+                    actionsHTML = '<span class="status-label completed" style="color: #28a745; font-weight: bold;">✓ Terminado</span>';
+                } else {
+                    // Solo mostrar el botón si NO es Cliente
+                    if (window.userRole !== "Cliente") {
+                        actionsHTML = `<button class="atender action-button" data-id="${appointmentId}">Realizado</button>`;
+                    } else {
+                        actionsHTML = '<span style="color: #6c757d;">Pendiente</span>';
+                    }
+                }
+                
                 tr.innerHTML = `
                     <td>${escapeHtml(record.fecha_rec)}</td>
                     <td>${escapeHtml(record.date)}</td>
                     <td>${escapeHtml(record.service_name)}</td>
                     <td>${escapeHtml(record.veterinarian)}</td>
-                    <td>${escapeHtml(record.description)}</td>`;
+                    <td>${escapeHtml(record.description)}</td>
+                    
+                    <td class="actions-cell">${actionsHTML}</td>`;
                 tbody.appendChild(tr);
+                
+                // Agregar listener al botón solo si no está atendido Y no es Cliente
+                if (status !== "attended" && window.userRole !== "Cliente") {
+                    const btnAtender = tr.querySelector("button.atender");
+                    if (btnAtender) {
+                        btnAtender.addEventListener("click", async (e) => {
+                            e.preventDefault();
+                            const id = btnAtender.dataset.id;
+                            
+                            if (!id) {
+                                alert("ID de cita no disponible.");
+                                return;
+                            }
+                            
+                            try {
+                                // Llamar al backend para marcar como atendido
+                                const resp = await fetch(`/api/completeAppointment/${id}`, {
+                                    method: "PUT",
+                                    credentials: "include"
+                                });
+                                
+                                if (resp.ok) {
+                                    // Cambiar color de fondo a verde
+                                    tr.style.backgroundColor = "#d4edda";
+                                    // Reemplazar botón por mensaje
+                                    const actionsCell = tr.querySelector(".actions-cell");
+                                    if (actionsCell) {
+                                        actionsCell.innerHTML = '<span class="status-label completed" style="color: #28a745; font-weight: bold;">✓ Terminado</span>';
+                                    }
+                                } else {
+                                    const txt = await resp.text();
+                                    console.error("Error al marcar como atendido:", resp.status, txt);
+                                    alert("Error al marcar el servicio como atendido.");
+                                }
+                            } catch (err) {
+                                console.error("Error en la petición:", err);
+                                alert("Error de red al intentar marcar como atendido.");
+                            }
+                        });
+                    }
+                }
             });
 
             table.appendChild(tbody);

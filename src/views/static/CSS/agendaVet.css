@@ -133,6 +133,11 @@ nav {
     color: #fff;
 }
 
+.actions-cell .action-button.atender2 {
+    background: #16a34a; /* verde */
+    color: #fff;
+}
+
 .actions-cell .action-button.cancelar {
     background: #dc2626; /* rojo */
     color: #fff;
