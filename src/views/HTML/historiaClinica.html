@@ -2,196 +2,69 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mis Mascotas | PetCare</title>
+
+    <link rel="stylesheet" href="../static/CSS/_theme.css">
     <link rel="stylesheet" href="../static/CSS/historiaClinica.css">
-    <link rel="stylesheet" href="../static/CSS/_theme.css"> <!-- Estilos del header y footer -->
 </head>
+
 <body>
+
 <header class="container">
-        <nav> 
-            <!-- Logo -->
-            <a href="/" class="nav-logo">
-                <img src="../static/images/logocare1.webp" alt="Logo PetCare">
-            </a>
-            <!-- Botones principales -->
-            <div class="nav-buttons">
-                <a href="/myPets" class="nav-button">Mis Mascotas</a>
-                <a href="/serv" class="nav-button">Servicios</a>
-                <a href="/about" class="nav-button">Nosotros</a>
-                {% if user_role == 'Veterinario' %}
-                    <a href="/serv_vet" class="nav-button">Vet</a>
-                {% endif %}
-            </div>
-            {% if is_logged_in %}
-                <a href="/logout" class="logout-button">Cerrar Sesion</a>
-            {% else %}
-                <a href="/login" class="login-button">Login</a>
-            {% endif %}
-        </nav>
-    </header> 
+    <nav>
+        <a href="/" class="nav-logo">
+            <img src="../static/images/logocare1.webp">
+        </a>
+        <div class="nav-buttons">
+            <a href="/myPets" class="nav-button">Mis Mascotas</a>
+            <a href="/serv" class="nav-button">Servicios</a>
+        </div>
+    </nav>
+</header>
+
 <main class="main-container">
 
-        <section class="history-container" id="historyContainer" style="display: none;">
-            <div class="history-header">
-                <h2>Historial Médico</h2>
-                
-                <!-- Selector de mascota -->
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="petSelect">Selecciona una mascota:</label>
-                    <select id="petSelect" name="petSelect" style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 5px;">
-                        <option value="">Cargando mascotas...</option>
-                    </select>
-                </div>
-                
-                <div class="pet-profile" id="petProfile">
-                    <!-- Información de la mascota seleccionada -->
-                </div>
+    <section class="pets-container">
+        <h2 class="section-title">🐾 Mis Mascotas</h2>
+        <p class="section-description">
+            Selecciona una mascota para ver su historial médico
+        </p>
+
+        <!-- 🔥 ESTE ES EL CONTENEDOR CLAVE -->
+        <div id="petsGrid" class="pets-grid"></div>
+    </section>
+
+    <!-- HISTORIAL -->
+    <section id="historyContainer" class="history-container" style="display:none;">
+        <h3>📋 Historial Médico</h3>
+        <ul id="historyList" class="history-list"></ul>
+
+        <form id="modifyHistoryForm" class="update-section">
+            <div class="form-group">
+                <label>Vacunas</label>
+                <input type="text" id="vaccines">
             </div>
 
-            <div class="history-records">
-                <h3>Registros Médicos</h3>
-                <ul id="historyList" class="history-list">
-                    <!-- Aquí se llenará el historial médico dinámicamente -->
-                </ul>
+            <div class="form-group">
+                <label>Observaciones</label>
+                <textarea id="observations"></textarea>
             </div>
 
-            <!-- Formulario para actualizar información -->
-            <div class="update-section">
-                <h3>Actualizar Información Médica</h3>
-                <form id="modifyHistoryForm">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vaccines">Última vacuna aplicada:</label>
-                            <input type="text" id="vaccines" name="vaccines" placeholder="Ej: Rabia, Parvovirus...">
-                        </div>
-                        <div class="form-group">
-                            <label for="vaccine_date">Fecha de vacunación:</label>
-                            <input type="date" id="vaccine_date" name="vaccine_date">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="observations">Observaciones:</label>
-                        <textarea id="observations" name="observations" placeholder="Detalles importantes sobre la salud de tu mascota..."></textarea>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="consult_reason">Motivo de la última consulta:</label>
-                            <select id="consult_reason" name="consult_reason" onchange="toggleOtherReason()">
-                                <option value="">Seleccionar motivo</option>
-                                <option value="rutina">Consulta de rutina</option>
-                                <option value="vacunacion">Vacunación</option>
-                                <option value="enfermedad">Enfermedad</option>
-                                <option value="lesion">Lesión/Herida</option>
-                                <option value="cirugia">Cirugía</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="otherReasonGroup" style="display: none;">
-                            <label for="other_reason">Especificar motivo:</label>
-                            <input type="text" id="other_reason" name="other_reason" placeholder="Describe el motivo de la consulta...">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="consult_date">Fecha de la consulta:</label>
-                            <input type="date" id="consult_date" name="consult_date">
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="action-button save-button">Guardar Cambios</button>
-                    </div>
-                </form>
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" id="consult_date">
             </div>
-        </section>
-    </main>
 
-    
-    <footer class="footer">
-        <p>&copy; 2025 PetCare. Todos los derechos reservados.</p>
-        <div class="footer-links">
-            <a href="#" onclick="abrirModal('modal-privacidad')">Política de Privacidad</a>
-            <a href="#" onclick="abrirModal('modal-terminos')">Términos y Condiciones</a>
-            <a href="#" onclick="abrirModal('modal-contacto')">Contacto</a>  
-        </div>
-    </footer>
+            <button class="action-button save-button">
+                💾 Guardar historial
+            </button>
+        </form>
+    </section>
 
-    <!-- Modales -->
-    <div id="modal-privacidad" class="modal">
-        <div class="modal-contenido">
-          <span class="cerrar" onclick="cerrarModal('modal-privacidad')">&times;</span>
-          <h2>Política de Privacidad</h2>
-          <p>🛡️ Última actualización: abril de 2025
+</main>
 
-            <p> En PetCare, tu privacidad es muy importante para nosotros. Recopilamos y utilizamos información personal únicamente con el objetivo de mejorar tu experiencia en nuestra plataforma, facilitar el acceso a servicios veterinarios y optimizar la gestión de citas y cuidados para tus mascotas.
-               
-                <p> ¿Qué información recopilamos?
-                    <p>*Datos personales proporcionados al crear una cuenta (nombre, correo electrónico, teléfono).
-                    <p>*Información sobre tus mascotas (nombre, especie, edad).
-                    <p>*Historial de citas y servicios utilizados.
-                    <p>*Datos de navegación y uso de la plataforma (cookies y análisis estadístico).
-               
-                 <p>¿Cómo usamos tus datos?
-                    <p>*Para agendar y gestionar citas veterinarias y servicios relacionados.
-                    <p>*Para personalizar tu experiencia en la plataforma.
-                    <p>*Para contactar contigo en relación con tus solicitudes o servicios.
-                    <p>*Para fines estadísticos y de mejora continua del servicio.
-               
-                <p>¿Con quién compartimos tus datos?
-                    <p>No vendemos ni alquilamos tu información personal. Solo compartimos datos con profesionales o servicios asociados cuando sea estrictamente necesario para brindarte una mejor atención.
-            Tus derechos
-                     <p></p>Podés acceder, modificar o eliminar tus datos en cualquier momento. Si tenés alguna duda sobre nuestra política de privacidad, escribinos a soporte@PetCare.com.</p>
-        </div>
-      </div>
-      
-      <div id="modal-terminos" class="modal">
-        <div class="modal-contenido">
-          <span class="cerrar" onclick="cerrarModal('modal-terminos')">&times;</span>
-          <h2>Términos y Condiciones</h2>
-          <p>📜Bienvenido a PetCare
-          <p> Estos términos regulan el uso de nuestra plataforma. Al acceder y utilizar nuestros servicios, aceptás las siguientes condiciones:
-           
-          <p> Uso de la plataforma:
+<!-- ✅ SCRIPT CORRECTO -->
+<script src="../static/JS/myPets.js"></script>
 
-            <p> *El usuario se compromete a brindar información veraz y actualizada.
-            
-            <p> *Los servicios ofrecidos están destinados exclusivamente al cuidado y bienestar de mascotas.
-            
-            <p></p>*PetCare se reserva el derecho de suspender cuentas en caso de uso indebido o fraudulento.
-            
-            <p> Servicios:
-            
-                <p></p>*PetCare facilita la conexión entre dueños de mascotas y profesionales del sector veterinario, estético y de transporte.
-            
-                <p> *Las citas agendadas a través de la plataforma son responsabilidad de las partes involucradas (usuario y profesional).
-            
-            <p>Propiedad intelectual: 
-            
-                <p>*Todo el contenido, diseño, logos, textos e imágenes son propiedad de PetCare y no pueden ser utilizados sin autorización previa.
-           
-            <p> Modificaciones:
-            
-                <p>* PetCare puede actualizar estos términos sin previo aviso. Te recomendamos revisarlos periódicamente.</p>
-        </div>
-      </div>
-      
-      <div id="modal-contacto" class="modal">
-        <div class="modal-contenido">
-          <span class="cerrar" onclick="cerrarModal('modal-contacto')">&times;</span>
-          <h2>Contacto</h2>
-          <p>📬  ¿Tenés alguna duda, sugerencia o necesitás ayuda? ¡Estamos para ayudarte!
-
-            <p> *Email: contacto@PetCare.com
-            <p> *Teléfono: +52 305 4846421
-            <p> *Horario de atención: Lunes a viernes de 9:00 a 18:00 hs.
-            <p> *Redes sociales:
-            <p> *Instagram / Facebook / Twitter: @PetCare</p>
-        </div>
-      </div>
-    <script src="../static/JS/historiaClinica.js"></script>
 </body>
 </html>

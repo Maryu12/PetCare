@@ -394,7 +394,7 @@ input[type="time"] {
     font-size: 14px;
 }
 
-/* Contenedor para los campos adicionales */
+
 #transporte-vuelta-container {
     padding: 10px;
     margin: 10px 0;
@@ -413,12 +413,12 @@ input[type="time"] {
     input[type="text"],
     select,
     textarea {
-        font-size: 16px; /* Evita el zoom en iOS al enfocar campos */
+        font-size: 16px; 
     }
 }.carousel {
     width: 100%;
-    height: 320px; /* aquí ajustas el tamaño */
-    margin-top: 0px;
+    height: 320px; /* aquí ajuste del tamaño */
+    margin-top: 60px;
     overflow: hidden;
     position: relative;
 }
@@ -433,24 +433,23 @@ input[type="time"] {
 .carrusel-imagenes img {
     width: 100%;
     height: 100%;
-    flex-shrink: 1;
+    flex-shrink: 0;
     object-fit: cover;
     object-position: center;
 }
 .grid-servicios {
     display: flex;
     justify-content: center;
-    gap: 180px;   /* AUMENTA ESTE NÚMERO PARA MÁS SEPARACIÓN */
+    gap: 180px;   /* para separar los botones de servicios */
     margin-top: 20px;
 }
 
 .columna {
     display: flex;
-    flex-direction: column;
-    gap: 50px;
+    flex-direction: column; 
+    gap: 50px;  /* para separar los botones hacia abajo */
 }
 
-/* Botones más delgados */
 .elemento {
     width: 180px;
     padding: 8px;
