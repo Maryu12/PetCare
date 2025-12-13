@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("last_name").value = profile.last_name || "";
         document.getElementById("telefono").value = profile.telefono || "";
         document.getElementById("email").value = profile.email || "";
-        document.getElementById("state").value = profile.state || "No";
+        document.getElementById("state").value = profile.state || "Activo";
         document.getElementById("description").value = profile.description || "";
     }
 });
